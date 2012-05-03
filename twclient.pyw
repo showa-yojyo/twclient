@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import sys
-import traceback
 import codecs
-#import pickle
-from cStringIO import StringIO
 
 from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import QStringList
@@ -15,6 +12,7 @@ from PyQt4.QtGui import QDesktopServices
 from PyQt4.QtGui import QTextCursor
 from ui_twclient import Ui_MainWindow
 
+import twcommand
 import twformat
 
 class Form(QMainWindow):
@@ -22,6 +20,7 @@ class Form(QMainWindow):
         super(Form, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.command_invoker = twcommand.CommandInvoker()
         self.onInitialUpdate()
 
         QtCore.QObject.connect(
@@ -63,44 +62,10 @@ class Form(QMainWindow):
 
         # TODO
         sb.showMessage(u"処理中…")
-
-        try:
-            oneline = unicode(cb.currentText())
-            words = oneline.split(" ")
-            if(words[0] == u"list"):
-                owner_slug = words[1].split(u"/")
-                data = twformat.request_lists_statuses(owner_slug[0], owner_slug[1])
-
-                text = u""
-                for item in data:
-                    text += twformat.format_status(item)
-                te.setHtml(text)
-            elif(words[0] == u"user_timeline"):
-                screen_name = words[1]
-                data = twformat.request_statuses_user_timeline(screen_name)
-
-                text = u""
-                for item in data:
-                    text += twformat.format_status(item)
-                te.setHtml(text)
-            elif(words[0] == u"search"):
-                query = oneline[len(u'search'):].strip()
-                data = twformat.request_search(query)
-
-                text = u""
-                for item in data['results']:
-                    text += twformat.format_search_result(item)
-                te.setHtml(text)
-            else:
-                pass
-        except Exception as e:
-            buf = StringIO()
-            traceback.print_exc(file=buf)
-            te.setText(u'%s' % buf.getvalue())
-            buf.close()
+        cmdline = unicode(cb.currentText())
+        self.command_invoker.invoke_command(cmdline, te)
 
         te.moveCursor(QTextCursor.Start)
-
         sb.showMessage(u"Done")
 
     def onAnchorClicked(self, hottext):
