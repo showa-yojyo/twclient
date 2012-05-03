@@ -96,7 +96,7 @@ HTML_PART_SEARCH = u'''
     <td>
       {0}
       {1}
-      <p class="f">{2} {3} で</p>
+      <p class="f">{2} {3} 縺ｧ</p>
     </td>
   </tr>
 </table>
