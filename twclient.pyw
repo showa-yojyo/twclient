@@ -51,6 +51,9 @@ class Form(QMainWindow):
             pass
 
     def onComboChanged(self):
+        self.requestTwitter()
+
+    def requestTwitter(self):
         cb = self.ui.comboBox
         te = self.ui.textBrowser
         sb = self.ui.statusbar
@@ -90,7 +93,7 @@ class Form(QMainWindow):
         QMessageBox.warning(self, u"設定", u"工事中")
 
     def onTimelineRefresh(self):
-        QMessageBox.warning(self, u"タイムラインを更新", u"工事中")
+        self.requestTwitter()
 
     def onUserShow(self):
         QMessageBox.warning(self, u"ユーザーを表示", u"工事中")
