@@ -66,9 +66,11 @@ class Form(QMainWindow):
         # TODO
         sb.showMessage(u"処理中…")
         cmdline = unicode(cb.currentText())
+
+        te.moveCursor(QTextCursor.End)
         self.command_invoker.invoke_command(cmdline, te)
 
-        te.moveCursor(QTextCursor.Start)
+        #te.moveCursor(QTextCursor.Start)
         sb.showMessage(u"Done")
 
     def onAnchorClicked(self, hottext):

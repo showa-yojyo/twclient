@@ -37,7 +37,7 @@ class CommandInvoker(object):
                     text += twformat.format_search_result(item)
 
             if text:
-                view.setHtml(text)
+                view.insertHtml(text)
             else:
                 view.clear()
 
