@@ -23,8 +23,13 @@ class Form(QMainWindow):
         self.command_invoker = twcommand.CommandInvoker()
         self.onInitialUpdate()
 
+        tb = self.ui.textBrowser
+        slider = tb.verticalScrollBar()
+
         QtCore.QObject.connect(
-            self.ui.textBrowser, QtCore.SIGNAL(u"anchorClicked(QUrl)"), self.onAnchorClicked)
+            slider, QtCore.SIGNAL(u"valueChanged(int)"), self.onScrollBarValueChanged)
+        QtCore.QObject.connect(
+            tb, QtCore.SIGNAL(u"anchorClicked(QUrl)"), self.onAnchorClicked)
         QtCore.QMetaObject.connectSlotsByName(self)
 
     def onInitialUpdate(self):
@@ -93,6 +98,10 @@ class Form(QMainWindow):
 
     def onAppSettings(self):
         QMessageBox.warning(self, u"設定", u"工事中")
+
+    def onScrollBarValueChanged(self, value):
+        slider = self.ui.textBrowser.verticalScrollBar()
+        #print 'onValueChanged: {0}/{1}'.format(value, slider.maximum())
 
     def onTimelineRefresh(self):
         self.requestTwitter()
