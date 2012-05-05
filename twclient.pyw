@@ -6,6 +6,7 @@ import codecs
 from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import QStringList
 from PyQt4.QtGui import QApplication
+from PyQt4.QtGui import QCursor
 from PyQt4.QtGui import QMainWindow
 from PyQt4.QtGui import QMessageBox
 from PyQt4.QtGui import QDesktopServices
@@ -68,8 +69,8 @@ class Form(QMainWindow):
             sb.showMessage(u"Done")
             return
 
-        # TODO
-        sb.showMessage(u"処理中…")
+        QApplication.setOverrideCursor(QCursor(3))
+        sb.showMessage(u"Now loading...")
         cmdline = unicode(cb.currentText())
 
         te.moveCursor(QTextCursor.End)
@@ -77,6 +78,7 @@ class Form(QMainWindow):
 
         #te.moveCursor(QTextCursor.Start)
         sb.showMessage(u"Done")
+        QApplication.restoreOverrideCursor()
 
     def onAnchorClicked(self, hottext):
         path = unicode(hottext.toString())
