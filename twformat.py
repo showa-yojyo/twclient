@@ -110,7 +110,7 @@ def format_search_result(item):
         format_timestamp(item),
         item['source']) # TODO: workaround for Twitter API's bug
 
-def request_statuses_user_timeline(screen_name):
+def request_statuses_user_timeline(screen_name, max_id):
     auth = NoAuth()
     api = Twitter(auth=auth)
 
@@ -122,9 +122,12 @@ def request_statuses_user_timeline(screen_name):
         include_rts=1,
         exclude_replies=0)
 
+    if max_id is not None:
+        kwargs['max_id'] = max_id
+
     return api.statuses.user_timeline(**kwargs)
 
-def request_lists_statuses(owner_screen_name, slug):
+def request_lists_statuses(owner_screen_name, slug, max_id):
     auth = NoAuth()
     api = Twitter(auth=auth)
 
@@ -136,13 +139,16 @@ def request_lists_statuses(owner_screen_name, slug):
         include_entities=1,
         include_rts=1)
 
+    if max_id is not None:
+        kwargs['max_id'] = max_id
+
     return api.lists.statuses(**kwargs)
 
-def request_search(query):
+def request_search(query, max_id):
     auth = NoAuth()
     api = Twitter(auth=auth, domain="search.twitter.com")
 
-    print 'query=', query
+    #print 'query=', query
 
     kwargs = dict(
         q=query.encode('utf-8'),
@@ -152,5 +158,8 @@ def request_search(query):
         #result_type='recent',
         result_type='mixed',
         show_user=1,)
+
+    if max_id is not None:
+        kwargs['max_id'] = max_id
 
     return api.search(**kwargs)

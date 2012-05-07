@@ -105,7 +105,13 @@ class Form(QMainWindow):
         slider = self.ui.textBrowser.verticalScrollBar()
         #print 'onValueChanged: {0}/{1}'.format(value, slider.maximum())
         if value == slider.maximum():
-            self.command_invoker.request_next_page()
+            try:
+                sb.showMessage(u"Now loading...")
+                QApplication.setOverrideCursor(QCursor(3))
+                self.command_invoker.request_next_page()
+            finally:
+                sb.showMessage(u"Done")
+                QApplication.restoreOverrideCursor()
 
     def onTimelineRefresh(self):
         self.requestTwitter()

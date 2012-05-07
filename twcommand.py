@@ -52,4 +52,16 @@ class CommandInvoker(object):
         cmd = self.current_command
         if cmd is None:
             return
-        cmd.execute_next_page()
+
+        view = self.view
+        try:
+            text = cmd.execute_next_page()
+            view.insertHtml(text)
+
+        except Exception as e:
+            buf = StringIO()
+            traceback.print_exc(file=buf)
+            view.setText(u'%s' % buf.getvalue())
+            buf.close()
+        finally:
+            pass
