@@ -35,7 +35,7 @@ class CommandInvoker(object):
 
             if cmd:
                 text = cmd.execute()
-                view.insertHtml(text)
+                view.setHtml(text)
             else:
                 view.clear()
 

@@ -66,8 +66,8 @@ class Form(QMainWindow):
         sb = self.ui.statusbar
 
         try:
+            te.clear()
             if cb.currentIndex() == 0:
-                te.clear()
                 return
 
             sb.showMessage(u"Now loading...")
@@ -104,10 +104,13 @@ class Form(QMainWindow):
     def onScrollBarValueChanged(self, value):
         slider = self.ui.textBrowser.verticalScrollBar()
         #print 'onValueChanged: {0}/{1}'.format(value, slider.maximum())
-        if value == slider.maximum():
+        if value > 0 and value == slider.maximum():
+            sb = self.ui.statusbar
+            te = self.ui.textBrowser
             try:
                 sb.showMessage(u"Now loading...")
                 QApplication.setOverrideCursor(QCursor(3))
+                te.moveCursor(QTextCursor.End)
                 self.command_invoker.request_next_page()
             finally:
                 sb.showMessage(u"Done")
