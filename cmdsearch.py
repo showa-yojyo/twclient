@@ -13,7 +13,7 @@ class CmdSearch(Command):
         text = u""
         for item in data['results']:
             text += twformat.format_search_result(item)
-        self.update_page_info(data)
+        self.update_page_info(data['results'])
         return text
 
     def execute_next_page(self):
@@ -23,5 +23,5 @@ class CmdSearch(Command):
         text = u""
         for item in data['results']:
             text += twformat.format_search_result(item)
-        self.update_page_info(data)
+        self.update_page_info(data['results'])
         return text
