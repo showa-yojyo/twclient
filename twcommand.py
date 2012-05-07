@@ -8,13 +8,16 @@ from cmdusertimeline import CmdUserTimeLine
 from cmdsearch import CmdSearch
 
 class CommandInvoker(object):
-    def __init__(self):
-        pass
+    def __init__(self, view):
+        self.view = view
+        self.current_command = None
 
-    def invoke_command(self, cmdline, view):
+    def request(self, cmdline):
+        view = self.view
+
         words = cmdline.split(" ")
+        cmd = None
         try:
-            cmd = None
             if(words[0] == u"list"):
                 owner_slug = words[1].split(u"/")
                 cmd = CmdList(owner_slug[0], owner_slug[1])
@@ -42,3 +45,11 @@ class CommandInvoker(object):
             view.setText(u'%s' % buf.getvalue())
             buf.close()
 
+        finally:
+            self.current_command = cmd
+
+    def request_next_page(self):
+        cmd = self.current_command
+        if cmd is None:
+            return
+        cmd.execute_next_page()

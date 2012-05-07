@@ -6,3 +6,6 @@ class Command(object):
 
     def execute(self):
         pass
+
+    def execute_next_page(self):
+        pass

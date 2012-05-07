@@ -21,10 +21,11 @@ class Form(QMainWindow):
         super(Form, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.command_invoker = twcommand.CommandInvoker()
         self.onInitialUpdate()
 
         tb = self.ui.textBrowser
+        self.command_invoker = twcommand.CommandInvoker(tb)
+
         slider = tb.verticalScrollBar()
 
         QtCore.QObject.connect(
@@ -64,21 +65,20 @@ class Form(QMainWindow):
         te = self.ui.textBrowser
         sb = self.ui.statusbar
 
-        if cb.currentIndex() == 0:
-            te.clear()
+        try:
+            if cb.currentIndex() == 0:
+                te.clear()
+                return
+
+            sb.showMessage(u"Now loading...")
+            QApplication.setOverrideCursor(QCursor(3))
+
+            cmdline = unicode(cb.currentText())
+            te.moveCursor(QTextCursor.End)
+            self.command_invoker.request(cmdline)
+        finally:
             sb.showMessage(u"Done")
-            return
-
-        QApplication.setOverrideCursor(QCursor(3))
-        sb.showMessage(u"Now loading...")
-        cmdline = unicode(cb.currentText())
-
-        te.moveCursor(QTextCursor.End)
-        self.command_invoker.invoke_command(cmdline, te)
-
-        #te.moveCursor(QTextCursor.Start)
-        sb.showMessage(u"Done")
-        QApplication.restoreOverrideCursor()
+            QApplication.restoreOverrideCursor()
 
     def onAnchorClicked(self, hottext):
         path = unicode(hottext.toString())
@@ -104,6 +104,8 @@ class Form(QMainWindow):
     def onScrollBarValueChanged(self, value):
         slider = self.ui.textBrowser.verticalScrollBar()
         #print 'onValueChanged: {0}/{1}'.format(value, slider.maximum())
+        if value == slider.maximum():
+            self.command_invoker.request_next_page()
 
     def onTimelineRefresh(self):
         self.requestTwitter()
