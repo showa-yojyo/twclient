@@ -9,7 +9,7 @@ Requirements
 * Python: 2.6.6
 * PyQt: 4.7+ (http://www.riverbankcomputing.co.uk/software/pyqt/download/)
 * Python Twitter Tools: 1.7.2+ (pip install twitter)
-* Dateutil: 1.5 (pip install dateutil)
+* Dateutil: 2.1 (pip install python-dateutil)
 
 How to Use
 ----------------------------------------------------------------------
