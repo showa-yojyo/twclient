@@ -1,0 +1,2 @@
+include *.ini *.py *.pyw *.ui
+prune tmp
