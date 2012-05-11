@@ -8,11 +8,11 @@ data_files = [("Microsoft.VC90.CRT",
 
 setup(
     name='twclient',
-    version='1.0',
+    version='',
     description=u'A very simple Twitter client',
     author='yojyo@hotmail.com',
     author_email='yojyo@hotmail.com',
-    url='http://www.geocities.jp/showa_yojyo/download/',
+    url='http://www.geocities.jp/showa_yojyo/download/twclient.html',
     windows=['twclient.pyw'],
     options={"py2exe":{"includes":["sip"]}},
     data_files=data_files)
