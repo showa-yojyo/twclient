@@ -16,10 +16,10 @@ HTML_PART = u'''
 <table>
   <tr>
     <td valign="top" height="34">
-      <img src="dummy.png" width="32" height="32" />
+      <img src="{4}" width="32" height="32" />
     </td>
     <td>
-      {0}
+      <b><a href="chrome:://user_mention/{0}">{0}</a></b> 
       {1}
       <p class="f">{2} {3[source]} で</p>
     </td>
@@ -28,12 +28,19 @@ HTML_PART = u'''
 <hr />
 '''
 
+def get_profile_image_url(item):
+    if 'user' in item:
+        return item['user']['profile_image_url']
+    elif 'from_user' in item:
+        return item['profile_image_url']
+
 def format_status(item):
     return HTML_PART.format(
         format_user(item), 
         format_text(item),
         format_timestamp(item),
-        item)
+        item,
+        get_profile_image_url(item))
 
 def format_text(status_item):
     text = status_item['text']
@@ -79,36 +86,21 @@ def format_text(status_item):
 
 def format_user(item):
     if 'user' in item:
-        return u'<b><a href="chrome:://user_mention/{0}">{0}</a></b> '.format(item['user']['screen_name'])
+        return item['user']['screen_name']
     elif 'from_user' in item:
-        return u'<b><a href="chrome:://user_mention/{0}">{0}</a></b> '.format(item['from_user'])
+        return item['from_user']
 
 def format_timestamp(item):
     dt = parse(item['created_at'])
     return dt.astimezone(JST).strftime(u'%Y/%m/%d (%a) %H:%M:%S %Z')
 
-HTML_PART_SEARCH = u'''
-<table>
-  <tr>
-    <td valign="top" height="34">
-      <img src="dummy.png" width="32" height="32" />
-    </td>
-    <td>
-      {0}
-      {1}
-      <p class="f">{2} {3} で</p>
-    </td>
-  </tr>
-</table>
-<hr />
-'''
-
 def format_search_result(item):
-    return HTML_PART_SEARCH.format(
+    return HTML_PART.format(
         format_user(item),
         format_text(item),
         format_timestamp(item),
-        item['source']) # TODO: workaround for Twitter API's bug
+        item, # TODO: workaround for Twitter API's bug
+        get_profile_image_url(item))
 
 def request_statuses_user_timeline(screen_name, max_id):
     auth = NoAuth()

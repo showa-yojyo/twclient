@@ -25,7 +25,7 @@
      <widget class="QComboBox" name="comboBox"/>
     </item>
     <item>
-     <widget class="QTextBrowser" name="textBrowser">
+     <widget class="QStatusBrowser" name="textBrowser">
       <property name="openLinks">
        <bool>false</bool>
       </property>
@@ -107,6 +107,13 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QStatusBrowser</class>
+   <extends>QTextBrowser</extends>
+   <header>qstatusbrowser.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>

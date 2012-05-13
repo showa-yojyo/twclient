@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'twclient.ui'
 #
-# Created: Sun Apr 29 15:22:58 2012
+# Created: Sun May 13 14:34:17 2012
 #      by: PyQt4 UI code generator 4.8.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -27,7 +27,7 @@ class Ui_MainWindow(object):
         self.comboBox = QtGui.QComboBox(self.centralwidget)
         self.comboBox.setObjectName(_fromUtf8("comboBox"))
         self.verticalLayout.addWidget(self.comboBox)
-        self.textBrowser = QtGui.QTextBrowser(self.centralwidget)
+        self.textBrowser = QStatusBrowser(self.centralwidget)
         self.textBrowser.setOpenLinks(False)
         self.textBrowser.setObjectName(_fromUtf8("textBrowser"))
         self.verticalLayout.addWidget(self.textBrowser)
@@ -90,3 +90,4 @@ class Ui_MainWindow(object):
         self.actionUserShow.setText(QtGui.QApplication.translate("MainWindow", "ユーザーを表示(&U)...", None, QtGui.QApplication.UnicodeUTF8))
         self.actionUserShow.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+U", None, QtGui.QApplication.UnicodeUTF8))
 
+from qstatusbrowser import QStatusBrowser
