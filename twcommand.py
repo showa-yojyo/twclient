@@ -55,7 +55,7 @@ class CommandInvoker(object):
 
         view = self.view
         try:
-            text = cmd.execute_next_page()
+            text = cmd.execute()
             view.insertHtml(text)
 
         except Exception as e:

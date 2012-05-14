@@ -11,15 +11,9 @@ class CmdList(Command):
         self.slug = slug
 
     def execute(self):
-        data = request_lists_statuses(self.owner_screen_name, self.slug, None)
-        text = u""
-        for item in data:
-            text += twformat.format_status(item)
-        self.update_page_info(data)
-        return text
-
-    def execute_next_page(self):
-        max_id = self.min_id - 1
+        max_id = None
+        if self.max_id:
+            max_id = self.min_id - 1
 
         data = request_lists_statuses(self.owner_screen_name, self.slug, max_id)
         text = u""

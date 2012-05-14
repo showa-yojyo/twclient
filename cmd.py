@@ -16,7 +16,4 @@ class Command(object):
             self.min_id = min_id
 
     def execute(self):
-        pass
-
-    def execute_next_page(self):
-        pass
+        return u""

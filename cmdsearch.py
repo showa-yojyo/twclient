@@ -10,15 +10,9 @@ class CmdSearch(Command):
         self.query = query
 
     def execute(self):
-        data = request_search(self.query, None)
-        text = u""
-        for item in data['results']:
-            text += twformat.format_status(item)
-        self.update_page_info(data['results'])
-        return text
-
-    def execute_next_page(self):
-        max_id = self.min_id - 1
+        max_id = None
+        if self.max_id:
+            max_id = self.min_id - 1
 
         data = request_search(self.query, max_id)
         text = u""
