@@ -83,10 +83,10 @@ class Form(QMainWindow):
     def onAnchorClicked(self, hottext):
         path = unicode(hottext.toString())
 
-        if path.startswith(u'chrome:://hashtag/'):
+        if path.startswith(u'chrome://hashtag/'):
             # hash tag
             QMessageBox.information(self, u"Twitter Search", u"TODO: Display Hash tag '%s'" % path)
-        elif path.startswith(u'chrome:://user_mention'):
+        elif path.startswith(u'chrome://user_mention'):
             # screen_name
             QMessageBox.information(self, u"User Property", u"TODO: Display %s's user_timeline" % path[1:])
         else:

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from dateutil.parser import parse
-from dateutil.tz import gettz, tzlocal, tzutc
+from dateutil.tz import gettz
 
 JST = gettz('Asia/Tokyo')
 
@@ -16,7 +16,7 @@ HTML_PART = u'''
       <img src="{4}" width="32" height="32" />
     </td>
     <td>
-      <b><a href="chrome:://user_mention/{0}">{0}</a></b> 
+      <b><a href="chrome://user_mention/{0}">{0}</a></b> 
       {1}
       <p class="f">{2} {3[source]} で</p>
     </td>
@@ -25,17 +25,27 @@ HTML_PART = u'''
 <hr />
 '''
 
+def get_user(item):
+    if 'user' in item:
+        return item['user']['screen_name']
+    elif 'from_user' in item:
+        return item['from_user']
+
 def get_profile_image_url(item):
     if 'user' in item:
         return item['user']['profile_image_url']
     elif 'from_user' in item:
         return item['profile_image_url']
 
+def get_timestamp(item):
+    dt = parse(item['created_at'])
+    return dt.astimezone(JST).strftime(u'%Y/%m/%d (%a) %H:%M:%S %Z')
+
 def format_status(item):
     return HTML_PART.format(
-        format_user(item), 
+        get_user(item), 
         format_text(item),
-        format_timestamp(item),
+        get_timestamp(item),
         item,
         get_profile_image_url(item))
 
@@ -47,7 +57,7 @@ def format_text(status_item):
 
     for tag in entities['hashtags']:
         rep = dict(indices=tag['indices'],
-                   pattern=u'<a href="chrome:://hashtag/{0}">#{0}</a>'.format(tag['text']))
+                   pattern=u'<a href="chrome://hashtag/{0}">#{0}</a>'.format(tag['text']))
         replacements.append(rep)
 
     # [{u'display_url': u'search.twitter.com',
@@ -67,7 +77,7 @@ def format_text(status_item):
     #   u'screen_name': u'showa_yojyo'}]
     for user in entities['user_mentions']:
         rep = dict(indices=user['indices'],
-                   pattern=u'<a href="chrome:://user_mention/{0[screen_name]}">@{0[screen_name]}</a>'.format(user))
+                   pattern=u'<a href="chrome://user_mention/{0[screen_name]}">@{0[screen_name]}</a>'.format(user))
         replacements.append(rep)
 
     # sort by 'indices'
@@ -80,21 +90,3 @@ def format_text(status_item):
         processed_text = processed_text[:first] + pattern + processed_text[last:]
 
     return processed_text
-
-def format_user(item):
-    if 'user' in item:
-        return item['user']['screen_name']
-    elif 'from_user' in item:
-        return item['from_user']
-
-def format_timestamp(item):
-    dt = parse(item['created_at'])
-    return dt.astimezone(JST).strftime(u'%Y/%m/%d (%a) %H:%M:%S %Z')
-
-def format_search_result(item):
-    return HTML_PART.format(
-        format_user(item),
-        format_text(item),
-        format_timestamp(item),
-        item, # TODO: workaround for Twitter API's bug
-        get_profile_image_url(item))

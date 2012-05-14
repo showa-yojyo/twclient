@@ -13,7 +13,7 @@ class CmdSearch(Command):
         data = request_search(self.query, None)
         text = u""
         for item in data['results']:
-            text += twformat.format_search_result(item)
+            text += twformat.format_status(item)
         self.update_page_info(data['results'])
         return text
 
@@ -23,7 +23,7 @@ class CmdSearch(Command):
         data = request_search(self.query, max_id)
         text = u""
         for item in data['results']:
-            text += twformat.format_search_result(item)
+            text += twformat.format_status(item)
         self.update_page_info(data['results'])
         return text
 
