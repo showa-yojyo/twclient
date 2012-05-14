@@ -1,2 +1,2 @@
-include *.ini *.py *.pyw *.ui
+include *.ini.sample *.py *.pyw *.ui
 prune tmp
