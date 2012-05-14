@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from cmd import Command
+from twitter import Twitter, NoAuth
 import twformat
 
 class CmdSearch(Command):
@@ -9,7 +10,7 @@ class CmdSearch(Command):
         self.query = query
 
     def execute(self):
-        data = twformat.request_search(self.query, None)
+        data = request_search(self.query, None)
         text = u""
         for item in data['results']:
             text += twformat.format_search_result(item)
@@ -19,9 +20,27 @@ class CmdSearch(Command):
     def execute_next_page(self):
         max_id = self.min_id - 1
 
-        data = twformat.request_search(self.query, max_id)
+        data = request_search(self.query, max_id)
         text = u""
         for item in data['results']:
             text += twformat.format_search_result(item)
         self.update_page_info(data['results'])
         return text
+
+def request_search(query, max_id):
+    auth = NoAuth()
+    api = Twitter(auth=auth, domain="search.twitter.com")
+
+    kwargs = dict(
+        q=query.encode('utf-8'),
+        rpp=20,
+        page=1,
+        include_entities=1,
+        #result_type='recent',
+        result_type='mixed',
+        show_user=1,)
+
+    if max_id is not None:
+        kwargs['max_id'] = max_id
+
+    return api.search(**kwargs)
