@@ -1,9 +1,26 @@
 # -*- coding: utf-8 -*-
 
+import datetime
 from dateutil.parser import parse
-from dateutil.tz import gettz
+#from dateutil.tz import gettz
+#JST = gettz('Asia/Tokyo')
 
-JST = gettz('Asia/Tokyo')
+# See http://mitc.xrea.jp/diary/096
+class UTC(datetime.tzinfo):
+    def utcoffset(self, dt):
+        return datetime.timedelta(0)
+    def tzname(self, dt):
+        return "UTC"
+    def dst(self, dt):
+        return datetime.timedelta(0)
+
+class JST(datetime.tzinfo):
+    def utcoffset(self,dt):
+        return datetime.timedelta(hours=9)
+    def dst(self,dt):
+        return datetime.timedelta(0)
+    def tzname(self,dt):
+        return "JST"
 
 CSS = u'''
 p.f{ color:lightslategrey; }
@@ -39,7 +56,9 @@ def get_profile_image_url(item):
 
 def get_timestamp(item):
     dt = parse(item['created_at'])
-    return dt.astimezone(JST).strftime(u'%Y/%m/%d (%a) %H:%M:%S %Z')
+    #return dt.astimezone(JST).strftime(u'%Y/%m/%d (%a) %H:%M:%S %Z')
+    return dt.astimezone(JST()).strftime(u'%Y/%m/%d (%a) %H:%M:%S %Z')
+    #return dt.replace(tzinfo=UTC()).astimezone(JST()).strftime(u'%Y/%m/%d (%a) %H:%M:%S %Z')
 
 def format_status(item):
     return HTML_PART.format(
