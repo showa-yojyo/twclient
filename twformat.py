@@ -5,7 +5,7 @@ from dateutil.parser import parse
 #from dateutil.tz import gettz
 #JST = gettz('Asia/Tokyo')
 
-# See http://mitc.xrea.jp/diary/096
+# Borrowed from http://mitc.xrea.jp/diary/096
 class UTC(datetime.tzinfo):
     def utcoffset(self, dt):
         return datetime.timedelta(0)
@@ -14,6 +14,7 @@ class UTC(datetime.tzinfo):
     def dst(self, dt):
         return datetime.timedelta(0)
 
+# Borrowed from http://mitc.xrea.jp/diary/096
 class JST(datetime.tzinfo):
     def utcoffset(self,dt):
         return datetime.timedelta(hours=9)

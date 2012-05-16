@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+
+# Some codes borrowed from:
+# http://all.marlix.com/openerp/client/openerp-client-6.0.3/setup.py
+
 import sys
 import os
 from distutils.core import setup

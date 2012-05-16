@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Reference:
+# Borrowed from:
 # http://lateral.netmanagers.com.ar/weblog/posts/BB568.html
 
 from PyQt4 import QtCore
