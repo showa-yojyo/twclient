@@ -5,8 +5,13 @@ from distutils.core import setup
 import py2exe
 from glob import glob
 
-data_files = [("Microsoft.VC90.CRT", 
-               ["Microsoft.VC90.CRT.manifest"] + glob(r'msvc*90.dll'))]
+def data_files():
+    files = []
+    files.append((".", ["README.txt", "timelines.ini.sample",]))
+    if sys.platform == 'win32':
+        files.append(("Microsoft.VC90.CRT", 
+                      ["Microsoft.VC90.CRT.manifest"] + glob(r'msvc*90.dll')))
+    return files
 
 options = {
     "py2exe":{
@@ -24,7 +29,7 @@ setup(
     url='http://www.geocities.jp/showa_yojyo/download/twclient.html',
     windows=['twclient.pyw'],
     options=options,
-    data_files=data_files)
+    data_files=data_files())
 
 if sys.argv[-1] == 'py2exe':
     import dateutil
