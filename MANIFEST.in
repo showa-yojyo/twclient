@@ -1,2 +1,3 @@
 include *.ini.sample *.py *.pyw *.ui
 prune tmp
+prune twclient-win32
