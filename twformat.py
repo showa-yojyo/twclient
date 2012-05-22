@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from HTMLParser import HTMLParser
 import datetime
 from dateutil.parser import parse
 #from dateutil.tz import gettz
@@ -36,7 +37,7 @@ HTML_PART = u'''
     <td>
       <b><a href="chrome://user_mention/{0}">{0}</a></b> 
       {1}
-      <p class="f">{2} {3[source]} で</p>
+      <p class="f">{2} {3} で</p>
     </td>
   </tr>
 </table>
@@ -55,6 +56,15 @@ def get_profile_image_url(item):
     elif 'from_user' in item:
         return item['profile_image_url']
 
+def get_source(item):
+    source = item['source']
+    if 'user' in item:
+        return source
+
+    # opposite of cgi.escape()
+    parser = HTMLParser()
+    return parser.unescape(source)
+
 def get_timestamp(item):
     dt = parse(item['created_at'])
     #return dt.astimezone(JST).strftime(u'%Y/%m/%d (%a) %H:%M:%S %Z')
@@ -66,7 +76,7 @@ def format_status(item):
         get_user(item), 
         format_text(item),
         get_timestamp(item),
-        item,
+        get_source(item),
         get_profile_image_url(item))
 
 def format_text(status_item):
