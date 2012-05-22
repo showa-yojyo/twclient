@@ -9,18 +9,21 @@ import urllib, os, hashlib
 
 class QStatusBrowser(QtGui.QTextBrowser):
 
+    def __init__(self, parent):
+        super(QStatusBrowser, self).__init__(parent)
+        self.cache_path = './cache'
+
     def loadResource(self, type, name):
         url = unicode(name.toString())
         if url.startswith('http://'):
-            #dn = os.path.expanduser('./cache/')
-            dn = './cache'
+            dn = self.cache_path
             if not os.path.isdir(dn):
                 os.mkdir(dn)
 
             fn = os.path.join(dn, hashlib.md5(url).hexdigest())
             if not os.path.isfile(fn):
                 urllib.urlretrieve(url, fn)
-                return super(QStatusBrowser, self).loadResource(type, QtCore.QUrl(fn))
+            return super(QStatusBrowser, self).loadResource(type, QtCore.QUrl(fn))
         else:
             return super(QStatusBrowser, self).loadResource(type, name)
 

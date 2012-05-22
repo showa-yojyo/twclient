@@ -2,6 +2,7 @@
 
 import sys
 import codecs
+import shutil
 
 from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import QStringList
@@ -16,6 +17,8 @@ from ui_twclient import Ui_MainWindow
 import twcommand
 import twformat
 
+CACHE_PATH = './cache'
+
 class Form(QMainWindow):
     def __init__(self):
         super(Form, self).__init__()
@@ -24,6 +27,7 @@ class Form(QMainWindow):
         self.onInitialUpdate()
 
         tb = self.ui.textBrowser
+        tb.cache_path = CACHE_PATH
         self.command_invoker = twcommand.CommandInvoker(tb)
 
         slider = tb.verticalScrollBar()
@@ -33,6 +37,10 @@ class Form(QMainWindow):
         QtCore.QObject.connect(
             tb, QtCore.SIGNAL(u"anchorClicked(QUrl)"), self.onAnchorClicked)
         QtCore.QMetaObject.connectSlotsByName(self)
+
+    def closeEvent(self, event):
+        #shutil.rmtree(CACHE_PATH, True)
+        return super(Form, self).closeEvent(event)
 
     def onInitialUpdate(self):
         cb = self.ui.comboBox
