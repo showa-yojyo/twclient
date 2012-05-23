@@ -37,12 +37,14 @@ HTML_PART = u'''
     <td>
       <b><a href="chrome://user_mention/{0}">{0}</a></b> 
       {1}
-      <p class="f">{2} {3} で</p>
+      <p class="f">{2} {3} で {5}</p>
     </td>
   </tr>
 </table>
 <hr />
 '''
+
+REPLY_FORMAT = u'''<a href="https://twitter.com/{0}/statuses/{1}">{0} への返信</a>'''
 
 def get_user(item):
     if 'user' in item:
@@ -77,7 +79,8 @@ def format_status(item):
         format_text(item),
         get_timestamp(item),
         get_source(item),
-        get_profile_image_url(item))
+        get_profile_image_url(item),
+        format_in_reply(item))
 
 def format_text(status_item):
     text = status_item['text']
@@ -120,3 +123,15 @@ def format_text(status_item):
         processed_text = processed_text[:first] + pattern + processed_text[last:]
 
     return processed_text
+
+def format_in_reply(status):
+
+    if 'in_reply_to_status_id' in status:
+        if 'to_user' in status and status['to_user']:
+            return REPLY_FORMAT.format(status['to_user'],
+                                       status['in_reply_to_status_id'])
+        elif 'in_reply_to_screen_name' in status and status['in_reply_to_screen_name']:
+            return REPLY_FORMAT.format(status['in_reply_to_screen_name'], 
+                                       status['in_reply_to_status_id'])
+
+    return u''
