@@ -76,7 +76,7 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "Twitter Client", None, QtGui.QApplication.UnicodeUTF8))
+        MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "とにかくシンプルな Twitter クライアント", None, QtGui.QApplication.UnicodeUTF8))
         self.menu_O.setTitle(QtGui.QApplication.translate("MainWindow", "操作(&O)", None, QtGui.QApplication.UnicodeUTF8))
         self.menu_D.setTitle(QtGui.QApplication.translate("MainWindow", "表示(&D)", None, QtGui.QApplication.UnicodeUTF8))
         self.menu_U.setTitle(QtGui.QApplication.translate("MainWindow", "ユーザー(&U)", None, QtGui.QApplication.UnicodeUTF8))

@@ -16,6 +16,7 @@ from ui_twclient import Ui_MainWindow
 
 import twcommand
 import twformat
+import twversion
 
 CACHE_PATH = './cache'
 
@@ -103,8 +104,8 @@ class Form(QMainWindow):
 
     def onAppAbout(self):
         QMessageBox.information(
-            self, u"About Twitter Client",
-            u"とにかくシンプルな Twitter Client")
+            self, u"バージョン情報",
+            u"とにかくシンプルな Twitter クライアント\nバージョン {0}".format(twversion.VERSION))
 
     def onAppSettings(self):
         QMessageBox.warning(self, u"設定", u"工事中")

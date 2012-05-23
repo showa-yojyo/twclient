@@ -8,6 +8,7 @@ import os
 from distutils.core import setup
 import py2exe
 from glob import glob
+import twversion
 
 def make_data_files():
     files = []
@@ -21,7 +22,7 @@ def make_options():
     if sys.platform == 'win32' and sys.argv[-1] == 'py2exe':
         return {
             "py2exe":{
-                "dist_dir": 'twclient-win32',
+                "dist_dir": 'twclient-{0}.win32'.format(twversion.VERSION),
                 "includes":["sip"]
                 }
             }
