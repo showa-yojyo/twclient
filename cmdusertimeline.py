@@ -9,17 +9,12 @@ class CmdUserTimeLine(Command):
         super(CmdUserTimeLine, self).__init__()
         self.screen_name = screen_name
 
-    def execute(self):
-        max_id = None
-        if self.max_id:
-            max_id = self.min_id - 1
-
+    def do_execute(self, max_id):
         data = request_statuses_user_timeline(self.screen_name, max_id)
         text = u""
         for item in data:
             text += twformat.format_status(item)
-        self.update_page_info(data)
-        return text
+        return data, text
 
 def request_statuses_user_timeline(screen_name, max_id):
     auth = NoAuth()

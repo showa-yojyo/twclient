@@ -9,17 +9,12 @@ class CmdSearch(Command):
         super(CmdSearch, self).__init__()
         self.query = query
 
-    def execute(self):
-        max_id = None
-        if self.max_id:
-            max_id = self.min_id - 1
-
+    def do_execute(self, max_id):
         data = request_search(self.query, max_id)
         text = u""
         for item in data['results']:
             text += twformat.format_status(item)
-        self.update_page_info(data['results'])
-        return text
+        return data['results'], text
 
 def request_search(query, max_id):
     auth = NoAuth()

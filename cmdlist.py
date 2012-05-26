@@ -10,17 +10,12 @@ class CmdList(Command):
         self.owner_screen_name = owner_screen_name
         self.slug = slug
 
-    def execute(self):
-        max_id = None
-        if self.max_id:
-            max_id = self.min_id - 1
-
+    def do_execute(self, max_id):
         data = request_lists_statuses(self.owner_screen_name, self.slug, max_id)
         text = u""
         for item in data:
             text += twformat.format_status(item)
-        self.update_page_info(data)
-        return text
+        return data, text
 
 def request_lists_statuses(owner_screen_name, slug, max_id):
     auth = NoAuth()
