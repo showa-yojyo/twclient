@@ -67,9 +67,9 @@ class Form(QMainWindow):
             pass
 
     def onComboChanged(self):
-        self.requestTwitter()
+        self.requestTwitter(False)
 
-    def requestTwitter(self):
+    def requestTwitter(self, fetch_older):
         cb = self.ui.comboBox
         te = self.ui.textBrowser
         sb = self.ui.statusbar
@@ -84,7 +84,7 @@ class Form(QMainWindow):
 
             cmdline = unicode(cb.currentText())
             te.moveCursor(QTextCursor.End)
-            self.command_invoker.request(cmdline)
+            self.command_invoker.request(cmdline, fetch_older)
         finally:
             sb.showMessage(u"Done")
             QApplication.restoreOverrideCursor()
@@ -126,7 +126,7 @@ class Form(QMainWindow):
                 QApplication.restoreOverrideCursor()
 
     def onTimelineRefresh(self):
-        self.requestTwitter()
+        self.requestTwitter(False)
 
     def onUserShow(self):
         QMessageBox.warning(self, u"ユーザーを表示", u"工事中")

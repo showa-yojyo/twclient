@@ -9,14 +9,14 @@ class CmdUserTimeLine(Command):
         super(CmdUserTimeLine, self).__init__()
         self.screen_name = screen_name
 
-    def do_execute(self, max_id):
-        data = request_statuses_user_timeline(self.screen_name, max_id)
+    def do_execute(self, max_id, min_id):
+        data = request_statuses_user_timeline(self.screen_name, max_id, min_id)
         text = u""
         for item in data:
             text += twformat.format_status(item)
         return data, text
 
-def request_statuses_user_timeline(screen_name, max_id):
+def request_statuses_user_timeline(screen_name, max_id, min_id):
     auth = NoAuth()
     api = Twitter(auth=auth)
 
@@ -30,5 +30,7 @@ def request_statuses_user_timeline(screen_name, max_id):
 
     if max_id is not None:
         kwargs['max_id'] = max_id
+    if min_id is not None:
+        kwargs['min_id'] = min_id
 
     return api.statuses.user_timeline(**kwargs)

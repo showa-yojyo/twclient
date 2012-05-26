@@ -9,14 +9,14 @@ class CmdSearch(Command):
         super(CmdSearch, self).__init__()
         self.query = query
 
-    def do_execute(self, max_id):
-        data = request_search(self.query, max_id)
+    def do_execute(self, max_id, min_id):
+        data = request_search(self.query, max_id, min_id)
         text = u""
         for item in data['results']:
             text += twformat.format_status(item)
         return data['results'], text
 
-def request_search(query, max_id):
+def request_search(query, max_id, min_id):
     auth = NoAuth()
     api = Twitter(auth=auth, domain="search.twitter.com")
 
@@ -31,5 +31,7 @@ def request_search(query, max_id):
 
     if max_id is not None:
         kwargs['max_id'] = max_id
+    if min_id is not None:
+        kwargs['min_id'] = min_id
 
     return api.search(**kwargs)
