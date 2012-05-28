@@ -3,6 +3,7 @@
 import sys
 import codecs
 import shutil
+import time
 
 from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import QStringList
@@ -74,6 +75,7 @@ class Form(QMainWindow):
         te = self.ui.textBrowser
         sb = self.ui.statusbar
 
+        start_time = time.time()
         try:
             te.clear()
             if cb.currentIndex() == 0:
@@ -86,7 +88,8 @@ class Form(QMainWindow):
             te.moveCursor(QTextCursor.End)
             self.command_invoker.request(cmdline, fetch_older)
         finally:
-            sb.showMessage(u"Done")
+            elapsed_time = time.time() - start_time
+            sb.showMessage(u"Done ({0:f} sec)".format(elapsed_time))
             QApplication.restoreOverrideCursor()
 
     def onAnchorClicked(self, hottext):
