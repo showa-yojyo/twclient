@@ -75,16 +75,16 @@ class Form(QMainWindow):
         te = self.ui.textBrowser
         sb = self.ui.statusbar
 
+        te.clear()
+        if cb.currentIndex() == 0:
+            return
+
+        cmdline = unicode(cb.currentText())
+
         start_time = time.time()
         try:
-            te.clear()
-            if cb.currentIndex() == 0:
-                return
-
             sb.showMessage(u"Now loading...")
             QApplication.setOverrideCursor(QCursor(3))
-
-            cmdline = unicode(cb.currentText())
             te.moveCursor(QTextCursor.End)
             self.command_invoker.request(cmdline, fetch_older)
         finally:
@@ -119,13 +119,15 @@ class Form(QMainWindow):
         if value > 0 and value == slider.maximum():
             sb = self.ui.statusbar
             te = self.ui.textBrowser
+            start_time = time.time()
             try:
                 sb.showMessage(u"Now loading...")
                 QApplication.setOverrideCursor(QCursor(3))
                 te.moveCursor(QTextCursor.End)
                 self.command_invoker.request_next_page()
             finally:
-                sb.showMessage(u"Done")
+                elapsed_time = time.time() - start_time
+                sb.showMessage(u"Done ({0:f} sec)".format(elapsed_time))
                 QApplication.restoreOverrideCursor()
 
     def onTimelineRefresh(self):
