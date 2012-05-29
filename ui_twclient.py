@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'twclient.ui'
 #
-# Created: Sun May 13 14:34:17 2012
+# Created: Wed May 30 00:31:16 2012
 #      by: PyQt4 UI code generator 4.8.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -84,10 +84,14 @@ class Ui_MainWindow(object):
         self.actionExit.setStatusTip(QtGui.QApplication.translate("MainWindow", "アプリケーションを終了する", None, QtGui.QApplication.UnicodeUTF8))
         self.actionExit.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+Q", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSettings.setText(QtGui.QApplication.translate("MainWindow", "設定(&S)...", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionSettings.setStatusTip(QtGui.QApplication.translate("MainWindow", "アプリケーションの各種設定を行う", None, QtGui.QApplication.UnicodeUTF8))
         self.actionAppAbout.setText(QtGui.QApplication.translate("MainWindow", "このアプリについて(&A)...", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionAppAbout.setStatusTip(QtGui.QApplication.translate("MainWindow", "バージョン情報等を確認する", None, QtGui.QApplication.UnicodeUTF8))
         self.actionRefresh.setText(QtGui.QApplication.translate("MainWindow", "タイムラインを更新(&R)", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionRefresh.setStatusTip(QtGui.QApplication.translate("MainWindow", "現在表示中のタイムラインを最新のものに更新する", None, QtGui.QApplication.UnicodeUTF8))
         self.actionRefresh.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+R", None, QtGui.QApplication.UnicodeUTF8))
         self.actionUserShow.setText(QtGui.QApplication.translate("MainWindow", "ユーザーを表示(&U)...", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionUserShow.setStatusTip(QtGui.QApplication.translate("MainWindow", "ユーザー名を指定して各種情報を確認する", None, QtGui.QApplication.UnicodeUTF8))
         self.actionUserShow.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+U", None, QtGui.QApplication.UnicodeUTF8))
 
 from qstatusbrowser import QStatusBrowser

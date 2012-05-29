@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Twitter Client</string>
+   <string>とにかくシンプルな Twitter クライアント</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -84,15 +84,24 @@
    <property name="text">
     <string>設定(&amp;S)...</string>
    </property>
+   <property name="statusTip">
+    <string>アプリケーションの各種設定を行う</string>
+   </property>
   </action>
   <action name="actionAppAbout">
    <property name="text">
     <string>このアプリについて(&amp;A)...</string>
    </property>
+   <property name="statusTip">
+    <string>バージョン情報等を確認する</string>
+   </property>
   </action>
   <action name="actionRefresh">
    <property name="text">
     <string>タイムラインを更新(&amp;R)</string>
+   </property>
+   <property name="statusTip">
+    <string>現在表示中のタイムラインを最新のものに更新する</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+R</string>
@@ -101,6 +110,9 @@
   <action name="actionUserShow">
    <property name="text">
     <string>ユーザーを表示(&amp;U)...</string>
+   </property>
+   <property name="statusTip">
+    <string>ユーザー名を指定して各種情報を確認する</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+U</string>
