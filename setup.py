@@ -43,6 +43,7 @@ def main():
         url='http://www.geocities.jp/showa_yojyo/download/twclient.html',
         windows=['twclient.pyw'],
         options=options,
+        packages=['twmodel'],
         data_files=make_data_files(use_py2exe))
 
     if use_py2exe:
