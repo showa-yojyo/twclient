@@ -4,6 +4,8 @@ import sys
 import codecs
 import shutil
 import time
+import traceback
+from cStringIO import StringIO
 
 from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import QStringList
@@ -15,8 +17,11 @@ from PyQt4.QtGui import QDesktopServices
 from PyQt4.QtGui import QTextCursor
 from ui_twclient import Ui_MainWindow
 
-import twcommand
 import twformat
+from twmodel.model import TimeLine
+from twmodel.list import List
+from twmodel.usertimeline import UserTimeLine
+from twmodel.search import Search
 import twversion
 
 CACHE_PATH = './cache'
@@ -30,7 +35,6 @@ class Form(QMainWindow):
 
         tb = self.ui.textBrowser
         tb.cache_path = CACHE_PATH
-        self.command_invoker = twcommand.CommandInvoker(tb)
 
         slider = tb.verticalScrollBar()
 
@@ -43,6 +47,38 @@ class Form(QMainWindow):
     def closeEvent(self, event):
         #shutil.rmtree(CACHE_PATH, True)
         return super(Form, self).closeEvent(event)
+
+    def currentTimeLineItem(self):
+        cb = self.ui.comboBox
+        i = cb.currentIndex()
+        if i == 0:
+            return None
+
+        data = cb.itemData(i)
+        if data.isNull():
+            item = None
+            title = unicode(cb.itemText(i))
+            words = title.split(" ")
+            if(words[0] == u"list"):
+                owner_slug = words[1].split(u"/")
+                item = List(owner_slug[0], owner_slug[1])
+
+            elif(words[0] == u"user_timeline"):
+                screen_name = words[1]
+                item = UserTimeLine(screen_name)
+
+            elif(words[0] == u"search"):
+                query = title[len(u'search'):].strip()
+                item = Search(query)
+
+            if item:
+                cb.setItemData(i, item)
+        else:
+            i = cb.currentIndex()
+            assert i != 0 and i < cb.count()
+            item = cb.itemData(i).toPyObject()
+
+        return item
 
     def onInitialUpdate(self):
         cb = self.ui.comboBox
@@ -76,17 +112,29 @@ class Form(QMainWindow):
         sb = self.ui.statusbar
 
         te.clear()
-        if cb.currentIndex() == 0:
+        item = self.currentTimeLineItem()
+        if not item:
             return
 
-        cmdline = unicode(cb.currentText())
-
+        view = te
         start_time = time.time()
         try:
             sb.showMessage(u"Now loading...")
             QApplication.setOverrideCursor(QCursor(3))
             te.moveCursor(QTextCursor.End)
-            self.command_invoker.request(cmdline, fetch_older)
+            item.execute(False)
+            text = item.textall
+            if text:
+                view.setHtml(text)
+            else:
+                view.clear()
+
+        except Exception as e:
+            buf = StringIO()
+            traceback.print_exc(file=buf)
+            view.setText(u'%s' % buf.getvalue())
+            buf.close()
+
         finally:
             elapsed_time = time.time() - start_time
             sb.showMessage(u"Done ({0:f} sec)".format(elapsed_time))
@@ -115,16 +163,26 @@ class Form(QMainWindow):
 
     def onScrollBarValueChanged(self, value):
         slider = self.ui.textBrowser.verticalScrollBar()
-        #print 'onValueChanged: {0}/{1}'.format(value, slider.maximum())
         if value > 0 and value == slider.maximum():
             sb = self.ui.statusbar
             te = self.ui.textBrowser
+            view = te
             start_time = time.time()
             try:
                 sb.showMessage(u"Now loading...")
                 QApplication.setOverrideCursor(QCursor(3))
                 te.moveCursor(QTextCursor.End)
-                self.command_invoker.request_next_page()
+                item = self.currentTimeLineItem()
+                assert item is not None
+                text = item.execute(True)
+                view.insertHtml(text)
+
+            except Exception as e:
+                buf = StringIO()
+                traceback.print_exc(file=buf)
+                view.setText(u'%s' % buf.getvalue())
+                buf.close()
+
             finally:
                 elapsed_time = time.time() - start_time
                 sb.showMessage(u"Done ({0:f} sec)".format(elapsed_time))
