@@ -159,7 +159,7 @@ def format_media(status_item):
     media = entities['media']
 
     # e.g. "http://p.twimg.com/AQ9JtQsCEAA7dEN.jpg"
-    media_url = media['media_url']
+    media_url = media[0]['media_url']
 
     # get thumbnail 
     thumb_url = media_url + ':thumb'

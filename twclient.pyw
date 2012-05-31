@@ -86,7 +86,7 @@ class Form(QMainWindow):
 
         finally:
             elapsed_time = time.time() - start_time
-            sb.showMessage(u"Done ({0:f} sec)".format(elapsed_time))
+            sb.showMessage(u"Done ({0:.3f} sec)".format(elapsed_time))
             QApplication.restoreOverrideCursor()
 
     def onInitialUpdate(self):
