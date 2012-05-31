@@ -17,7 +17,7 @@ class ItemFactory(object):
             item = UserTimeLine(screen_name)
 
         elif(words[0] == u"search"):
-            query = title[len(u'search'):].strip()
+            query = cmdline[len(u'search'):].strip()
             item = Search(query)
 
         return item

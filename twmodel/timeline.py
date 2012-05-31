@@ -49,6 +49,7 @@ class TimeLine(object):
 
     def post_request(self, data, text, fetch_older):
         self.update_page_info(data)
+        view = self.view
         if fetch_older:
             self.textall += text
             view.insertHtml(text)
@@ -56,4 +57,3 @@ class TimeLine(object):
             text += self.textall
             self.textall = text
             view.setHtml(text)
-
