@@ -29,9 +29,9 @@ p.f{ color:lightslategrey; }
 '''
 
 HTML_PART = u'''
-<table>
+<table width="100%">
   <tr>
-    <td valign="top" height="34">
+    <td valign="top" width="34">
       <img src="{4}" width="32" height="32" />
     </td>
     <td>
@@ -39,6 +39,7 @@ HTML_PART = u'''
       {1}
       <p class="f">{2} {3} で {5}</p>
     </td>
+    {6}
   </tr>
 </table>
 <hr />
@@ -80,7 +81,8 @@ def format_status(item):
         get_timestamp(item),
         get_source(item),
         get_profile_image_url(item),
-        format_in_reply(item))
+        format_in_reply(item),
+        format_media(item))
 
 def format_text(status_item):
     text = status_item['text']
@@ -135,3 +137,32 @@ def format_in_reply(status):
                                        status['in_reply_to_status_id'])
 
     return u''
+
+
+THUMB_PART = u'''
+    <td valign="top" width="52">
+      <a href="{media_url}"><img src="{thumb_url}" width="50" height="50" /></a>
+    </td>
+'''
+
+def format_media(status_item):
+    # See https://dev.twitter.com/docs/tweet-entities
+
+    text = u''
+    if not 'entities' in status_item:
+        return text
+
+    entities = status_item['entities']
+    if not 'media' in entities:
+        return text
+
+    media = entities['media']
+
+    # e.g. "http://p.twimg.com/AQ9JtQsCEAA7dEN.jpg"
+    media_url = media['media_url']
+
+    # get thumbnail 
+    thumb_url = media_url + ':thumb'
+
+    return THUMB_PART.format(media_url=media_url,
+                             thumb_url=thumb_url)
