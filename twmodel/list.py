@@ -10,7 +10,7 @@ class List(TimeLine):
         self.owner_screen_name = owner_screen_name
         self.slug = slug
 
-    def do_execute(self, max_id, min_id):
+    def do_request(self, max_id, min_id):
         data = request_lists_statuses(self.owner_screen_name, self.slug, max_id, min_id)
         text = u""
         for item in data:

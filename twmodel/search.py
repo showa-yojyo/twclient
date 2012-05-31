@@ -9,7 +9,7 @@ class Search(TimeLine):
         super(Search, self).__init__()
         self.query = query
 
-    def do_execute(self, max_id, min_id):
+    def do_request(self, max_id, min_id):
         data = request_search(self.query, max_id, min_id)
         text = u""
         for item in data['results']:

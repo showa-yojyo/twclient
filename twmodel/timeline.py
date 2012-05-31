@@ -20,7 +20,7 @@ class TimeLine(object):
         if self.min_id is None or min_id < self.min_id:
             self.min_id = min_id
 
-    # execute の利用状況
+    # request の利用状況
     # 
     # 1. 完全にゼロの状態からタイムラインを取得する。
     # 2. 取得済みタイムラインを保持した状態で、より古いタイムラインを取得する。
@@ -28,16 +28,16 @@ class TimeLine(object):
     # 
     # 2. のケースでは max_id を、
     # 3. のケースでは min_id を Twitter API に指示する必要がある。
-    def execute(self, fetch_older=True):
-        max_id, min_id = self.pre_execute(fetch_older)
-        data, text = self.do_execute(max_id, min_id)
-        self.post_execute(data, text, fetch_older)
+    def request(self, fetch_older=True):
+        max_id, min_id = self.pre_request(fetch_older)
+        data, text = self.do_request(max_id, min_id)
+        self.post_request(data, text, fetch_older)
         return text
 
-    def do_execute(self, max_id, min_id):
+    def do_request(self, max_id, min_id):
         assert False
 
-    def pre_execute(self, fetch_older):
+    def pre_request(self, fetch_older):
         max_id, min_id = None, None
         if self.max_id:
             if fetch_older:
@@ -47,7 +47,7 @@ class TimeLine(object):
 
         return max_id, min_id
 
-    def post_execute(self, data, text, fetch_older):
+    def post_request(self, data, text, fetch_older):
         self.update_page_info(data)
         if fetch_older:
             self.textall += text

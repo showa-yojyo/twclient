@@ -9,4 +9,4 @@ class Request(CommandBase):
         self.fetch_older = fetch_older
 
     def execute(self):
-        self.item.execute(self.fetch_older)
+        self.item.request(self.fetch_older)

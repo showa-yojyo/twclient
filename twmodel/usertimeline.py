@@ -9,7 +9,7 @@ class UserTimeLine(TimeLine):
         super(UserTimeLine, self).__init__()
         self.screen_name = screen_name
 
-    def do_execute(self, max_id, min_id):
+    def do_request(self, max_id, min_id):
         data = request_statuses_user_timeline(self.screen_name, max_id, min_id)
         text = u""
         for item in data:
