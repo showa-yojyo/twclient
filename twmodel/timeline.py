@@ -5,6 +5,7 @@ class TimeLine(object):
         self.max_id = None
         self.min_id = None
         self.textall = u''
+        self.view = None
 
     def update_page_info(self, data):
         if len(data) == 0:
@@ -50,6 +51,9 @@ class TimeLine(object):
         self.update_page_info(data)
         if fetch_older:
             self.textall += text
+            view.insertHtml(text)
         else:
             text += self.textall
             self.textall = text
+            view.setHtml(text)
+

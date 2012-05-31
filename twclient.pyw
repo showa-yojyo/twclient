@@ -18,11 +18,12 @@ from PyQt4.QtGui import QTextCursor
 from ui_twclient import Ui_MainWindow
 
 import twformat
-from twmodel.model import TimeLine
 from twmodel.list import List
 from twmodel.usertimeline import UserTimeLine
 from twmodel.search import Search
 import twversion
+
+from twcommand.request import Request
 
 CACHE_PATH = './cache'
 
@@ -72,6 +73,7 @@ class Form(QMainWindow):
                 item = Search(query)
 
             if item:
+                item.view = self.ui.textBrowser
                 cb.setItemData(i, item)
         else:
             i = cb.currentIndex()
@@ -79,6 +81,28 @@ class Form(QMainWindow):
             item = cb.itemData(i).toPyObject()
 
         return item
+
+    def invokeRequestCommand(self, cmd):
+        sb = self.ui.statusbar
+        te = self.ui.textBrowser
+        view = te
+        start_time = time.time()
+        try:
+            sb.showMessage(u"Now loading...")
+            QApplication.setOverrideCursor(QCursor(3))
+            te.moveCursor(QTextCursor.End)
+            cmd.execute()
+
+        except Exception as e:
+            buf = StringIO()
+            traceback.print_exc(file=buf)
+            view.setText(u'%s' % buf.getvalue())
+            buf.close()
+
+        finally:
+            elapsed_time = time.time() - start_time
+            sb.showMessage(u"Done ({0:f} sec)".format(elapsed_time))
+            QApplication.restoreOverrideCursor()
 
     def onInitialUpdate(self):
         cb = self.ui.comboBox
@@ -104,41 +128,13 @@ class Form(QMainWindow):
             pass
 
     def onComboChanged(self):
-        self.requestTwitter(False)
+        self.requestTwitter()
 
-    def requestTwitter(self, fetch_older):
-        cb = self.ui.comboBox
-        te = self.ui.textBrowser
-        sb = self.ui.statusbar
-
-        te.clear()
+    def requestTwitter(self):
         item = self.currentTimeLineItem()
         if not item:
             return
-
-        view = te
-        start_time = time.time()
-        try:
-            sb.showMessage(u"Now loading...")
-            QApplication.setOverrideCursor(QCursor(3))
-            te.moveCursor(QTextCursor.End)
-            item.execute(False)
-            text = item.textall
-            if text:
-                view.setHtml(text)
-            else:
-                view.clear()
-
-        except Exception as e:
-            buf = StringIO()
-            traceback.print_exc(file=buf)
-            view.setText(u'%s' % buf.getvalue())
-            buf.close()
-
-        finally:
-            elapsed_time = time.time() - start_time
-            sb.showMessage(u"Done ({0:f} sec)".format(elapsed_time))
-            QApplication.restoreOverrideCursor()
+        self.invokeRequestCommand(Request(item, False))
 
     def onAnchorClicked(self, hottext):
         path = unicode(hottext.toString())
@@ -164,32 +160,13 @@ class Form(QMainWindow):
     def onScrollBarValueChanged(self, value):
         slider = self.ui.textBrowser.verticalScrollBar()
         if value > 0 and value == slider.maximum():
-            sb = self.ui.statusbar
-            te = self.ui.textBrowser
-            view = te
-            start_time = time.time()
-            try:
-                sb.showMessage(u"Now loading...")
-                QApplication.setOverrideCursor(QCursor(3))
-                te.moveCursor(QTextCursor.End)
-                item = self.currentTimeLineItem()
-                assert item is not None
-                text = item.execute(True)
-                view.insertHtml(text)
-
-            except Exception as e:
-                buf = StringIO()
-                traceback.print_exc(file=buf)
-                view.setText(u'%s' % buf.getvalue())
-                buf.close()
-
-            finally:
-                elapsed_time = time.time() - start_time
-                sb.showMessage(u"Done ({0:f} sec)".format(elapsed_time))
-                QApplication.restoreOverrideCursor()
+            item = self.currentTimeLineItem()
+            if not item:
+                return
+            self.invokeRequestCommand(Request(item, True))
 
     def onTimelineRefresh(self):
-        self.requestTwitter(False)
+        self.requestTwitter()
 
     def onUserShow(self):
         QMessageBox.warning(self, u"ユーザーを表示", u"工事中")
