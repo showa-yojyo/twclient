@@ -18,12 +18,9 @@ from PyQt4.QtGui import QTextCursor
 from ui_twclient import Ui_MainWindow
 
 import twformat
-from twmodel.list import List
-from twmodel.usertimeline import UserTimeLine
-from twmodel.search import Search
-import twversion
-
 from twcommand.request import Request
+from twmodel.factory import ItemFactory
+import twversion
 
 CACHE_PATH = './cache'
 
@@ -32,6 +29,7 @@ class Form(QMainWindow):
         super(Form, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.item_factory = ItemFactory()
         self.onInitialUpdate()
 
         tb = self.ui.textBrowser
@@ -57,21 +55,8 @@ class Form(QMainWindow):
 
         data = cb.itemData(i)
         if data.isNull():
-            item = None
             title = unicode(cb.itemText(i))
-            words = title.split(" ")
-            if(words[0] == u"list"):
-                owner_slug = words[1].split(u"/")
-                item = List(owner_slug[0], owner_slug[1])
-
-            elif(words[0] == u"user_timeline"):
-                screen_name = words[1]
-                item = UserTimeLine(screen_name)
-
-            elif(words[0] == u"search"):
-                query = title[len(u'search'):].strip()
-                item = Search(query)
-
+            item = self.item_factory.create(title)
             if item:
                 item.view = self.ui.textBrowser
                 cb.setItemData(i, item)
