@@ -39,7 +39,7 @@ class Form(QMainWindow):
 
     def setupModel(self):
         msg = u"選択してください"
-        model = TimeLineItemModel()
+        model = TimeLineItemModel(self.ui.textBrowser)
         model.setTitles(self.loadTimelineList(), msg)
         self.model = model
 

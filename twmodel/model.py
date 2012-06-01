@@ -6,9 +6,10 @@ from PyQt4.QtGui import QStandardItemModel
 
 class TimeLineItemModel(QStandardItemModel):
 
-    def __init__(self):
+    def __init__(self, view):
         super(TimeLineItemModel, self).__init__(0, 0)
         self.item_factory = ItemFactory()
+        self.view = view
 
     def setTitles(self, titlelist, dummyline):
         self.clear()
@@ -33,6 +34,7 @@ class TimeLineItemModel(QStandardItemModel):
             # lazy-initialize
             title = unicode(curitem.text())
             curdata = self.item_factory.create(title)
+            curdata.view = self.view
             curitem.setData(curdata)
 
         return curdata
