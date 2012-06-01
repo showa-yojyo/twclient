@@ -19,7 +19,7 @@ from ui_twclient import Ui_MainWindow
 
 import twformat
 from twcommand.request import Request
-from twmodel.factory import ItemFactory
+from twmodel.model import TimeLineItemModel
 import twversion
 
 CACHE_PATH = './cache'
@@ -29,19 +29,39 @@ class Form(QMainWindow):
         super(Form, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.item_factory = ItemFactory()
-        self.onInitialUpdate()
 
+        self.setupModel()
+        self.setupComboBox()
+        self.setupBrowser()
+        self.setupStatusBar()
+
+        QtCore.QMetaObject.connectSlotsByName(self)
+
+    def setupModel(self):
+        msg = u"選択してください"
+        model = TimeLineItemModel()
+        model.setTitles(self.loadTimelineList(), msg)
+        self.model = model
+
+    def setupComboBox(self):
+        cb = self.ui.comboBox
+        cb.setModel(self.model)
+
+    def setupBrowser(self):
         tb = self.ui.textBrowser
+        tb.moveCursor(QTextCursor.End)
+        tb.document().setDefaultStyleSheet(twformat.CSS)
         tb.cache_path = CACHE_PATH
-
         slider = tb.verticalScrollBar()
 
         QtCore.QObject.connect(
             slider, QtCore.SIGNAL(u"valueChanged(int)"), self.onScrollBarValueChanged)
         QtCore.QObject.connect(
             tb, QtCore.SIGNAL(u"anchorClicked(QUrl)"), self.onAnchorClicked)
-        QtCore.QMetaObject.connectSlotsByName(self)
+
+    def setupStatusBar(self):
+        sb = self.ui.statusbar
+        sb.showMessage(u'Ready')
 
     def closeEvent(self, event):
         #shutil.rmtree(CACHE_PATH, True)
@@ -50,22 +70,7 @@ class Form(QMainWindow):
     def currentTimeLineItem(self):
         cb = self.ui.comboBox
         i = cb.currentIndex()
-        if i == 0:
-            return None
-
-        data = cb.itemData(i)
-        if data.isNull():
-            title = unicode(cb.itemText(i))
-            item = self.item_factory.create(title)
-            if item:
-                item.view = self.ui.textBrowser
-                cb.setItemData(i, item)
-        else:
-            i = cb.currentIndex()
-            assert i != 0 and i < cb.count()
-            item = cb.itemData(i).toPyObject()
-
-        return item
+        return self.model.assureItemData(i)
 
     def invokeRequestCommand(self, cmd):
         sb = self.ui.statusbar
@@ -89,28 +94,16 @@ class Form(QMainWindow):
             sb.showMessage(u"Done ({0:.3f} sec)".format(elapsed_time))
             QApplication.restoreOverrideCursor()
 
-    def onInitialUpdate(self):
-        cb = self.ui.comboBox
-        msg = u"選択してください"
-
-        ls = QStringList(msg)
-        self.loadTimelineList(ls)
-        cb.addItems(ls)
-
-        te = self.ui.textBrowser
-        te.moveCursor(QTextCursor.End)
-        te.document().setDefaultStyleSheet(twformat.CSS)
-
-        sb = self.ui.statusbar
-        sb.showMessage(msg)
-
-    def loadTimelineList(self, ls):
+    def loadTimelineList(self):
+        ls = QStringList()
         try:
             with codecs.open("timelines.ini", 'r', 'utf-8') as fin:
                 for line in fin:
                     ls.append(line.strip())
         except IOError:
             pass
+
+        return ls
 
     def onComboChanged(self):
         self.requestTwitter()
