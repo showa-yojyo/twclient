@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'twclient.ui'
 #
-# Created: Wed May 30 00:31:16 2012
+# Created: Mon Jun 04 22:37:44 2012
 #      by: PyQt4 UI code generator 4.8.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -45,15 +45,24 @@ class Ui_MainWindow(object):
         self.statusbar = QtGui.QStatusBar(MainWindow)
         self.statusbar.setObjectName(_fromUtf8("statusbar"))
         MainWindow.setStatusBar(self.statusbar)
+        self.toolBar = QtGui.QToolBar(MainWindow)
+        self.toolBar.setIconSize(QtCore.QSize(32, 32))
+        self.toolBar.setObjectName(_fromUtf8("toolBar"))
+        MainWindow.addToolBar(QtCore.Qt.TopToolBarArea, self.toolBar)
         self.actionExit = QtGui.QAction(MainWindow)
         self.actionExit.setObjectName(_fromUtf8("actionExit"))
         self.actionSettings = QtGui.QAction(MainWindow)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/resource/illvelo-32x32.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionSettings.setIcon(icon)
         self.actionSettings.setObjectName(_fromUtf8("actionSettings"))
         self.actionAppAbout = QtGui.QAction(MainWindow)
         self.actionAppAbout.setObjectName(_fromUtf8("actionAppAbout"))
         self.actionRefresh = QtGui.QAction(MainWindow)
+        self.actionRefresh.setIcon(icon)
         self.actionRefresh.setObjectName(_fromUtf8("actionRefresh"))
         self.actionUserShow = QtGui.QAction(MainWindow)
+        self.actionUserShow.setIcon(icon)
         self.actionUserShow.setObjectName(_fromUtf8("actionUserShow"))
         self.menu_D.addAction(self.actionRefresh)
         self.menu_U.addAction(self.actionUserShow)
@@ -65,6 +74,9 @@ class Ui_MainWindow(object):
         self.menu_O.addSeparator()
         self.menu_O.addAction(self.actionExit)
         self.menubar.addAction(self.menu_O.menuAction())
+        self.toolBar.addAction(self.actionRefresh)
+        self.toolBar.addAction(self.actionUserShow)
+        self.toolBar.addAction(self.actionSettings)
 
         self.retranslateUi(MainWindow)
         QtCore.QObject.connect(self.comboBox, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(int)")), MainWindow.onComboChanged)
@@ -80,6 +92,7 @@ class Ui_MainWindow(object):
         self.menu_O.setTitle(QtGui.QApplication.translate("MainWindow", "操作(&O)", None, QtGui.QApplication.UnicodeUTF8))
         self.menu_D.setTitle(QtGui.QApplication.translate("MainWindow", "表示(&D)", None, QtGui.QApplication.UnicodeUTF8))
         self.menu_U.setTitle(QtGui.QApplication.translate("MainWindow", "ユーザー(&U)", None, QtGui.QApplication.UnicodeUTF8))
+        self.toolBar.setWindowTitle(QtGui.QApplication.translate("MainWindow", "toolBar", None, QtGui.QApplication.UnicodeUTF8))
         self.actionExit.setText(QtGui.QApplication.translate("MainWindow", "終了(&X)", None, QtGui.QApplication.UnicodeUTF8))
         self.actionExit.setStatusTip(QtGui.QApplication.translate("MainWindow", "アプリケーションを終了する", None, QtGui.QApplication.UnicodeUTF8))
         self.actionExit.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+Q", None, QtGui.QApplication.UnicodeUTF8))
@@ -95,3 +108,4 @@ class Ui_MainWindow(object):
         self.actionUserShow.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+U", None, QtGui.QApplication.UnicodeUTF8))
 
 from qstatusbrowser import QStatusBrowser
+import twclient_rc
