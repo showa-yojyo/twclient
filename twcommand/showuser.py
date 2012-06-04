@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from twcommand import CommandBase
+from PyQt4.QtGui import QInputDialog
+from PyQt4.QtGui import QLineEdit
 from PyQt4.QtGui import QMessageBox
 
 class ShowUser(CommandBase):
@@ -9,6 +11,20 @@ class ShowUser(CommandBase):
         self.parent = parent
 
     def execute(self):
+        screen_name, ok = QInputDialog.getText(
+            self.parent, 
+            u'ユーザーを表示',
+            u'ユーザーの名前 (screen_name) を入力',
+            QLineEdit.Normal,
+            u'@')
+        if not ok:
+            return
+
+        # QString -> unistr
+        screen_name = unicode(screen_name)
+        if not screen_name.startswith(u'@'):
+            screen_name = '@' + screen_name
+
         QMessageBox.warning(
             self.parent, 
             u"ユーザー詳細を表示", 
