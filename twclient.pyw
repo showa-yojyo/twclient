@@ -19,8 +19,8 @@ from ui_twclient import Ui_MainWindow
 
 import twformat
 from twcommand.request import Request
+from twcommand.about import About
 from twmodel.model import TimeLineItemModel
-import twversion
 
 CACHE_PATH = './cache'
 
@@ -128,9 +128,8 @@ class Form(QMainWindow):
             QDesktopServices.openUrl(hottext)
 
     def onAppAbout(self):
-        QMessageBox.information(
-            self, u"バージョン情報",
-            u"とにかくシンプルな Twitter クライアント\nバージョン {0}".format(twversion.VERSION))
+        cmd = About(self)
+        cmd.execute()
 
     def onAppSettings(self):
         QMessageBox.warning(self, u"設定", u"工事中")
