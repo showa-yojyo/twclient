@@ -20,6 +20,8 @@ from ui_twclient import Ui_MainWindow
 import twformat
 from twcommand.request import Request
 from twcommand.about import About
+from twcommand.preference import Preference
+from twcommand.showuser import ShowUser
 from twmodel.model import TimeLineItemModel
 
 CACHE_PATH = './cache'
@@ -132,7 +134,8 @@ class Form(QMainWindow):
         cmd.execute()
 
     def onAppSettings(self):
-        QMessageBox.warning(self, u"設定", u"工事中")
+        cmd = Preference(self)
+        cmd.execute()
 
     def onScrollBarValueChanged(self, value):
         slider = self.ui.textBrowser.verticalScrollBar()
@@ -146,7 +149,8 @@ class Form(QMainWindow):
         self.requestTwitter()
 
     def onUserShow(self):
-        QMessageBox.warning(self, u"ユーザーを表示", u"工事中")
+        cmd = ShowUser(self)
+        cmd.execute()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
