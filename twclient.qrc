@@ -1,0 +1,5 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource prefix="/">
+  <file>resource/illvelo-32x32.png</file>
+</qresource>
+</RCC>
