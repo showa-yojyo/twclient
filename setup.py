@@ -36,7 +36,7 @@ def main():
     
     setup(
         name='twclient',
-        version='',
+        version=twversion.VERSION,
         description=u'A very simple Twitter client',
         author='yojyo@hotmail.com',
         author_email='yojyo@hotmail.com',
