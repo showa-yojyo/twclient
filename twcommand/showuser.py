@@ -5,6 +5,8 @@ from PyQt4.QtGui import QInputDialog
 from PyQt4.QtGui import QLineEdit
 from PyQt4.QtGui import QMessageBox
 
+from userform import UserForm
+
 class ShowUser(CommandBase):
     def __init__(self, parent):
         super(ShowUser, self).__init__()
@@ -25,7 +27,5 @@ class ShowUser(CommandBase):
         if not screen_name.startswith(u'@'):
             screen_name = '@' + screen_name
 
-        QMessageBox.warning(
-            self.parent, 
-            u"ユーザー詳細を表示", 
-            u"工事中")
+        form = UserForm(self.parent, screen_name)
+        form.show()
