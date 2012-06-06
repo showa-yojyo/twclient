@@ -58,14 +58,14 @@
          <item>
           <widget class="QLabel" name="labelFollows">
            <property name="text">
-            <string>{follows} 人をフォロー</string>
+            <string>&lt;a href=&quot;{follows}&quot;&gt;{follows} 人をフォロー&lt;/a&gt;</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QLabel" name="labelFollowedBy">
            <property name="text">
-            <string>{followed-by} 人がフォロー</string>
+            <string>&lt;a href=&quot;{followed-by}&quot;&gt;{followed-by} 人がフォロー&lt;/a&gt;</string>
            </property>
           </widget>
          </item>
@@ -114,14 +114,14 @@
          <item>
           <widget class="QLabel" name="labelLists">
            <property name="text">
-            <string>公開リスト数 {lists}</string>
+            <string>&lt;a href=&quot;{lists}&quot;&gt;公開リスト数 {lists}&lt;/a&gt;</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QLabel" name="labelListedBy">
            <property name="text">
-            <string>{listed-by} 個のリストにいる</string>
+            <string>&lt;a href=&quot;{listed-by}&quot;&gt;{listed-by} 個のリストにいる&lt;/a&gt;</string>
            </property>
           </widget>
          </item>
@@ -199,5 +199,73 @@
  <resources>
   <include location="twclient.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>labelFollows</sender>
+   <signal>linkActivated(QString)</signal>
+   <receiver>Dialog</receiver>
+   <slot>onLinkActivated()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>133</x>
+     <y>262</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>249</x>
+     <y>319</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>labelFollowedBy</sender>
+   <signal>linkActivated(QString)</signal>
+   <receiver>Dialog</receiver>
+   <slot>onLinkActivated()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>365</x>
+     <y>262</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>249</x>
+     <y>319</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>labelLists</sender>
+   <signal>linkActivated(QString)</signal>
+   <receiver>Dialog</receiver>
+   <slot>onLinkActivated()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>69</x>
+     <y>270</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>249</x>
+     <y>319</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>labelListedBy</sender>
+   <signal>linkActivated(QString)</signal>
+   <receiver>Dialog</receiver>
+   <slot>onLinkActivated()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>69</x>
+     <y>270</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>249</x>
+     <y>319</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>onLinkActivated()</slot>
+ </slots>
 </ui>

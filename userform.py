@@ -35,6 +35,13 @@ class UserForm(QDialog):
 
         self.setupUserProperty()
 
+        self.pagetable = {
+            u'{follows}':(self.ui.stackedWidgetFollower, 0),
+            u'{followed-by}':(self.ui.stackedWidgetFollower, 1),
+            u'{lists}':(self.ui.stackedWidgetList, 0),
+            u'{listed-by}':(self.ui.stackedWidgetList, 1)
+            }
+
         tb = self.ui.textBrowser
         QtCore.QObject.connect(
             tb, QtCore.SIGNAL(u"anchorClicked(QUrl)"), self.onAnchorClicked)
@@ -51,6 +58,12 @@ class UserForm(QDialog):
         else:
             # general URL
             QDesktopServices.openUrl(hottext)
+
+    def onLinkActivated(self, hottext):
+        # changePage
+        if hottext in self.pagetable:
+            page, index = pagetable[hottext]
+            page.setCurrentIndex(index)
 
     def setupUserProperty(self):
         tb = self.ui.textBrowser

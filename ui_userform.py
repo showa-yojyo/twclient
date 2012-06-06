@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'userform.ui'
 #
-# Created: Wed Jun 06 22:41:16 2012
+# Created: Wed Jun 06 23:08:33 2012
 #      by: PyQt4 UI code generator 4.8.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -120,6 +120,10 @@ class Ui_Dialog(object):
         self.tabWidget.setCurrentIndex(0)
         self.stackedWidgetFollower.setCurrentIndex(1)
         self.stackedWidgetList.setCurrentIndex(0)
+        QtCore.QObject.connect(self.labelFollows, QtCore.SIGNAL(_fromUtf8("linkActivated(QString)")), Dialog.onLinkActivated)
+        QtCore.QObject.connect(self.labelFollowedBy, QtCore.SIGNAL(_fromUtf8("linkActivated(QString)")), Dialog.onLinkActivated)
+        QtCore.QObject.connect(self.labelLists, QtCore.SIGNAL(_fromUtf8("linkActivated(QString)")), Dialog.onLinkActivated)
+        QtCore.QObject.connect(self.labelListedBy, QtCore.SIGNAL(_fromUtf8("linkActivated(QString)")), Dialog.onLinkActivated)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
         Dialog.setTabOrder(self.textBrowser, self.tabWidget)
         Dialog.setTabOrder(self.tabWidget, self.listWidgetFollowedBy)
@@ -129,11 +133,11 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         Dialog.setWindowTitle(QtGui.QApplication.translate("Dialog", "{screen_name} - とにかくシンプルな Twitter クライアント", None, QtGui.QApplication.UnicodeUTF8))
-        self.labelFollows.setText(QtGui.QApplication.translate("Dialog", "{follows} 人をフォロー", None, QtGui.QApplication.UnicodeUTF8))
-        self.labelFollowedBy.setText(QtGui.QApplication.translate("Dialog", "{followed-by} 人がフォロー", None, QtGui.QApplication.UnicodeUTF8))
+        self.labelFollows.setText(QtGui.QApplication.translate("Dialog", "<a href=\"{follows}\">{follows} 人をフォロー</a>", None, QtGui.QApplication.UnicodeUTF8))
+        self.labelFollowedBy.setText(QtGui.QApplication.translate("Dialog", "<a href=\"{followed-by}\">{followed-by} 人がフォロー</a>", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabFollow), QtGui.QApplication.translate("Dialog", "フォロー", None, QtGui.QApplication.UnicodeUTF8))
-        self.labelLists.setText(QtGui.QApplication.translate("Dialog", "公開リスト数 {lists}", None, QtGui.QApplication.UnicodeUTF8))
-        self.labelListedBy.setText(QtGui.QApplication.translate("Dialog", "{listed-by} 個のリストにいる", None, QtGui.QApplication.UnicodeUTF8))
+        self.labelLists.setText(QtGui.QApplication.translate("Dialog", "<a href=\"{lists}\">公開リスト数 {lists}</a>", None, QtGui.QApplication.UnicodeUTF8))
+        self.labelListedBy.setText(QtGui.QApplication.translate("Dialog", "<a href=\"{listed-by}\">{listed-by} 個のリストにいる</a>", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabList), QtGui.QApplication.translate("Dialog", "リスト", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabFav), QtGui.QApplication.translate("Dialog", "Favorites", None, QtGui.QApplication.UnicodeUTF8))
 
