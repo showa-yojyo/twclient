@@ -9,13 +9,13 @@ from ui_userform import Ui_Dialog
 USER_PROPERTY_HTML = u'''
 <table width="100%">
   <tr>
-    <td valign="top" width="130">
+    <td valign="top" width="{image_size}">
       <img src="{profile_image_url}" width="{image_size}" height="{image_size}" />
     </td>
     <td>
       <h1>{name}</h1>
       <h2>{location}</h2>
-      <h3><a href="{url}">{url}</a></h3>
+      {url}
       <p>{description}</p>
     </td>
   </tr>
@@ -23,14 +23,14 @@ USER_PROPERTY_HTML = u'''
 '''
 
 class UserForm(QDialog):
-    def __init__(self, parent, screen_name):
+    def __init__(self, parent, response):
         super(UserForm, self).__init__(parent)
-        self.screen_name = screen_name
+        self.response = response
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
 
         title = unicode(self.windowTitle())
-        title = title.format(screen_name=self.screen_name)
+        title = title.format(screen_name=self.response['screen_name'])
         self.setWindowTitle(title)
 
         self.setupUserProperty()
@@ -67,13 +67,26 @@ class UserForm(QDialog):
 
     def setupUserProperty(self):
         tb = self.ui.textBrowser
+        res = self.response
 
+        # TODO: GET users/profile_image 
         kwargs = dict(
-            profile_image_url=u'dummy',
-            image_size=128,
-            name=u'プレハブ小屋',
-            location=u'東京都区内',
-            url=u'http://www.geocities.jp/showa_yojyo/',
-            description=u'実は電子の世界の人で現実には存在しない。')
-        
+            profile_image_url=res[u'profile_image_url_https'],
+            image_size=48,
+            location=res[u'location'],
+            name=res[u'name'],
+            description=res[u'description'])
+
+        if res[u'url']:
+            kwargs['url'] = '''<h3><a href="{url}">{url}</a></h3>'''.format(url=res['url'])
+        else:
+            kwargs['url'] = ''
+
         tb.setHtml(USER_PROPERTY_HTML.format(**kwargs))
+
+        # Follow tab
+        format_label(self.ui.labelFollows, follows=self.response['friends_count'])
+        format_label(self.ui.labelFollowedBy, followed_by=self.response['followers_count'])
+
+def format_label(label, **kwargs):
+    label.setText(unicode(label.text()).format(**kwargs))

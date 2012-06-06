@@ -4,7 +4,7 @@ from twcommand import CommandBase
 from PyQt4.QtGui import QInputDialog
 from PyQt4.QtGui import QLineEdit
 from PyQt4.QtGui import QMessageBox
-
+from twitter import Twitter, NoAuth
 from userform import UserForm
 
 class ShowUser(CommandBase):
@@ -18,14 +18,26 @@ class ShowUser(CommandBase):
             u'ユーザーを表示',
             u'ユーザーの名前 (screen_name) を入力',
             QLineEdit.Normal,
-            u'@')
+            u'showa_yojyo')
         if not ok:
             return
 
         # QString -> unistr
         screen_name = unicode(screen_name)
-        if not screen_name.startswith(u'@'):
-            screen_name = '@' + screen_name
+        if screen_name.startswith(u'@'):
+            screen_name = screen_name[1:]
 
-        form = UserForm(self.parent, screen_name)
+        # Request GET users/show for Twitter API
+        response = request_users_show(screen_name)
+
+        # Display
+        form = UserForm(self.parent, response)
         form.show()
+
+def request_users_show(screen_name):
+    auth = NoAuth()
+    api = Twitter(auth=auth)
+    kwargs = dict(
+        screen_name=screen_name,
+        entities=1)
+    return api.users.show(**kwargs)

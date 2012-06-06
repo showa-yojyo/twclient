@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'userform.ui'
 #
-# Created: Wed Jun 06 23:08:33 2012
+# Created: Thu Jun 07 01:01:48 2012
 #      by: PyQt4 UI code generator 4.8.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -134,7 +134,7 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         Dialog.setWindowTitle(QtGui.QApplication.translate("Dialog", "{screen_name} - とにかくシンプルな Twitter クライアント", None, QtGui.QApplication.UnicodeUTF8))
         self.labelFollows.setText(QtGui.QApplication.translate("Dialog", "<a href=\"{follows}\">{follows} 人をフォロー</a>", None, QtGui.QApplication.UnicodeUTF8))
-        self.labelFollowedBy.setText(QtGui.QApplication.translate("Dialog", "<a href=\"{followed-by}\">{followed-by} 人がフォロー</a>", None, QtGui.QApplication.UnicodeUTF8))
+        self.labelFollowedBy.setText(QtGui.QApplication.translate("Dialog", "<a href=\"{followed_by}\">{followed_by} 人がフォロー</a>", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabFollow), QtGui.QApplication.translate("Dialog", "フォロー", None, QtGui.QApplication.UnicodeUTF8))
         self.labelLists.setText(QtGui.QApplication.translate("Dialog", "<a href=\"{lists}\">公開リスト数 {lists}</a>", None, QtGui.QApplication.UnicodeUTF8))
         self.labelListedBy.setText(QtGui.QApplication.translate("Dialog", "<a href=\"{listed-by}\">{listed-by} 個のリストにいる</a>", None, QtGui.QApplication.UnicodeUTF8))

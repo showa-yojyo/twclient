@@ -65,7 +65,7 @@
          <item>
           <widget class="QLabel" name="labelFollowedBy">
            <property name="text">
-            <string>&lt;a href=&quot;{followed-by}&quot;&gt;{followed-by} 人がフォロー&lt;/a&gt;</string>
+            <string>&lt;a href=&quot;{followed_by}&quot;&gt;{followed_by} 人がフォロー&lt;/a&gt;</string>
            </property>
           </widget>
          </item>
