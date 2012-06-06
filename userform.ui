@@ -44,20 +44,138 @@
        <height>32</height>
       </size>
      </property>
-     <widget class="QWidget" name="tabTimeLine">
-      <attribute name="title">
-       <string>Time-line</string>
+     <widget class="QWidget" name="tabFollow">
+      <attribute name="icon">
+       <iconset resource="twclient.qrc">
+        <normaloff>:/resource/illvelo-32x32.png</normaloff>:/resource/illvelo-32x32.png</iconset>
       </attribute>
+      <attribute name="title">
+       <string>フォロー</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QLabel" name="labelFollows">
+           <property name="text">
+            <string>{follows} 人をフォロー</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="labelFollowedBy">
+           <property name="text">
+            <string>{followed-by} 人がフォロー</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QStackedWidget" name="stackedWidgetFollower">
+         <property name="currentIndex">
+          <number>1</number>
+         </property>
+         <widget class="QWidget" name="pageFollows">
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <property name="margin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QListWidget" name="listWidgetFollows"/>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="pageFollowedBy">
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <property name="margin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QListWidget" name="listWidgetFollowedBy"/>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </item>
+      </layout>
      </widget>
      <widget class="QWidget" name="tabList">
-      <attribute name="title">
-       <string>Lists</string>
+      <attribute name="icon">
+       <iconset resource="twclient.qrc">
+        <normaloff>:/resource/illvelo-32x32.png</normaloff>:/resource/illvelo-32x32.png</iconset>
       </attribute>
+      <attribute name="title">
+       <string>リスト</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QLabel" name="labelLists">
+           <property name="text">
+            <string>公開リスト数 {lists}</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="labelListedBy">
+           <property name="text">
+            <string>{listed-by} 個のリストにいる</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QStackedWidget" name="stackedWidgetList">
+         <property name="currentIndex">
+          <number>0</number>
+         </property>
+         <widget class="QWidget" name="pageLists">
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <property name="margin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QListWidget" name="listWidgetLists"/>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="pageListedBy">
+          <layout class="QVBoxLayout" name="verticalLayout_7">
+           <property name="margin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QListWidget" name="listWidgetListedBy"/>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </item>
+      </layout>
      </widget>
      <widget class="QWidget" name="tabFav">
+      <attribute name="icon">
+       <iconset resource="twclient.qrc">
+        <normaloff>:/resource/illvelo-32x32.png</normaloff>:/resource/illvelo-32x32.png</iconset>
+      </attribute>
       <attribute name="title">
        <string>Favorites</string>
       </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <property name="margin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QStatusBrowser" name="textBrowserFav">
+         <property name="openLinks">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </widget>
    </item>
@@ -70,6 +188,16 @@
    <header>qstatusbrowser.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <tabstops>
+  <tabstop>textBrowser</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>listWidgetFollowedBy</tabstop>
+  <tabstop>listWidgetLists</tabstop>
+  <tabstop>textBrowserFav</tabstop>
+  <tabstop>listWidgetFollows</tabstop>
+ </tabstops>
+ <resources>
+  <include location="twclient.qrc"/>
+ </resources>
  <connections/>
 </ui>
