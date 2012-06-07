@@ -15,7 +15,7 @@ class QStatusBrowser(QtGui.QTextBrowser):
 
     def loadResource(self, type, name):
         url = unicode(name.toString())
-        if url.startswith('http://'):
+        if url.startswith('http://') or url.startswith('https://'):
             dn = self.cache_path
             if not os.path.isdir(dn):
                 os.mkdir(dn)
