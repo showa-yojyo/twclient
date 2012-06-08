@@ -37,8 +37,6 @@ class Form(QMainWindow):
         self.setupBrowser()
         self.setupStatusBar()
 
-        QtCore.QMetaObject.connectSlotsByName(self)
-
     def setupModel(self):
         msg = u"選択してください"
         model = TimeLineItemModel(self.ui.textBrowser)
@@ -55,11 +53,8 @@ class Form(QMainWindow):
         tb.document().setDefaultStyleSheet(twformat.CSS)
         tb.cache_path = CACHE_PATH
         slider = tb.verticalScrollBar()
-
-        QtCore.QObject.connect(
-            slider, QtCore.SIGNAL(u"valueChanged(int)"), self.onScrollBarValueChanged)
-        QtCore.QObject.connect(
-            tb, QtCore.SIGNAL(u"anchorClicked(QUrl)"), self.onAnchorClicked)
+        slider.valueChanged.connect(self.onScrollBarValueChanged)
+        tb.anchorClicked.connect(self.onAnchorClicked)
 
     def setupStatusBar(self):
         sb = self.ui.statusbar
