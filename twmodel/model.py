@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from twmodel.factory import ItemFactory
+from PyQt4.QtCore import Qt
 from PyQt4.QtGui import QStandardItem
 from PyQt4.QtGui import QStandardItemModel
 
@@ -22,6 +23,17 @@ class TimeLineItemModel(QStandardItemModel):
             item = QStandardItem(title)
             item.setData(None)
             self.appendRow(item)
+
+    def assureSearchHashTag(self, hashtag):
+        cmdline = u'search #{0}'.format(hashtag)
+        result = self.findItems(cmdline, Qt.MatchFixedString)
+        if result:
+            return result[0]
+        else:
+            item = QStandardItem(cmdline)
+            item.setData(None)
+            self.appendRow(item)
+            return item
 
     def assureItemData(self, index):
         if index == 0:
