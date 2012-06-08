@@ -8,22 +8,25 @@ from twitter import Twitter, NoAuth
 from userform import UserForm
 
 class ShowUser(CommandBase):
-    def __init__(self, parent):
+    def __init__(self, parent, screen_name = None):
         super(ShowUser, self).__init__()
         self.parent = parent
+        self.screen_name = screen_name
 
     def execute(self):
-        screen_name, ok = QInputDialog.getText(
-            self.parent, 
-            u'ユーザーを表示',
-            u'ユーザーの名前 (screen_name) を入力',
-            QLineEdit.Normal,
-            u'showa_yojyo')
-        if not ok:
-            return
+        if not self.screen_name:
+            screen_name, ok = QInputDialog.getText(
+                self.parent, 
+                u'ユーザーを表示',
+                u'ユーザーの名前 (screen_name) を入力',
+                QLineEdit.Normal,
+                u'showa_yojyo')
+            if not ok:
+                return
+            self.screen_name = unicode(screen_name)
 
         # QString -> unistr
-        screen_name = unicode(screen_name)
+        screen_name = self.screen_name
         if screen_name.startswith(u'@'):
             screen_name = screen_name[1:]
 

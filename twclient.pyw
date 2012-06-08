@@ -121,9 +121,12 @@ class Form(QMainWindow):
             item = model.assureSearchHashTag(hashtag)
             self.ui.comboBox.setCurrentIndex(item.index().row())
 
-        elif path.startswith(u'chrome://user_mention'):
+        elif path.startswith(u'chrome://user_mention/'):
             # screen_name
-            QMessageBox.information(self, u"User Property", u"TODO: Display %s's user_timeline" % path)
+            screen_name = path[len(u'chrome://user_mention/'):]
+            cmd = ShowUser(self, screen_name)
+            cmd.execute()
+
         else:
             # general URL
             QDesktopServices.openUrl(hottext)
