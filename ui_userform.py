@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'userform.ui'
 #
-# Created: Thu Jun 07 01:01:48 2012
+# Created: Sun Jun 10 07:23:16 2012
 #      by: PyQt4 UI code generator 4.8.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -24,10 +24,10 @@ class Ui_Dialog(object):
         self.gridLayout.setHorizontalSpacing(0)
         self.gridLayout.setVerticalSpacing(6)
         self.gridLayout.setObjectName(_fromUtf8("gridLayout"))
-        self.textBrowser = QStatusBrowser(Dialog)
-        self.textBrowser.setOpenLinks(False)
-        self.textBrowser.setObjectName(_fromUtf8("textBrowser"))
-        self.gridLayout.addWidget(self.textBrowser, 0, 0, 1, 1)
+        self.textBrowserUser = QStatusBrowser(Dialog)
+        self.textBrowserUser.setOpenLinks(False)
+        self.textBrowserUser.setObjectName(_fromUtf8("textBrowserUser"))
+        self.gridLayout.addWidget(self.textBrowserUser, 0, 0, 1, 1)
         self.tabWidget = QtGui.QTabWidget(Dialog)
         self.tabWidget.setIconSize(QtCore.QSize(32, 32))
         self.tabWidget.setObjectName(_fromUtf8("tabWidget"))
@@ -37,6 +37,9 @@ class Ui_Dialog(object):
         self.verticalLayout_2.setObjectName(_fromUtf8("verticalLayout_2"))
         self.horizontalLayout = QtGui.QHBoxLayout()
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
+        self.labelUpdates = QtGui.QLabel(self.tabFollow)
+        self.labelUpdates.setObjectName(_fromUtf8("labelUpdates"))
+        self.horizontalLayout.addWidget(self.labelUpdates)
         self.labelFollows = QtGui.QLabel(self.tabFollow)
         self.labelFollows.setObjectName(_fromUtf8("labelFollows"))
         self.horizontalLayout.addWidget(self.labelFollows)
@@ -46,6 +49,16 @@ class Ui_Dialog(object):
         self.verticalLayout_2.addLayout(self.horizontalLayout)
         self.stackedWidgetFollower = QtGui.QStackedWidget(self.tabFollow)
         self.stackedWidgetFollower.setObjectName(_fromUtf8("stackedWidgetFollower"))
+        self.pageStatusUpdates = QtGui.QWidget()
+        self.pageStatusUpdates.setObjectName(_fromUtf8("pageStatusUpdates"))
+        self.verticalLayout_8 = QtGui.QVBoxLayout(self.pageStatusUpdates)
+        self.verticalLayout_8.setMargin(0)
+        self.verticalLayout_8.setObjectName(_fromUtf8("verticalLayout_8"))
+        self.textBrowserStatusUpdates = QStatusBrowser(self.pageStatusUpdates)
+        self.textBrowserStatusUpdates.setOpenLinks(False)
+        self.textBrowserStatusUpdates.setObjectName(_fromUtf8("textBrowserStatusUpdates"))
+        self.verticalLayout_8.addWidget(self.textBrowserStatusUpdates)
+        self.stackedWidgetFollower.addWidget(self.pageStatusUpdates)
         self.pageFollows = QtGui.QWidget()
         self.pageFollows.setObjectName(_fromUtf8("pageFollows"))
         self.verticalLayout_3 = QtGui.QVBoxLayout(self.pageFollows)
@@ -118,28 +131,30 @@ class Ui_Dialog(object):
 
         self.retranslateUi(Dialog)
         self.tabWidget.setCurrentIndex(0)
-        self.stackedWidgetFollower.setCurrentIndex(1)
+        self.stackedWidgetFollower.setCurrentIndex(0)
         self.stackedWidgetList.setCurrentIndex(0)
         QtCore.QObject.connect(self.labelFollows, QtCore.SIGNAL(_fromUtf8("linkActivated(QString)")), Dialog.onLinkActivated)
         QtCore.QObject.connect(self.labelFollowedBy, QtCore.SIGNAL(_fromUtf8("linkActivated(QString)")), Dialog.onLinkActivated)
         QtCore.QObject.connect(self.labelLists, QtCore.SIGNAL(_fromUtf8("linkActivated(QString)")), Dialog.onLinkActivated)
         QtCore.QObject.connect(self.labelListedBy, QtCore.SIGNAL(_fromUtf8("linkActivated(QString)")), Dialog.onLinkActivated)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
-        Dialog.setTabOrder(self.textBrowser, self.tabWidget)
-        Dialog.setTabOrder(self.tabWidget, self.listWidgetFollowedBy)
+        Dialog.setTabOrder(self.textBrowserUser, self.tabWidget)
+        Dialog.setTabOrder(self.tabWidget, self.listWidgetFollows)
+        Dialog.setTabOrder(self.listWidgetFollows, self.listWidgetFollowedBy)
         Dialog.setTabOrder(self.listWidgetFollowedBy, self.listWidgetLists)
-        Dialog.setTabOrder(self.listWidgetLists, self.textBrowserFav)
-        Dialog.setTabOrder(self.textBrowserFav, self.listWidgetFollows)
+        Dialog.setTabOrder(self.listWidgetLists, self.listWidgetListedBy)
+        Dialog.setTabOrder(self.listWidgetListedBy, self.textBrowserFav)
 
     def retranslateUi(self, Dialog):
-        Dialog.setWindowTitle(QtGui.QApplication.translate("Dialog", "{screen_name} - とにかくシンプルな Twitter クライアント", None, QtGui.QApplication.UnicodeUTF8))
+        Dialog.setWindowTitle(QtGui.QApplication.translate("Dialog", "@{screen_name} - とにかくシンプルな Twitter クライアント", None, QtGui.QApplication.UnicodeUTF8))
+        self.labelUpdates.setText(QtGui.QApplication.translate("Dialog", "<a href=\"{updates}\">{updates} ツイート</a>", None, QtGui.QApplication.UnicodeUTF8))
         self.labelFollows.setText(QtGui.QApplication.translate("Dialog", "<a href=\"{follows}\">{follows} 人をフォロー</a>", None, QtGui.QApplication.UnicodeUTF8))
         self.labelFollowedBy.setText(QtGui.QApplication.translate("Dialog", "<a href=\"{followed_by}\">{followed_by} 人がフォロー</a>", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabFollow), QtGui.QApplication.translate("Dialog", "フォロー", None, QtGui.QApplication.UnicodeUTF8))
         self.labelLists.setText(QtGui.QApplication.translate("Dialog", "<a href=\"{lists}\">公開リスト数 {lists}</a>", None, QtGui.QApplication.UnicodeUTF8))
         self.labelListedBy.setText(QtGui.QApplication.translate("Dialog", "<a href=\"{listed-by}\">{listed-by} 個のリストにいる</a>", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabList), QtGui.QApplication.translate("Dialog", "リスト", None, QtGui.QApplication.UnicodeUTF8))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabFav), QtGui.QApplication.translate("Dialog", "Favorites", None, QtGui.QApplication.UnicodeUTF8))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabFav), QtGui.QApplication.translate("Dialog", "お気に入り", None, QtGui.QApplication.UnicodeUTF8))
 
 from qstatusbrowser import QStatusBrowser
 import twclient_rc

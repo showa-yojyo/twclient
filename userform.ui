@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>{screen_name} - とにかくシンプルな Twitter クライアント</string>
+   <string>@{screen_name} - とにかくシンプルな Twitter クライアント</string>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -27,7 +27,7 @@
     <number>9</number>
    </property>
    <item row="0" column="0">
-    <widget class="QStatusBrowser" name="textBrowser">
+    <widget class="QStatusBrowser" name="textBrowserUser">
      <property name="openLinks">
       <bool>false</bool>
      </property>
@@ -56,6 +56,13 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
+          <widget class="QLabel" name="labelUpdates">
+           <property name="text">
+            <string>&lt;a href=&quot;{updates}&quot;&gt;{updates} ツイート&lt;/a&gt;</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QLabel" name="labelFollows">
            <property name="text">
             <string>&lt;a href=&quot;{follows}&quot;&gt;{follows} 人をフォロー&lt;/a&gt;</string>
@@ -74,8 +81,22 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidgetFollower">
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
+         <widget class="QWidget" name="pageStatusUpdates">
+          <layout class="QVBoxLayout" name="verticalLayout_8">
+           <property name="margin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QStatusBrowser" name="textBrowserStatusUpdates">
+             <property name="openLinks">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
          <widget class="QWidget" name="pageFollows">
           <layout class="QVBoxLayout" name="verticalLayout_3">
            <property name="margin">
@@ -162,7 +183,7 @@
         <normaloff>:/resource/illvelo-32x32.png</normaloff>:/resource/illvelo-32x32.png</iconset>
       </attribute>
       <attribute name="title">
-       <string>Favorites</string>
+       <string>お気に入り</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout">
        <property name="margin">
@@ -189,12 +210,13 @@
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>textBrowser</tabstop>
+  <tabstop>textBrowserUser</tabstop>
   <tabstop>tabWidget</tabstop>
+  <tabstop>listWidgetFollows</tabstop>
   <tabstop>listWidgetFollowedBy</tabstop>
   <tabstop>listWidgetLists</tabstop>
+  <tabstop>listWidgetListedBy</tabstop>
   <tabstop>textBrowserFav</tabstop>
-  <tabstop>listWidgetFollows</tabstop>
  </tabstops>
  <resources>
   <include location="twclient.qrc"/>

@@ -36,15 +36,16 @@ class UserForm(QDialog):
         self.setupUserProperty()
 
         self.pagetable = {
-            u'{follows}':(self.ui.stackedWidgetFollower, 0),
-            u'{followed-by}':(self.ui.stackedWidgetFollower, 1),
+            u'{updates}':(self.ui.stackedWidgetFollower, 0),
+            u'{follows}':(self.ui.stackedWidgetFollower, 1),
+            u'{followed-by}':(self.ui.stackedWidgetFollower, 2),
             u'{lists}':(self.ui.stackedWidgetList, 0),
             u'{listed-by}':(self.ui.stackedWidgetList, 1)
             }
 
-        tb = self.ui.textBrowser
-        QtCore.QObject.connect(
-            tb, QtCore.SIGNAL(u"anchorClicked(QUrl)"), self.onAnchorClicked)
+        self.ui.textBrowserUser.anchorClicked.connect(self.onAnchorClicked)
+        self.ui.textBrowserStatusUpdates.anchorClicked.connect(self.onAnchorClicked)
+        self.ui.textBrowserFav.anchorClicked.connect(self.onAnchorClicked)
 
     def onAnchorClicked(self, hottext):
         path = unicode(hottext.toString())
@@ -66,7 +67,7 @@ class UserForm(QDialog):
             page.setCurrentIndex(index)
 
     def setupUserProperty(self):
-        tb = self.ui.textBrowser
+        tb = self.ui.textBrowserUser
         res = self.response
 
         # TODO: GET users/profile_image 
@@ -85,6 +86,7 @@ class UserForm(QDialog):
         tb.setHtml(USER_PROPERTY_HTML.format(**kwargs))
 
         # Follow tab
+        format_label(self.ui.labelUpdates, updates=self.response['statuses_count'])
         format_label(self.ui.labelFollows, follows=self.response['friends_count'])
         format_label(self.ui.labelFollowedBy, followed_by=self.response['followers_count'])
 
