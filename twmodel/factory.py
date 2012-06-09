@@ -3,7 +3,9 @@
 from twmodel.list import List
 from twmodel.usertimeline import UserTimeLine
 from twmodel.search import Search
+from twmodel.favorites import Favorites
 
+# かなりの可能性でクラスにしないほうがよさそうだ
 class ItemFactory(object):
     def create(self, cmdline):
         item = None
@@ -19,5 +21,10 @@ class ItemFactory(object):
         elif(words[0] == u"search"):
             query = cmdline[len(u'search'):].strip()
             item = Search(query)
+
+        elif(words[0] == u"favorites"):
+            # favorites screen_name
+            screen_name = words[1]
+            item = Favorites(screen_name)
 
         return item
