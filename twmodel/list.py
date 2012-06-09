@@ -32,6 +32,6 @@ def request_lists_statuses(owner_screen_name, slug, max_id, min_id):
     if max_id is not None:
         kwargs['max_id'] = max_id
     if min_id is not None:
-        kwargs['min_id'] = min_id
+        kwargs['since_id'] = min_id
 
     return api.lists.statuses(**kwargs)
