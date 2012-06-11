@@ -7,6 +7,9 @@ from PyQt4.QtGui import QMessageBox
 from ui_userform import Ui_Dialog
 from twmodel.account import Account
 
+# TODO: 共通化
+CACHE_PATH = r'.\cache'
+
 USER_PROPERTY_HTML = u'''
 <table width="100%">
   <tr>
@@ -45,9 +48,9 @@ class UserForm(QDialog):
             u'listed_by':(self.ui.stackedWidgetList, 1)
             }
 
-        self.ui.textBrowserUser.anchorClicked.connect(self.onAnchorClicked)
-        self.ui.textBrowserStatusUpdates.anchorClicked.connect(self.onAnchorClicked)
-        self.ui.textBrowserFav.anchorClicked.connect(self.onAnchorClicked)
+        self.setupStatusBrowser(self.ui.textBrowserUser)
+        self.setupStatusBrowser(self.ui.textBrowserStatusUpdates)
+        self.setupStatusBrowser(self.ui.textBrowserFav)
 
         self.ui.stackedWidgetFollower.currentChanged.connect(self.onStackChanged)
         self.ui.stackedWidgetList.currentChanged.connect(self.onStackChanged)
@@ -75,6 +78,10 @@ class UserForm(QDialog):
 
     def onStackChanged(self, index):
         print index
+
+    def setupStatusBrowser(self, tb):
+        tb.anchorClicked.connect(self.onAnchorClicked)
+        tb.cache_path = CACHE_PATH
 
     def setupUserProperty(self):
         tb = self.ui.textBrowserUser

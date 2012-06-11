@@ -2,6 +2,7 @@
 
 # Borrowed from:
 # http://lateral.netmanagers.com.ar/weblog/posts/BB568.html
+# http://www.qtcentre.org/archive/index.php/t-5155.html
 
 from PyQt4 import QtCore
 from PyQt4 import QtGui
@@ -23,7 +24,11 @@ class QStatusBrowser(QtGui.QTextBrowser):
             fn = os.path.join(dn, hashlib.md5(url).hexdigest())
             if not os.path.isfile(fn):
                 urllib.urlretrieve(url, fn)
-            return super(QStatusBrowser, self).loadResource(type, QtCore.QUrl(fn))
+
+            # Note: super() seems not to work since PyQt 4.9.1.
+            #return super(QStatusBrowser, self).loadResource(type, QtCore.QUrl(fn))
+            img = QtGui.QImage(fn)
+            return QtCore.QVariant(img)
         else:
             return super(QStatusBrowser, self).loadResource(type, name)
 
