@@ -5,6 +5,7 @@ from PyQt4.QtGui import QDesktopServices
 from PyQt4.QtGui import QDialog
 from PyQt4.QtGui import QMessageBox
 from ui_userform import Ui_Dialog
+from twmodel.account import Account
 
 USER_PROPERTY_HTML = u'''
 <table width="100%">
@@ -23,29 +24,33 @@ USER_PROPERTY_HTML = u'''
 '''
 
 class UserForm(QDialog):
-    def __init__(self, parent, response):
+    def __init__(self, parent, users_show):
         super(UserForm, self).__init__(parent)
-        self.response = response
+        self.account = Account(users_show)
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
 
+        users_show = self.account.users_show
         title = unicode(self.windowTitle())
-        title = title.format(screen_name=self.response['screen_name'])
+        title = title.format(screen_name=users_show['screen_name'])
         self.setWindowTitle(title)
 
         self.setupUserProperty()
 
         self.pagetable = {
-            u'{updates}':(self.ui.stackedWidgetFollower, 0),
-            u'{follows}':(self.ui.stackedWidgetFollower, 1),
-            u'{followed-by}':(self.ui.stackedWidgetFollower, 2),
-            u'{lists}':(self.ui.stackedWidgetList, 0),
-            u'{listed-by}':(self.ui.stackedWidgetList, 1)
+            u'updates':(self.ui.stackedWidgetFollower, 0),
+            u'follows':(self.ui.stackedWidgetFollower, 1),
+            u'followed_by':(self.ui.stackedWidgetFollower, 2),
+            u'lists':(self.ui.stackedWidgetList, 0),
+            u'listed_by':(self.ui.stackedWidgetList, 1)
             }
 
         self.ui.textBrowserUser.anchorClicked.connect(self.onAnchorClicked)
         self.ui.textBrowserStatusUpdates.anchorClicked.connect(self.onAnchorClicked)
         self.ui.textBrowserFav.anchorClicked.connect(self.onAnchorClicked)
+
+        self.ui.stackedWidgetFollower.currentChanged.connect(self.onStackChanged)
+        self.ui.stackedWidgetList.currentChanged.connect(self.onStackChanged)
 
     def onAnchorClicked(self, hottext):
         path = unicode(hottext.toString())
@@ -60,15 +65,20 @@ class UserForm(QDialog):
             # general URL
             QDesktopServices.openUrl(hottext)
 
-    def onLinkActivated(self, hottext):
+    def onLinkActivated(self, href):
         # changePage
-        if hottext in self.pagetable:
-            page, index = pagetable[hottext]
+        href = unicode(href)
+        if href in self.pagetable:
+            page, index = self.pagetable[href]
             page.setCurrentIndex(index)
+            print 'setCurrentIndex', page, index
+
+    def onStackChanged(self, index):
+        print index
 
     def setupUserProperty(self):
         tb = self.ui.textBrowserUser
-        res = self.response
+        res = self.account.users_show
 
         # TODO: GET users/profile_image 
         kwargs = dict(
@@ -86,9 +96,10 @@ class UserForm(QDialog):
         tb.setHtml(USER_PROPERTY_HTML.format(**kwargs))
 
         # Follow tab
-        format_label(self.ui.labelUpdates, updates=self.response['statuses_count'])
-        format_label(self.ui.labelFollows, follows=self.response['friends_count'])
-        format_label(self.ui.labelFollowedBy, followed_by=self.response['followers_count'])
+        users_show = self.account.users_show
+        format_label(self.ui.labelUpdates, updates=users_show['statuses_count'])
+        format_label(self.ui.labelFollows, follows=users_show['friends_count'])
+        format_label(self.ui.labelFollowedBy, followed_by=users_show['followers_count'])
 
 def format_label(label, **kwargs):
     label.setText(unicode(label.text()).format(**kwargs))

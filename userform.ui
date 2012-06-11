@@ -58,21 +58,21 @@
          <item>
           <widget class="QLabel" name="labelUpdates">
            <property name="text">
-            <string>&lt;a href=&quot;{updates}&quot;&gt;{updates} ツイート&lt;/a&gt;</string>
+            <string>&lt;a href=&quot;updates&quot;&gt;{updates} ツイート&lt;/a&gt;</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QLabel" name="labelFollows">
            <property name="text">
-            <string>&lt;a href=&quot;{follows}&quot;&gt;{follows} 人をフォロー&lt;/a&gt;</string>
+            <string>&lt;a href=&quot;follows&quot;&gt;{follows} 人をフォロー&lt;/a&gt;</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QLabel" name="labelFollowedBy">
            <property name="text">
-            <string>&lt;a href=&quot;{followed_by}&quot;&gt;{followed_by} 人がフォロー&lt;/a&gt;</string>
+            <string>&lt;a href=&quot;followed_by&quot;&gt;{followed_by} 人がフォロー&lt;/a&gt;</string>
            </property>
           </widget>
          </item>
@@ -135,14 +135,14 @@
          <item>
           <widget class="QLabel" name="labelLists">
            <property name="text">
-            <string>&lt;a href=&quot;{lists}&quot;&gt;公開リスト数 {lists}&lt;/a&gt;</string>
+            <string>&lt;a href=&quot;lists&quot;&gt;公開リスト数 {lists}&lt;/a&gt;</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QLabel" name="labelListedBy">
            <property name="text">
-            <string>&lt;a href=&quot;{listed-by}&quot;&gt;{listed-by} 個のリストにいる&lt;/a&gt;</string>
+            <string>&lt;a href=&quot;listed_by&quot;&gt;{listed_by} 個のリストにいる&lt;/a&gt;</string>
            </property>
           </widget>
          </item>
@@ -279,6 +279,22 @@
     <hint type="sourcelabel">
      <x>69</x>
      <y>270</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>249</x>
+     <y>319</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>labelUpdates</sender>
+   <signal>linkActivated(QString)</signal>
+   <receiver>Dialog</receiver>
+   <slot>onLinkActivated()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>95</x>
+     <y>262</y>
     </hint>
     <hint type="destinationlabel">
      <x>249</x>
