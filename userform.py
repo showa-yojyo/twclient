@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 
 from PyQt4 import QtCore
+from PyQt4.QtGui import QColor
 from PyQt4.QtGui import QDesktopServices
 from PyQt4.QtGui import QDialog
+from PyQt4.QtGui import QIcon
+from PyQt4.QtGui import QListWidgetItem
 from PyQt4.QtGui import QMessageBox
+from PyQt4.QtGui import QPixmap
 from ui_userform import Ui_Dialog
 from twmodel.account import Account
 
@@ -52,8 +56,8 @@ class UserForm(QDialog):
         self.setupStatusBrowser(self.ui.textBrowserStatusUpdates)
         self.setupStatusBrowser(self.ui.textBrowserFav)
 
-        self.ui.stackedWidgetFollower.currentChanged.connect(self.onStackChanged)
-        self.ui.stackedWidgetList.currentChanged.connect(self.onStackChanged)
+        self.ui.stackedWidgetFollower.currentChanged.connect(self.onStackChangedFollower)
+        self.ui.stackedWidgetList.currentChanged.connect(self.onStackChangedList)
 
     def onAnchorClicked(self, hottext):
         path = unicode(hottext.toString())
@@ -73,11 +77,56 @@ class UserForm(QDialog):
         href = unicode(href)
         if href in self.pagetable:
             page, index = self.pagetable[href]
-            page.setCurrentIndex(index)
-            print 'setCurrentIndex', page, index
+            #page.setCurrentIndex(index)
+            #print 'setCurrentIndex', page, index
+            page.setCurrentWidget(page.widget(index))
 
-    def onStackChanged(self, index):
-        print index
+    def onStackChangedFollower(self, index):
+        if index == 0:
+            pass
+        elif index == 1:
+            self.account.request_follows(False)
+        elif index == 2:
+            self.account.request_followed_by(False)
+
+    def onStackChangedList(self, index):
+        if index == 0:
+            listWidget = self.ui.listWidgetLists
+        elif index == 1:
+            listWidget = self.ui.listWidgetListedBy
+
+        if listWidget.count() > 0:
+            # TODO: あとで実装する？
+            return
+
+        if index == 0:
+            self.account.request_lists(False)
+            resall = self.account.lists.response_chunks
+        elif index == 1:
+            self.account.request_listed_in(False)
+            resall = self.account.listed_in.response_chunks
+
+        listWidget.setIconSize(QtCore.QSize(48, 48))
+        listWidget.setSortingEnabled(False)
+        #listWidget.setWordWrap(True)
+        icon = QIcon()
+        icon.addPixmap(QPixmap(u":/resource/illvelo-32x32.png"))
+
+        numlist = 0
+        for res in resall:
+            numlist += len(res[u'lists'])
+            for list in res[u'lists']:
+                item = QListWidgetItem(listWidget)
+                item.setIcon(icon)
+                item.setText(u'{full_name}\n{description}'.format(**list))
+                if listWidget.count() % 2 == 0:
+                    color = QColor(u'whitesmoke')
+                else:
+                    color = QColor(u'white')
+                item.setBackgroundColor(color)
+
+        if index == 0:
+            format_label(self.ui.labelLists, lists=numlist)
 
     def setupStatusBrowser(self, tb):
         tb.anchorClicked.connect(self.onAnchorClicked)
@@ -107,6 +156,8 @@ class UserForm(QDialog):
         format_label(self.ui.labelUpdates, updates=users_show['statuses_count'])
         format_label(self.ui.labelFollows, follows=users_show['friends_count'])
         format_label(self.ui.labelFollowedBy, followed_by=users_show['followers_count'])
+        #format_label(self.ui.labelLists, lists=u'?')
+        format_label(self.ui.labelListedBy, listed_by=users_show['listed_count'])
 
 def format_label(label, **kwargs):
     label.setText(unicode(label.text()).format(**kwargs))
