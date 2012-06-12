@@ -36,24 +36,41 @@ class Account(object):
             collection = collection_subclass(screen_name)
 
         try:
-            collection.request(fetch_older)
+            response = collection.request(fetch_older)
         except twitter.TwitterHTTPError as e:
             print >>sys.stderr, u'{0}'.format(e.response_data)
         finally:
-            if not member:
-                member = collection
+            if member:
+                collection = None
+
+        return response, collection
 
     def request_follows(self, fetch_older=True):
-        return self._request_core(fetch_older, Follows, self.follows)
+        response, collection = self._request_core(fetch_older, Follows, self.follows)
+        if collection:
+            self.follows = collection
+        return response
 
     def request_followed_by(self, fetch_older=True):
-        return self._request_core(fetch_older, FollowedBy, self.followed_by)
+        response, collection = self._request_core(fetch_older, FollowedBy, self.followed_by)
+        if collection:
+            self.followed_by = collection
+        return response
 
     def request_lists(self, fetch_older=True):
-        return self._request_core(fetch_older, Lists, self.lists)
+        response, collection = self._request_core(fetch_older, Lists, self.lists)
+        if collection:
+            self.lists = collection
+        return response
 
     def request_listed_in(self, fetch_older=True):
-        return self._request_core(fetch_older, ListedIn, self.listed_in)
+        response, collection = self._request_core(fetch_older, ListedIn, self.listed_in)
+        if collection:
+            self.listed_in = collection
+        return response
 
     def request_favorites(self, fetch_older=True):
-        return self._request_core(fetch_older, Favorites, self.favorites)
+        response, collection = self._request_core(fetch_older, Favorites, self.favorites)
+        if collection:
+            self.favorites = collection
+        return response

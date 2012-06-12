@@ -36,5 +36,5 @@ class Collection(object):
             self.response_chunks.append(response)
             # ...
         else:
-            self.response.chunks.insert(0, response)
+            self.response_chunks.insert(0, response)
             # ...
