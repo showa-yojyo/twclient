@@ -2,17 +2,16 @@
 
 class Collection(object):
     def __init__(self):
-        self.next_cursor = 0
+        self.next_cursor = -1
         self.response_chunks = []
         #self.view = None
 
     def update_page_info(self, response):
         if not response:
+            self.next_cursor = 0
             return
 
-        next_cursor = response[u'next_cursor']
-        if next_cursor == 0 or next_cursor > self.next_cursor:
-            self.next_cursor = next_cursor
+        self.next_cursor = response[u'next_cursor']
 
     def request(self, fetch_older=True):
         next_cursor = self.pre_request(fetch_older)

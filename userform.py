@@ -83,11 +83,42 @@ class UserForm(QDialog):
 
     def onStackChangedFollower(self, index):
         if index == 0:
+            listWidget = None
+        elif index == 1:
+            listWidget = self.ui.listWidgetFollows
+        elif index == 2:
+            listWidget = self.ui.listWidgetFollowedBy
+
+        if listWidget and listWidget.count() > 0:
+            # TODO: あとで実装する？
+            return
+
+        if index == 0:
+            # TODO: user_timeline
             pass
         elif index == 1:
             self.account.request_follows(False)
+            resall = self.account.follows.response_chunks
         elif index == 2:
             self.account.request_followed_by(False)
+            resall = self.account.followed_by.response_chunks
+
+        listWidget.setIconSize(QtCore.QSize(48, 48))
+        listWidget.setSortingEnabled(False)
+        #listWidget.setWordWrap(True)
+        icon = QIcon()
+        icon.addPixmap(QPixmap(u":/resource/illvelo-32x32.png"))
+
+        for res in resall:
+            for user in res:
+                item = QListWidgetItem(listWidget)
+                item.setIcon(icon)
+                item.setText(u'{screen_name} | {name}\n{status[text]}'.format(**user))
+                if listWidget.count() % 2 == 0:
+                    color = QColor(u'whitesmoke')
+                else:
+                    color = QColor(u'white')
+                item.setBackgroundColor(color)
 
     def onStackChangedList(self, index):
         if index == 0:
