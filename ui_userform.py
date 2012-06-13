@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'userform.ui'
 #
-# Created: Mon Jun 11 23:10:52 2012
+# Created: Wed Jun 13 22:56:51 2012
 #      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -152,7 +152,7 @@ class Ui_Dialog(object):
         self.labelFollows.setText(QtGui.QApplication.translate("Dialog", "<a href=\"follows\">{follows} 人をフォロー</a>", None, QtGui.QApplication.UnicodeUTF8))
         self.labelFollowedBy.setText(QtGui.QApplication.translate("Dialog", "<a href=\"followed_by\">{followed_by} 人がフォロー</a>", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabFollow), QtGui.QApplication.translate("Dialog", "フォロー", None, QtGui.QApplication.UnicodeUTF8))
-        self.labelLists.setText(QtGui.QApplication.translate("Dialog", "<a href=\"lists\">公開リスト数 {lists}</a>", None, QtGui.QApplication.UnicodeUTF8))
+        self.labelLists.setText(QtGui.QApplication.translate("Dialog", "<a href=\"lists\">公開リスト</a>", None, QtGui.QApplication.UnicodeUTF8))
         self.labelListedBy.setText(QtGui.QApplication.translate("Dialog", "<a href=\"listed_by\">{listed_by} 個のリストにいる</a>", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabList), QtGui.QApplication.translate("Dialog", "リスト", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabFav), QtGui.QApplication.translate("Dialog", "お気に入り", None, QtGui.QApplication.UnicodeUTF8))

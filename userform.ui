@@ -135,7 +135,7 @@
          <item>
           <widget class="QLabel" name="labelLists">
            <property name="text">
-            <string>&lt;a href=&quot;lists&quot;&gt;公開リスト数 {lists}&lt;/a&gt;</string>
+            <string>&lt;a href=&quot;lists&quot;&gt;公開リスト&lt;/a&gt;</string>
            </property>
           </widget>
          </item>

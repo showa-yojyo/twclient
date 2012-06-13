@@ -56,6 +56,8 @@ class UserForm(QDialog):
         self.setupStatusBrowser(self.ui.textBrowserStatusUpdates)
         self.setupStatusBrowser(self.ui.textBrowserFav)
 
+        self.ui.tabWidget.currentChanged.connect(self.onTabChanged)
+
         self.ui.stackedWidgetFollower.currentChanged.connect(self.onStackChangedFollower)
         self.ui.stackedWidgetList.currentChanged.connect(self.onStackChangedList)
 
@@ -156,8 +158,16 @@ class UserForm(QDialog):
                     color = QColor(u'white')
                 item.setBackgroundColor(color)
 
+    def onTabChanged(self, index):
         if index == 0:
-            format_label(self.ui.labelLists, lists=numlist)
+            # Follows/Followed-by tab
+            pass
+        elif index == 1:
+            # List tab
+            pass
+        elif index == 2 and not self.account.favorites:
+            # Favorites tab
+            self.account.request_favorites(self.ui.textBrowserFav, False)
 
     def setupStatusBrowser(self, tb):
         tb.anchorClicked.connect(self.onAnchorClicked)
@@ -187,7 +197,6 @@ class UserForm(QDialog):
         format_label(self.ui.labelUpdates, updates=users_show['statuses_count'])
         format_label(self.ui.labelFollows, follows=users_show['friends_count'])
         format_label(self.ui.labelFollowedBy, followed_by=users_show['followers_count'])
-        #format_label(self.ui.labelLists, lists=u'?')
         format_label(self.ui.labelListedBy, listed_by=users_show['listed_count'])
 
 def format_label(label, **kwargs):

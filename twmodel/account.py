@@ -69,7 +69,11 @@ class Account(object):
             self.listed_in = collection
         return response
 
-    def request_favorites(self, fetch_older=True):
+    def request_favorites(self, view, fetch_older=True):
+        if not self.favorites:
+            self.favorites = Favorites(self.get_screen_name())
+            self.favorites.view = view
+
         response, collection = self._request_core(fetch_older, Favorites, self.favorites)
         if collection:
             self.favorites = collection
