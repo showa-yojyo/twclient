@@ -24,8 +24,7 @@ class TimeLineItemModel(QStandardItemModel):
             item.setData(None)
             self.appendRow(item)
 
-    def assureSearchHashTag(self, hashtag):
-        cmdline = u'search #{0}'.format(hashtag)
+    def _assureItem(self, cmdline):
         result = self.findItems(cmdline, Qt.MatchFixedString)
         if result:
             return result[0]
@@ -34,6 +33,14 @@ class TimeLineItemModel(QStandardItemModel):
             item.setData(None)
             self.appendRow(item)
             return item
+
+    def assureSearchHashTag(self, hashtag):
+        cmdline = u'search #{0}'.format(hashtag)
+        return self._assureItem(cmdline)
+
+    def assureUserTimeLine(self, screen_name):
+        cmdline = u'user_timeline {0}'.format(screen_name)
+        return self._assureItem(cmdline)
 
     def assureItemData(self, index):
         if index == 0:

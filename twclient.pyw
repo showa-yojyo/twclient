@@ -7,14 +7,8 @@ import time
 import traceback
 from cStringIO import StringIO
 
-from PyQt4 import QtCore, QtGui
-from PyQt4.QtCore import QStringList
-from PyQt4.QtGui import QApplication
-from PyQt4.QtGui import QCursor
-from PyQt4.QtGui import QMainWindow
-from PyQt4.QtGui import QMessageBox
-from PyQt4.QtGui import QDesktopServices
-from PyQt4.QtGui import QTextCursor
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
 from ui_twclient import Ui_MainWindow
 
 import twformat
@@ -124,8 +118,28 @@ class Form(QMainWindow):
         elif path.startswith(u'chrome://user_mention/'):
             # screen_name
             screen_name = path[len(u'chrome://user_mention/'):]
-            cmd = ShowUser(self, screen_name)
-            cmd.execute()
+
+            def invokeShowUser():
+                cmd = ShowUser(self, screen_name)
+                cmd.execute()
+
+            def invokeUserTimeLine():
+                model = self.model
+                item = model.assureUserTimeLine(screen_name)
+                self.ui.comboBox.setCurrentIndex(item.index().row())
+
+            def invokeMention():
+                #cmd = Mention(self, screen_name)
+                #cmd.execute()
+                pass
+
+            menu = QMenu(self.ui.textBrowser)
+            menu.addAction(u"ユーザー詳細画面を表示 (&P)", invokeShowUser)
+            menu.addAction(u"ユーザータイムラインを表示 (&U)", invokeUserTimeLine)
+            menu.addAction(u"言及ツイートをサーチ(&M)", invokeMention)
+            menu.popup(QCursor.pos())
+            menu.exec_()
+            del menu
 
         else:
             # general URL

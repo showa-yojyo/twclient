@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import sys
 import twitter
 from twmodel.follows import Follows
 from twmodel.followed_by import FollowedBy
