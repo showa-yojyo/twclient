@@ -34,8 +34,8 @@ class TimeLineItemModel(QStandardItemModel):
             self.appendRow(item)
             return item
 
-    def assureMentions(self, screen_name):
-        cmdline = u'mentions #{0}'.format(screen_name)
+    def assureSearchScreenName(self, screen_name):
+        cmdline = u'search @{0}'.format(screen_name)
         return self._assureItem(cmdline)
 
     def assureSearchHashTag(self, hashtag):

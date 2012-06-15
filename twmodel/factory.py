@@ -2,7 +2,6 @@
 
 from twmodel.list import List
 from twmodel.usertimeline import UserTimeLine
-from twmodel.mentions import Mentions
 from twmodel.search import Search
 from twmodel.favorites import Favorites
 #from twmodel.follows import Follows
@@ -23,10 +22,6 @@ class ItemFactory(object):
         elif(command_name == u"user_timeline"):
             screen_name = words[1]
             item = UserTimeLine(screen_name)
-
-        elif(command_name == u"mentions"):
-            screen_name = words[1]
-            item = Mentions(screen_name)
 
         elif(command_name == u"search"):
             query = cmdline[len(u'search'):].strip()
