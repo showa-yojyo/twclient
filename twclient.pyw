@@ -105,8 +105,8 @@ class Form(QMainWindow):
             return
         self.invokeRequestCommand(Request(item, False))
 
-    def onAnchorClicked(self, hottext):
-        path = unicode(hottext.toString())
+    def onAnchorClicked(self, uri):
+        path = unicode(uri.toString())
 
         if path.startswith(u'chrome://hashtag/'):
             # hash tag
@@ -143,7 +143,24 @@ class Form(QMainWindow):
 
         else:
             # general URL
-            QDesktopServices.openUrl(hottext)
+            def copyToClipboard():
+                QApplication.clipboard().setText(path)
+
+            def invokeBrowser():
+                QDesktopServices.openUrl(uri)
+
+            def searchUrl():
+                model = self.model
+                item = model.assureSearchUrl(path)
+                self.ui.comboBox.setCurrentIndex(item.index().row())
+
+            menu = QMenu(self.ui.textBrowser)
+            menu.addAction(u"URL をコピー (&C)", copyToClipboard)
+            menu.addAction(u"URL をブラウザーで開く (&O)", invokeBrowser)
+            menu.addAction(u"URL をサーチ (&S)", searchUrl)
+            menu.popup(QCursor.pos())
+            menu.exec_()
+            del menu
 
     def onAppAbout(self):
         cmd = About(self)

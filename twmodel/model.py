@@ -42,6 +42,10 @@ class TimeLineItemModel(QStandardItemModel):
         cmdline = u'search #{0}'.format(hashtag)
         return self._assureItem(cmdline)
 
+    def assureSearchUrl(self, uri):
+        cmdline = u'search {0}'.format(uri)
+        return self._assureItem(cmdline)
+
     def assureUserTimeLine(self, screen_name):
         cmdline = u'user_timeline {0}'.format(screen_name)
         return self._assureItem(cmdline)
