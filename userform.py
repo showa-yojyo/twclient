@@ -1,13 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from PyQt4 import QtCore
-from PyQt4.QtGui import QColor
-from PyQt4.QtGui import QDesktopServices
-from PyQt4.QtGui import QDialog
-from PyQt4.QtGui import QIcon
-from PyQt4.QtGui import QListWidgetItem
-from PyQt4.QtGui import QMessageBox
-from PyQt4.QtGui import QPixmap
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
 from ui_userform import Ui_Dialog
 from twmodel.account import Account
 
@@ -61,26 +55,14 @@ class UserForm(QDialog):
         self.ui.stackedWidgetFollower.currentChanged.connect(self.onStackChangedFollower)
         self.ui.stackedWidgetList.currentChanged.connect(self.onStackChangedList)
 
-    def onAnchorClicked(self, hottext):
-        path = unicode(hottext.toString())
-
-        if path.startswith(u'chrome://hashtag/'):
-            # hash tag
-            QMessageBox.information(self, u"Twitter Search", u"TODO: Display Hash tag '%s'" % path)
-        elif path.startswith(u'chrome://user_mention'):
-            # screen_name
-            QMessageBox.information(self, u"User Property", u"TODO: Display %s's user_timeline" % path[1:])
-        else:
-            # general URL
-            QDesktopServices.openUrl(hottext)
+    def onAnchorClicked(self, uri):
+        self.parentWidget().onAnchorClicked(uri)
 
     def onLinkActivated(self, href):
         # changePage
         href = unicode(href)
         if href in self.pagetable:
             page, index = self.pagetable[href]
-            #page.setCurrentIndex(index)
-            #print 'setCurrentIndex', page, index
             page.setCurrentWidget(page.widget(index))
 
     def onStackChangedFollower(self, index):
@@ -105,7 +87,7 @@ class UserForm(QDialog):
             self.account.request_followed_by(False)
             resall = self.account.followed_by.response_chunks
 
-        listWidget.setIconSize(QtCore.QSize(48, 48))
+        listWidget.setIconSize(QSize(48, 48))
         listWidget.setSortingEnabled(False)
         #listWidget.setWordWrap(True)
         icon = QIcon()
@@ -139,7 +121,7 @@ class UserForm(QDialog):
             self.account.request_listed_in(False)
             resall = self.account.listed_in.response_chunks
 
-        listWidget.setIconSize(QtCore.QSize(48, 48))
+        listWidget.setIconSize(QSize(48, 48))
         listWidget.setSortingEnabled(False)
         #listWidget.setWordWrap(True)
         icon = QIcon()
