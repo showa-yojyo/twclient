@@ -128,15 +128,15 @@ class Form(QMainWindow):
                 item = model.assureUserTimeLine(screen_name)
                 self.ui.comboBox.setCurrentIndex(item.index().row())
 
-            def invokeMention():
-                #cmd = Mention(self, screen_name)
-                #cmd.execute()
-                pass
+            def invokeMentions():
+                model = self.model
+                item = model.assureMentions(screen_name)
+                self.ui.comboBox.setCurrentIndex(item.index().row())
 
             menu = QMenu(self.ui.textBrowser)
             menu.addAction(u"ユーザー詳細画面を表示 (&P)", invokeShowUser)
             menu.addAction(u"ユーザータイムラインを表示 (&U)", invokeUserTimeLine)
-            menu.addAction(u"言及ツイートをサーチ(&M)", invokeMention)
+            menu.addAction(u"言及ツイートをサーチ(&M)", invokeMentions)
             menu.popup(QCursor.pos())
             menu.exec_()
             del menu
