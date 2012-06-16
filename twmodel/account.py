@@ -2,6 +2,7 @@
 
 import sys
 import twitter
+from twmodel.usertimeline import UserTimeLine
 from twmodel.follows import Follows
 from twmodel.followed_by import FollowedBy
 from twmodel.lists import Lists
@@ -27,6 +28,23 @@ class Account(object):
     def get_screen_name(self):
         assert self.users_show
         return self.users_show[u'screen_name']
+
+    def request_user_timeline(self, fetch_older):
+        stream = None
+        if self.user_timeline:
+            stream = self.user_timeline
+        else:
+            screen_name = self.get_screen_name()
+            stream = UserTimeLine(screen_name)
+
+        try:
+            response = stream.request(fetch_older)
+            if not self.user_timeline:
+                self.user_timeline = stream
+        except twitter.TwitterHTTPError as e:
+            print >>sys.stderr, u'{0}'.format(e.response_data)
+
+        return response
 
     def _request_core(self, fetch_older, collection_subclass, member):
         if member:

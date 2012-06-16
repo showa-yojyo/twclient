@@ -79,7 +79,8 @@ class UserForm(QDialog):
         if self.account.user_timeline:
             return
 
-        # TODO:
+        reponse = self.account.request_user_timeline(False)
+        self.ui.textBrowserStatusUpdates.setHtml(self.account.user_timeline.textall)
 
     def setupFollowsView(self):
         if self.account.follows:
