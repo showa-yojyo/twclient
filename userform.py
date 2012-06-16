@@ -50,43 +50,56 @@ class UserForm(QDialog):
         self.setupStatusBrowser(self.ui.textBrowserStatusUpdates)
         self.setupStatusBrowser(self.ui.textBrowserFav)
 
-        self.ui.tabWidget.currentChanged.connect(self.onTabChanged)
-
         self.ui.stackedWidgetFollower.currentChanged.connect(self.onStackChangedFollower)
         self.ui.stackedWidgetList.currentChanged.connect(self.onStackChangedList)
 
+        self.ui.tabWidget.currentChanged.connect(self.onTabChanged)
+        self.onTabChanged(0)
+
     def onAnchorClicked(self, uri):
-        self.parentWidget().onAnchorClicked(uri)
+        mainform = self.parentWidget()
+        mainform.onAnchorClicked(uri)
 
     def onLinkActivated(self, href):
         # changePage
         href = unicode(href)
         if href in self.pagetable:
             page, index = self.pagetable[href]
-            page.setCurrentWidget(page.widget(index))
+            page.setCurrentIndex(index)
 
     def onStackChangedFollower(self, index):
         if index == 0:
-            listWidget = None
+            self.setupUserTimeLineView()
         elif index == 1:
-            listWidget = self.ui.listWidgetFollows
+            self.setupFollowsView()
         elif index == 2:
-            listWidget = self.ui.listWidgetFollowedBy
+            self.setupFollowedByView()
 
-        if listWidget and listWidget.count() > 0:
-            # TODO: あとで実装する？
+    def setupUserTimeLineView(self):
+        if self.account.user_timeline:
             return
 
-        if index == 0:
-            # TODO: user_timeline
-            pass
-        elif index == 1:
-            self.account.request_follows(False)
-            resall = self.account.follows.response_chunks
-        elif index == 2:
-            self.account.request_followed_by(False)
-            resall = self.account.followed_by.response_chunks
+        # TODO:
 
+    def setupFollowsView(self):
+        if self.account.follows:
+            return
+
+        self.account.request_follows(False)
+        resall = self.account.follows.response_chunks
+        listWidget = self.ui.listWidgetFollows
+        self._setupUsersView(resall, listWidget)
+
+    def setupFollowedByView(self):
+        if self.account.followed_by:
+            return
+
+        self.account.request_followed_by(False)
+        resall = self.account.followed_by.response_chunks
+        listWidget = self.ui.listWidgetFollowedBy
+        self._setupUsersView(resall, listWidget)
+
+    def _setupUsersView(self, resall, listWidget):
         listWidget.setIconSize(QSize(48, 48))
         listWidget.setSortingEnabled(False)
         #listWidget.setWordWrap(True)
@@ -97,39 +110,43 @@ class UserForm(QDialog):
             for user in res:
                 item = QListWidgetItem(listWidget)
                 item.setIcon(icon)
-                item.setText(u'{screen_name} | {name}\n{status[text]}'.format(**user))
+                if u'status' in user:
+                    item.setText(u'{screen_name} | {name}\n{status[text]}'.format(**user))
+                else:
+                    item.setText(u'{screen_name} | {name}'.format(**user))
+
                 if listWidget.count() % 2 == 0:
                     color = QColor(u'whitesmoke')
                 else:
                     color = QColor(u'white')
                 item.setBackgroundColor(color)
 
-    def onStackChangedList(self, index):
-        if index == 0:
-            listWidget = self.ui.listWidgetLists
-        elif index == 1:
-            listWidget = self.ui.listWidgetListedBy
-
-        if listWidget.count() > 0:
-            # TODO: あとで実装する？
+    def setupListsView(self):
+        if self.account.lists:
             return
 
-        if index == 0:
-            self.account.request_lists(False)
-            resall = self.account.lists.response_chunks
-        elif index == 1:
-            self.account.request_listed_in(False)
-            resall = self.account.listed_in.response_chunks
+        self.account.request_lists(False)
+        resall = self.account.lists.response_chunks
+        listWidget = self.ui.listWidgetLists
+        self._setupListsView(resall, listWidget)
 
+    def setupListedInView(self):
+        if self.account.listed_in:
+            return
+
+        self.account.request_listed_in(False)
+        resall = self.account.listed_in.response_chunks
+        listWidget = self.ui.listWidgetListedBy
+        self._setupListsView(resall, listWidget)
+
+    def _setupListsView(self, resall, listWidget):
         listWidget.setIconSize(QSize(48, 48))
         listWidget.setSortingEnabled(False)
         #listWidget.setWordWrap(True)
         icon = QIcon()
         icon.addPixmap(QPixmap(u":/resource/illvelo-32x32.png"))
 
-        numlist = 0
         for res in resall:
-            numlist += len(res[u'lists'])
             for list in res[u'lists']:
                 item = QListWidgetItem(listWidget)
                 item.setIcon(icon)
@@ -140,16 +157,31 @@ class UserForm(QDialog):
                     color = QColor(u'white')
                 item.setBackgroundColor(color)
 
+    def onStackChangedList(self, index):
+        if index == 0:
+            self.setupListsView()
+        elif index == 1:
+            self.setupListedInView()
+
     def onTabChanged(self, index):
+        acc = self.account
         if index == 0:
             # Follows/Followed-by tab
-            pass
+            if not acc.user_timeline and not acc.follows and not acc.followed_by:
+                # いずれもリクエストしたことがない状態。
+                # 一番左のラベルに対応するビューを埋める。
+                self.onStackChangedFollower(0)
+
         elif index == 1:
             # List tab
-            pass
-        elif index == 2 and not self.account.favorites:
+            if not acc.lists and not acc.listed_in:
+                # どちらともリクエストしていない。
+                # 左側のリストをリクエストすることにする。
+                self.onStackChangedList(0)
+
+        elif index == 2 and not acc.favorites:
             # Favorites tab
-            self.account.request_favorites(self.ui.textBrowserFav, False)
+            acc.request_favorites(self.ui.textBrowserFav, False)
 
     def setupStatusBrowser(self, tb):
         tb.anchorClicked.connect(self.onAnchorClicked)

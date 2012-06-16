@@ -32,20 +32,18 @@ HTML_PART = u'''
 <table width="100%">
   <tr>
     <td valign="top" width="34">
-      <img src="{4}" width="32" height="32" />
+      <img src="{profile_image_url}" width="32" height="32" />
     </td>
     <td>
-      <b><a href="chrome://user_mention/{0}">{0}</a></b> 
-      {1}
-      <p class="f">{2} {3} で {5}</p>
+      <b><a href="chrome://user_mention/{screen_name}">{screen_name}</a></b> 
+      {text}
+      <p class="f">{created_at} {source} で {in_reply}</p>
     </td>
-    {6}
+    {media}
   </tr>
 </table>
 <hr />
 '''
-
-REPLY_FORMAT = u'''<a href="https://twitter.com/{0}/statuses/{1}">{0} への返信</a>'''
 
 def get_user(item):
     if 'user' in item:
@@ -75,14 +73,16 @@ def get_timestamp(item):
     #return dt.replace(tzinfo=UTC()).astimezone(JST()).strftime(u'%Y/%m/%d (%a) %H:%M:%S %Z')
 
 def format_status(item):
-    return HTML_PART.format(
-        get_user(item), 
-        format_text(item),
-        get_timestamp(item),
-        get_source(item),
-        get_profile_image_url(item),
-        format_in_reply(item),
-        format_media(item))
+    kwargs = dict(
+        screen_name=get_user(item),
+        text=format_text(item),
+        created_at=get_timestamp(item),
+        source=get_source(item),
+        profile_image_url=get_profile_image_url(item),
+        in_reply=format_in_reply(item),
+        media=format_media(item))
+
+    return HTML_PART.format(**kwargs)
 
 def format_text(status_item):
     text = status_item['text']
@@ -126,15 +126,18 @@ def format_text(status_item):
 
     return processed_text
 
+REPLY_FORMAT = u'''<a href="https://twitter.com/{screen_name}/statuses/{id}">{screen_name} への返信</a>'''
+
 def format_in_reply(status):
 
     if 'in_reply_to_status_id' in status:
+        kwargs = dict(id=status['in_reply_to_status_id'])
         if 'to_user' in status and status['to_user']:
-            return REPLY_FORMAT.format(status['to_user'],
-                                       status['in_reply_to_status_id'])
+            kwargs['screen_name'] = status['to_user']
+            return REPLY_FORMAT.format(**kwargs)
         elif 'in_reply_to_screen_name' in status and status['in_reply_to_screen_name']:
-            return REPLY_FORMAT.format(status['in_reply_to_screen_name'], 
-                                       status['in_reply_to_status_id'])
+            kwargs['screen_name'] = status['in_reply_to_screen_name']
+            return REPLY_FORMAT.format(**kwargs)
 
     return u''
 
