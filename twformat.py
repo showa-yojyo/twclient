@@ -68,10 +68,13 @@ def get_source(item):
     # <a href="URL" rel="nofollow">APP</a>
     # we insert title="URL" in front of rel.
 
-    index1 = source.index('"', source.index("href"))
-    index2 = source.index('"', index1+1)
-
-    return source[:index2+1] + ' title={0}'.format(source[index1:index2]) + source[index2:]
+    index0 = source.find("href")
+    if index0 > 0:
+        index1 = source.index('"', index0)
+        index2 = source.index('"', index1+1)
+        return source[:index2+1] + ' title={0}'.format(source[index1:index2]) + source[index2:]
+    else:
+        return source
 
 def get_timestamp(item):
     dt = parse(item['created_at'])
@@ -91,6 +94,12 @@ def format_status(item):
 
     return HTML_PART.format(**kwargs)
 
+HOT_TEXT_FORMAT_HASHTAG = u'''<a href="chrome://hashtag/{text}" title="#{text}">#{text}</a>'''
+
+HOT_TEXT_FORMAT_URL = u'''<a href="{url}" title="{expanded_url}">{display_url}</a>'''
+
+HOT_TEXT_FORMAT_USER = u'''<a href="chrome://user_mention/{screen_name}" title="クリックでポップアップメニュー表示">@{screen_name}</a>'''
+
 def format_text(status_item):
     text = status_item['text']
     replacements = []
@@ -99,7 +108,7 @@ def format_text(status_item):
 
     for tag in entities['hashtags']:
         rep = dict(indices=tag['indices'],
-                   pattern=u'<a href="chrome://hashtag/{0}">#{0}</a>'.format(tag['text']))
+                   pattern=HOT_TEXT_FORMAT_HASHTAG.format(**tag))
         replacements.append(rep)
 
     # [{u'display_url': u'search.twitter.com',
@@ -108,7 +117,7 @@ def format_text(status_item):
     #   u'url': u'http://t.co/zi4sB8iv'}]
     for url in entities['urls']:
         rep = dict(indices=url['indices'],
-                   pattern=u'<a href="{0[url]}">{0[display_url]}</a>'.format(url))
+                   pattern=HOT_TEXT_FORMAT_URL.format(**url))
         replacements.append(rep)
 
     #pprint.pprint(entities['user_mentions'])
@@ -119,7 +128,7 @@ def format_text(status_item):
     #   u'screen_name': u'showa_yojyo'}]
     for user in entities['user_mentions']:
         rep = dict(indices=user['indices'],
-                   pattern=u'<a href="chrome://user_mention/{0[screen_name]}">@{0[screen_name]}</a>'.format(user))
+                   pattern=HOT_TEXT_FORMAT_USER.format(**user))
         replacements.append(rep)
 
     # sort by 'indices'
