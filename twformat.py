@@ -32,7 +32,7 @@ HTML_PART = u'''
 <table width="100%">
   <tr>
     <td valign="top" width="34">
-      <img src="{profile_image_url}" width="32" height="32" title="TODO: tooltip"/>
+      <img src="{profile_image_url}" width="32" height="32" title="{tooltip_html_text}"/>
     </td>
     <td>
       <b><a href="chrome://user_mention/{screen_name}" title="クリックでポップアップメニュー表示">{screen_name}</a></b> 
@@ -44,6 +44,31 @@ HTML_PART = u'''
 </table>
 <hr />
 '''
+
+TOOLTIP_FORMAT = u'''
+<b>{screen_name}</b><br/>
+{url}<br/>
+{followers_count} フォロー<br/>
+{friends_count} フォローされている<br/>
+{statuses_count} ツイート
+'''
+
+TOOLTIP_WITHOUT_URL_FORMAT = u'''
+<b>{screen_name}</b><br/>
+{friends_count} フォロー<br/>
+{followers_count} フォローされている<br/>
+{statuses_count} ツイート
+'''
+
+def get_user_tooltip(item):
+    if 'user' in item:
+        user = item['user']
+        if 'url' in item:
+            return TOOLTIP_FORMAT.format(**user)
+        else:
+            return TOOLTIP_WITHOUT_URL_FORMAT.format(**user)
+    elif 'from_user' in item:
+        return '<b>{from_user}</b>'.format(**item)
 
 def get_user(item):
     if 'user' in item:
@@ -85,6 +110,7 @@ def get_timestamp(item):
 def format_status(item):
     kwargs = dict(
         screen_name=get_user(item),
+        tooltip_html_text=get_user_tooltip(item),
         text=format_text(item),
         created_at=get_timestamp(item),
         source=get_source(item),
@@ -142,7 +168,7 @@ def format_text(status_item):
 
     return processed_text
 
-REPLY_FORMAT = u'''<a href="https://twitter.com/{screen_name}/statuses/{id}">{screen_name} への返信</a>'''
+REPLY_FORMAT = u'''<a href="https://twitter.com/{screen_name}/statuses/{id}" title="TODO: クリックでツイートをバルーン表示">{screen_name} への返信</a>'''
 
 def format_in_reply(status):
 
@@ -160,7 +186,7 @@ def format_in_reply(status):
 
 THUMB_PART = u'''
     <td valign="top" width="52">
-      <a href="{media_url}"><img src="{thumb_url}" width="50" height="50" /></a>
+      <a href="{media_url}" title="{media_url}"><img src="{thumb_url}" width="50" height="50" /></a>
     </td>
 '''
 
