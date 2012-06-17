@@ -32,10 +32,10 @@ HTML_PART = u'''
 <table width="100%">
   <tr>
     <td valign="top" width="34">
-      <img src="{profile_image_url}" width="32" height="32" />
+      <img src="{profile_image_url}" width="32" height="32" title="TODO: tooltip"/>
     </td>
     <td>
-      <b><a href="chrome://user_mention/{screen_name}">{screen_name}</a></b> 
+      <b><a href="chrome://user_mention/{screen_name}" title="クリックでポップアップメニュー表示">{screen_name}</a></b> 
       {text}
       <p class="f">{created_at} {source} で {in_reply}</p>
     </td>
@@ -59,12 +59,19 @@ def get_profile_image_url(item):
 
 def get_source(item):
     source = item['source']
-    if 'user' in item:
-        return source
+    if not 'user' in item:
+        # opposite of cgi.escape()
+        parser = HTMLParser()
+        source = parser.unescape(source)
 
-    # opposite of cgi.escape()
-    parser = HTMLParser()
-    return parser.unescape(source)
+    # source is like below:
+    # <a href="URL" rel="nofollow">APP</a>
+    # we insert title="URL" in front of rel.
+
+    index1 = source.index('"', source.index("href"))
+    index2 = source.index('"', index1+1)
+
+    return source[:index2+1] + ' title={0}'.format(source[index1:index2]) + source[index2:]
 
 def get_timestamp(item):
     dt = parse(item['created_at'])
