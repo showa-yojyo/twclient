@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
-class Collection(object):
+from twmodel.statusstream import StatusStream
+
+class Collection(StatusStream):
     def __init__(self):
+        super(Collection, self).__init__()
         self.next_cursor = -1
         self.response_chunks = []
-        #self.view = None
 
     def update_page_info(self, response):
         if not response:
@@ -30,10 +32,9 @@ class Collection(object):
 
     def post_request(self, response, fetch_older):
         self.update_page_info(response)
-        # TODO: process the entire or only delta of the response.
         if fetch_older:
             self.response_chunks.append(response)
-            # ...
         else:
             self.response_chunks.insert(0, response)
-            # ...
+
+        self.notify_observers(response, fetch_older)

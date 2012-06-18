@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 
-class TimeLine(object):
+from twmodel.statusstream import StatusStream
+
+class TimeLine(StatusStream):
     def __init__(self):
+        super(TimeLine, self).__init__()
         self.max_id = None
         self.min_id = None
         self.response_chunks = []
-        self.observers = []
 
     def add_observer(self, observer):
         if not observer in self.observers:
@@ -62,10 +64,5 @@ class TimeLine(object):
         else:
             self.response_chunks.insert(0, response)
 
-        if fetch_older:
-            for observer in self.observers:
-                observer.on_load_next_page(response)
-        else:
-            for observer in self.observers:
-                observer.on_load_latest_page(response)
+        self.notify_observers(response, fetch_older)
 

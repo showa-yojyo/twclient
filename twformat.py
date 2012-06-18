@@ -122,7 +122,7 @@ def format_status(item):
 
 HOT_TEXT_FORMAT_HASHTAG = u'''<a href="chrome://hashtag/{text}" title="#{text}">#{text}</a>'''
 
-HOT_TEXT_FORMAT_URL = u'''<a href="{url}" title="{expanded_url}">{display_url}</a>'''
+HOT_TEXT_FORMAT_URL = u'''<a href="{url}" title="{expanded_url}">{url}</a>'''
 
 HOT_TEXT_FORMAT_USER = u'''<a href="chrome://user_mention/{screen_name}" title="クリックでポップアップメニュー表示">@{screen_name}</a>'''
 

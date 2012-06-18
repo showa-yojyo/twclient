@@ -29,21 +29,14 @@ class Account(object):
         assert self.users_show
         return self.users_show[u'screen_name']
 
-    def request_user_timeline(self, fetch_older):
-        stream = None
-        if self.user_timeline:
-            stream = self.user_timeline
-        else:
-            screen_name = self.get_screen_name()
-            stream = UserTimeLine(screen_name)
+    def request_user_timeline(self, view, fetch_older=True):
+        if not self.user_timeline:
+            self.user_timeline = UserTimeLine(self.get_screen_name())
+            self.user_timeline.add_observer(view)
 
-        try:
-            response = stream.request(fetch_older)
-            if not self.user_timeline:
-                self.user_timeline = stream
-        except twitter.TwitterHTTPError as e:
-            print >>sys.stderr, u'{0}'.format(e.response_data)
-
+        response, collection = self._request_core(fetch_older, UserTimeLine, self.user_timeline)
+        if collection:
+            self.user_timeline = collection
         return response
 
     def _request_core(self, fetch_older, collection_subclass, member):
@@ -91,7 +84,7 @@ class Account(object):
     def request_favorites(self, view, fetch_older=True):
         if not self.favorites:
             self.favorites = Favorites(self.get_screen_name())
-            self.favorites.view = view
+            self.favorites.add_observer(view)
 
         response, collection = self._request_core(fetch_older, Favorites, self.favorites)
         if collection:
