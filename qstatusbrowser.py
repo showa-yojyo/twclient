@@ -9,11 +9,14 @@ from PyQt4.QtGui import *
 import urllib, os, hashlib
 import twformat
 
+CACHE_PATH = './cache'
+
 class QStatusBrowser(QTextBrowser):
 
     def __init__(self, parent):
         super(QStatusBrowser, self).__init__(parent)
-        self.cache_path = './cache'
+        self.cache_path = CACHE_PATH # TODO: 設定可能にする
+        self.document().setDefaultStyleSheet(twformat.CSS)
 
     def loadResource(self, type, name):
         url = unicode(name.toString())

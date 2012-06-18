@@ -5,9 +5,6 @@ from PyQt4.QtGui import *
 from ui_userform import Ui_Dialog
 from twmodel.account import Account
 
-# TODO: 共通化
-CACHE_PATH = r'.\cache'
-
 USER_PROPERTY_HTML = u'''
 <table width="100%">
   <tr>
@@ -186,7 +183,6 @@ class UserForm(QDialog):
 
     def setupStatusBrowser(self, tb):
         tb.anchorClicked.connect(self.onAnchorClicked)
-        tb.cache_path = CACHE_PATH
 
     def setupUserProperty(self):
         tb = self.ui.textBrowserUser

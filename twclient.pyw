@@ -11,14 +11,11 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from ui_twclient import Ui_MainWindow
 
-import twformat
 from twcommand.request import Request
 from twcommand.about import About
 from twcommand.preference import Preference
 from twcommand.showuser import ShowUser
 from twmodel.model import TimeLineItemModel
-
-CACHE_PATH = './cache'
 
 class Form(QMainWindow):
     def __init__(self):
@@ -44,8 +41,6 @@ class Form(QMainWindow):
     def setupBrowser(self):
         tb = self.ui.textBrowser
         tb.moveCursor(QTextCursor.End)
-        tb.document().setDefaultStyleSheet(twformat.CSS)
-        tb.cache_path = CACHE_PATH
         slider = tb.verticalScrollBar()
         slider.valueChanged.connect(self.onScrollBarValueChanged)
         tb.anchorClicked.connect(self.onAnchorClicked)
