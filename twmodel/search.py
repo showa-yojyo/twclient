@@ -2,7 +2,6 @@
 
 from twmodel.timeline import TimeLine
 from twitter import Twitter, NoAuth
-import twformat
 
 class Search(TimeLine):
     def __init__(self, query):
@@ -10,11 +9,8 @@ class Search(TimeLine):
         self.query = query
 
     def do_request(self, max_id, min_id):
-        data = request_search(self.query, max_id, min_id)
-        text = u""
-        for item in data['results']:
-            text += twformat.format_status(item)
-        return data['results'], text
+        response = request_search(self.query, max_id, min_id)
+        return response['results']
 
 def request_search(query, max_id, min_id):
     auth = NoAuth()

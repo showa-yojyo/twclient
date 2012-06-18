@@ -2,7 +2,6 @@
 
 from twmodel.timeline import TimeLine
 from twitter import Twitter, NoAuth
-import twformat
 
 class List(TimeLine):
     def __init__(self, owner_screen_name, slug):
@@ -11,11 +10,7 @@ class List(TimeLine):
         self.slug = slug
 
     def do_request(self, max_id, min_id):
-        data = request_lists_statuses(self.owner_screen_name, self.slug, max_id, min_id)
-        text = u""
-        for item in data:
-            text += twformat.format_status(item)
-        return data, text
+        return request_lists_statuses(self.owner_screen_name, self.slug, max_id, min_id)
 
 def request_lists_statuses(owner_screen_name, slug, max_id, min_id):
     auth = NoAuth()

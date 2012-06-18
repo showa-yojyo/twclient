@@ -61,7 +61,7 @@ class TimeLineItemModel(QStandardItemModel):
             # lazy-initialize
             title = unicode(curitem.text())
             curdata = self.item_factory.create(title)
-            curdata.view = self.view
+            curdata.add_observer(self.view)
             curitem.setData(curdata)
 
         return curdata

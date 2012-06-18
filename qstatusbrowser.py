@@ -4,11 +4,12 @@
 # http://lateral.netmanagers.com.ar/weblog/posts/BB568.html
 # http://www.qtcentre.org/archive/index.php/t-5155.html
 
-from PyQt4 import QtCore
-from PyQt4 import QtGui
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
 import urllib, os, hashlib
+import twformat
 
-class QStatusBrowser(QtGui.QTextBrowser):
+class QStatusBrowser(QTextBrowser):
 
     def __init__(self, parent):
         super(QStatusBrowser, self).__init__(parent)
@@ -27,8 +28,22 @@ class QStatusBrowser(QtGui.QTextBrowser):
 
             # Note: super() seems not to work since PyQt 4.9.1.
             #return super(QStatusBrowser, self).loadResource(type, QtCore.QUrl(fn))
-            img = QtGui.QImage(fn)
-            return QtCore.QVariant(img)
+            img = QImage(fn)
+            return QVariant(img)
         else:
             return super(QStatusBrowser, self).loadResource(type, name)
 
+    def on_load_latest_page(self, response):
+        self.moveCursor(QTextCursor.Start)
+        text = u''
+        for status in response:
+            text += twformat.format_status(status)
+        self.insertHtml(text)
+        self.moveCursor(QTextCursor.Start)
+
+    def on_load_next_page(self, response):
+        self.moveCursor(QTextCursor.End)
+        text = u''
+        for status in response:
+            text += twformat.format_status(status)
+        self.insertHtml(text)

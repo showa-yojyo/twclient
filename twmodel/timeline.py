@@ -4,15 +4,23 @@ class TimeLine(object):
     def __init__(self):
         self.max_id = None
         self.min_id = None
-        self.textall = u''
-        self.view = None
+        self.response_chunks = []
+        self.observers = []
 
-    def update_page_info(self, data):
-        if len(data) == 0:
+    def add_observer(self, observer):
+        if not observer in self.observers:
+            self.observers.append(observer)
+
+    def remove_observer(self, observer):
+        if observer in self.observers:
+            self.observers.remove(observer)
+
+    def update_page_info(self, response):
+        if len(response) == 0:
             return
 
-        max_id = data[0]['id']
-        min_id = data[-1]['id']
+        max_id = response[0]['id']
+        min_id = response[-1]['id']
 
         if self.max_id is None or max_id > self.max_id:
             self.max_id = max_id
@@ -30,9 +38,9 @@ class TimeLine(object):
     # 3. のケースでは min_id を Twitter API に指示する必要がある。
     def request(self, fetch_older=True):
         max_id, min_id = self.pre_request(fetch_older)
-        data, text = self.do_request(max_id, min_id)
-        self.post_request(data, text, fetch_older)
-        return text
+        response = self.do_request(max_id, min_id)
+        self.post_request(response, fetch_older)
+        return response
 
     def do_request(self, max_id, min_id):
         assert False
@@ -47,17 +55,17 @@ class TimeLine(object):
 
         return max_id, min_id
 
-    def post_request(self, data, text, fetch_older):
-        self.update_page_info(data)
+    def post_request(self, response, fetch_older):
+        self.update_page_info(response)
         if fetch_older:
-            self.textall += text
+            self.response_chunks.append(response)
         else:
-            text += self.textall
-            self.textall = text
+            self.response_chunks.insert(0, response)
 
-        view = self.view
-        if view:
-            if fetch_older:
-                view.insertHtml(text)
-            else:
-                view.setHtml(text)
+        if fetch_older:
+            for observer in self.observers:
+                observer.on_load_next_page(response)
+        else:
+            for observer in self.observers:
+                observer.on_load_latest_page(response)
+

@@ -2,7 +2,6 @@
 
 from twmodel.timeline import TimeLine
 from twitter import Twitter, NoAuth
-import twformat
 
 class UserTimeLine(TimeLine):
     def __init__(self, screen_name):
@@ -10,11 +9,7 @@ class UserTimeLine(TimeLine):
         self.screen_name = screen_name
 
     def do_request(self, max_id, min_id):
-        data = request_statuses_user_timeline(self.screen_name, max_id, min_id)
-        text = u""
-        for item in data:
-            text += twformat.format_status(item)
-        return data, text
+        return request_statuses_user_timeline(self.screen_name, max_id, min_id)
 
 def request_statuses_user_timeline(screen_name, max_id, min_id):
     auth = NoAuth()

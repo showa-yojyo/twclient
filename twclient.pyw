@@ -65,13 +65,11 @@ class Form(QMainWindow):
 
     def invokeRequestCommand(self, cmd):
         sb = self.ui.statusbar
-        te = self.ui.textBrowser
-        view = te
+        view = self.ui.textBrowser
         start_time = time.time()
         try:
             sb.showMessage(u"Now loading...")
             QApplication.setOverrideCursor(QCursor(3))
-            te.moveCursor(QTextCursor.End)
             cmd.execute()
 
         except Exception as e:
@@ -97,6 +95,7 @@ class Form(QMainWindow):
         return ls
 
     def onComboChanged(self):
+        self.ui.textBrowser.clear()
         self.requestTwitter()
 
     def requestTwitter(self):

@@ -2,7 +2,6 @@
 
 from twmodel.timeline import TimeLine
 from twitter import Twitter, NoAuth
-import twformat
 
 class Favorites(TimeLine):
     def __init__(self, screen_name):
@@ -10,11 +9,7 @@ class Favorites(TimeLine):
         self.screen_name = screen_name
 
     def do_request(self, max_id, min_id):
-        response = request_favorites(self.screen_name, max_id, min_id)
-        text = u""
-        for item in response:
-            text += twformat.format_status(item)
-        return response, text
+        return request_favorites(self.screen_name, max_id, min_id)
 
 def request_favorites(screen_name, max_id, min_id):
     auth = NoAuth()
