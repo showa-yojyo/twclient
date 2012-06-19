@@ -83,76 +83,32 @@ class UserForm(QDialog):
             return
 
         listWidget = self.ui.listWidgetFollows
+        listWidget.setupGui()
         self.account.request_follows(listWidget, False)
-        #resall = self.account.follows.response_chunks
-        #self._setupUsersView(resall, listWidget)
 
     def setupFollowedByView(self):
         if self.account.followed_by:
             return
 
         listWidget = self.ui.listWidgetFollowedBy
+        listWidget.setupGui()
         self.account.request_followed_by(listWidget, False)
-        #resall = self.account.followed_by.response_chunks
-        #self._setupUsersView(resall, listWidget)
-
-    def _setupUsersView(self, resall, listWidget):
-        listWidget.setIconSize(QSize(48, 48))
-        listWidget.setSortingEnabled(False)
-        #listWidget.setWordWrap(True)
-        icon = QIcon()
-        icon.addPixmap(QPixmap(u":/resource/illvelo-32x32.png"))
-
-        for res in resall:
-            for user in res:
-                item = QListWidgetItem(listWidget)
-                item.setIcon(icon)
-                if u'status' in user:
-                    item.setText(u'{screen_name} | {name}\n{status[text]}'.format(**user))
-                else:
-                    item.setText(u'{screen_name} | {name}'.format(**user))
-
-                if listWidget.count() % 2 == 0:
-                    color = QColor(u'whitesmoke')
-                else:
-                    color = QColor(u'white')
-                item.setBackgroundColor(color)
 
     def setupListsView(self):
         if self.account.lists:
             return
 
         listWidget = self.ui.listWidgetLists
+        listWidget.setupGui()
         self.account.request_lists(listWidget, False)
-        #resall = self.account.lists.response_chunks
-        #self._setupListsView(resall, listWidget)
 
     def setupListedInView(self):
         if self.account.listed_in:
             return
 
         listWidget = self.ui.listWidgetListedBy
+        listWidget.setupGui()
         self.account.request_listed_in(listWidget, False)
-        #resall = self.account.listed_in.response_chunks
-        #self._setupListsView(resall, listWidget)
-
-    def _setupListsView(self, resall, listWidget):
-        listWidget.setIconSize(QSize(48, 48))
-        listWidget.setSortingEnabled(False)
-        #listWidget.setWordWrap(True)
-        icon = QIcon()
-        icon.addPixmap(QPixmap(u":/resource/illvelo-32x32.png"))
-
-        for res in resall:
-            for list in res[u'lists']:
-                item = QListWidgetItem(listWidget)
-                item.setIcon(icon)
-                item.setText(u'{full_name}\n{description}'.format(**list))
-                if listWidget.count() % 2 == 0:
-                    color = QColor(u'whitesmoke')
-                else:
-                    color = QColor(u'white')
-                item.setBackgroundColor(color)
 
     def onStackChangedList(self, index):
         if index == 0:
