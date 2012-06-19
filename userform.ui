@@ -36,7 +36,7 @@
    <item row="1" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <property name="iconSize">
       <size>
@@ -81,7 +81,7 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidgetFollower">
          <property name="currentIndex">
-          <number>0</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="pageStatusUpdates">
           <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -103,7 +103,7 @@
             <number>0</number>
            </property>
            <item>
-            <widget class="QListWidget" name="listWidgetFollows"/>
+            <widget class="QStatusStreamListWidget" name="listWidgetFollows"/>
            </item>
           </layout>
          </widget>
@@ -113,7 +113,7 @@
             <number>0</number>
            </property>
            <item>
-            <widget class="QListWidget" name="listWidgetFollowedBy"/>
+            <widget class="QStatusStreamListWidget" name="listWidgetFollowedBy"/>
            </item>
           </layout>
          </widget>
@@ -151,7 +151,7 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidgetList">
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="pageLists">
           <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -159,7 +159,7 @@
             <number>0</number>
            </property>
            <item>
-            <widget class="QListWidget" name="listWidgetLists"/>
+            <widget class="QStatusStreamListWidget" name="listWidgetLists"/>
            </item>
           </layout>
          </widget>
@@ -169,7 +169,7 @@
             <number>0</number>
            </property>
            <item>
-            <widget class="QListWidget" name="listWidgetListedBy"/>
+            <widget class="QStatusStreamListWidget" name="listWidgetListedBy"/>
            </item>
           </layout>
          </widget>
@@ -207,6 +207,11 @@
    <class>QStatusBrowser</class>
    <extends>QTextBrowser</extends>
    <header>qstatusbrowser.h</header>
+  </customwidget>
+  <customwidget>
+   <class>QStatusStreamListWidget</class>
+   <extends>QListWidget</extends>
+   <header>qstatusstreamlistwidget.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

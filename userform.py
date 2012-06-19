@@ -82,19 +82,19 @@ class UserForm(QDialog):
         if self.account.follows:
             return
 
-        self.account.request_follows(False)
-        resall = self.account.follows.response_chunks
         listWidget = self.ui.listWidgetFollows
-        self._setupUsersView(resall, listWidget)
+        self.account.request_follows(listWidget, False)
+        #resall = self.account.follows.response_chunks
+        #self._setupUsersView(resall, listWidget)
 
     def setupFollowedByView(self):
         if self.account.followed_by:
             return
 
-        self.account.request_followed_by(False)
-        resall = self.account.followed_by.response_chunks
         listWidget = self.ui.listWidgetFollowedBy
-        self._setupUsersView(resall, listWidget)
+        self.account.request_followed_by(listWidget, False)
+        #resall = self.account.followed_by.response_chunks
+        #self._setupUsersView(resall, listWidget)
 
     def _setupUsersView(self, resall, listWidget):
         listWidget.setIconSize(QSize(48, 48))
@@ -122,19 +122,19 @@ class UserForm(QDialog):
         if self.account.lists:
             return
 
-        self.account.request_lists(False)
-        resall = self.account.lists.response_chunks
         listWidget = self.ui.listWidgetLists
-        self._setupListsView(resall, listWidget)
+        self.account.request_lists(listWidget, False)
+        #resall = self.account.lists.response_chunks
+        #self._setupListsView(resall, listWidget)
 
     def setupListedInView(self):
         if self.account.listed_in:
             return
 
-        self.account.request_listed_in(False)
-        resall = self.account.listed_in.response_chunks
         listWidget = self.ui.listWidgetListedBy
-        self._setupListsView(resall, listWidget)
+        self.account.request_listed_in(listWidget, False)
+        #resall = self.account.listed_in.response_chunks
+        #self._setupListsView(resall, listWidget)
 
     def _setupListsView(self, resall, listWidget):
         listWidget.setIconSize(QSize(48, 48))

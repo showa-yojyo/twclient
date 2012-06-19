@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'userform.ui'
 #
-# Created: Wed Jun 13 22:56:51 2012
+# Created: Wed Jun 20 00:35:58 2012
 #      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -64,7 +64,7 @@ class Ui_Dialog(object):
         self.verticalLayout_3 = QtGui.QVBoxLayout(self.pageFollows)
         self.verticalLayout_3.setMargin(0)
         self.verticalLayout_3.setObjectName(_fromUtf8("verticalLayout_3"))
-        self.listWidgetFollows = QtGui.QListWidget(self.pageFollows)
+        self.listWidgetFollows = QStatusStreamListWidget(self.pageFollows)
         self.listWidgetFollows.setObjectName(_fromUtf8("listWidgetFollows"))
         self.verticalLayout_3.addWidget(self.listWidgetFollows)
         self.stackedWidgetFollower.addWidget(self.pageFollows)
@@ -73,7 +73,7 @@ class Ui_Dialog(object):
         self.verticalLayout_6 = QtGui.QVBoxLayout(self.pageFollowedBy)
         self.verticalLayout_6.setMargin(0)
         self.verticalLayout_6.setObjectName(_fromUtf8("verticalLayout_6"))
-        self.listWidgetFollowedBy = QtGui.QListWidget(self.pageFollowedBy)
+        self.listWidgetFollowedBy = QStatusStreamListWidget(self.pageFollowedBy)
         self.listWidgetFollowedBy.setObjectName(_fromUtf8("listWidgetFollowedBy"))
         self.verticalLayout_6.addWidget(self.listWidgetFollowedBy)
         self.stackedWidgetFollower.addWidget(self.pageFollowedBy)
@@ -101,7 +101,7 @@ class Ui_Dialog(object):
         self.verticalLayout_4 = QtGui.QVBoxLayout(self.pageLists)
         self.verticalLayout_4.setMargin(0)
         self.verticalLayout_4.setObjectName(_fromUtf8("verticalLayout_4"))
-        self.listWidgetLists = QtGui.QListWidget(self.pageLists)
+        self.listWidgetLists = QStatusStreamListWidget(self.pageLists)
         self.listWidgetLists.setObjectName(_fromUtf8("listWidgetLists"))
         self.verticalLayout_4.addWidget(self.listWidgetLists)
         self.stackedWidgetList.addWidget(self.pageLists)
@@ -110,7 +110,7 @@ class Ui_Dialog(object):
         self.verticalLayout_7 = QtGui.QVBoxLayout(self.pageListedBy)
         self.verticalLayout_7.setMargin(0)
         self.verticalLayout_7.setObjectName(_fromUtf8("verticalLayout_7"))
-        self.listWidgetListedBy = QtGui.QListWidget(self.pageListedBy)
+        self.listWidgetListedBy = QStatusStreamListWidget(self.pageListedBy)
         self.listWidgetListedBy.setObjectName(_fromUtf8("listWidgetListedBy"))
         self.verticalLayout_7.addWidget(self.listWidgetListedBy)
         self.stackedWidgetList.addWidget(self.pageListedBy)
@@ -158,4 +158,5 @@ class Ui_Dialog(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabFav), QtGui.QApplication.translate("Dialog", "お気に入り", None, QtGui.QApplication.UnicodeUTF8))
 
 from qstatusbrowser import QStatusBrowser
+from qstatusstreamlistwidget import QStatusStreamListWidget
 import twclient_rc

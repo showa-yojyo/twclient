@@ -34,18 +34,19 @@ class Account(object):
             self.user_timeline = UserTimeLine(self.get_screen_name())
             self.user_timeline.add_observer(view)
 
-        response, collection = self._request_core(fetch_older, UserTimeLine, self.user_timeline)
+        response, collection = self._request_core(view, fetch_older, UserTimeLine, self.user_timeline)
         if collection:
             self.user_timeline = collection
         return response
 
-    def _request_core(self, fetch_older, collection_subclass, member):
+    def _request_core(self, view, fetch_older, collection_subclass, member):
         if member:
             collection = member
         else:
             # first time
             screen_name = self.get_screen_name()
             collection = collection_subclass(screen_name)
+            collection.add_observer(view)
 
         try:
             response = collection.request(fetch_older)
@@ -57,26 +58,26 @@ class Account(object):
 
         return response, collection
 
-    def request_follows(self, fetch_older=True):
-        response, collection = self._request_core(fetch_older, Follows, self.follows)
+    def request_follows(self, view, fetch_older=True):
+        response, collection = self._request_core(view, fetch_older, Follows, self.follows)
         if collection:
             self.follows = collection
         return response
 
-    def request_followed_by(self, fetch_older=True):
-        response, collection = self._request_core(fetch_older, FollowedBy, self.followed_by)
+    def request_followed_by(self, view, fetch_older=True):
+        response, collection = self._request_core(view, fetch_older, FollowedBy, self.followed_by)
         if collection:
             self.followed_by = collection
         return response
 
-    def request_lists(self, fetch_older=True):
-        response, collection = self._request_core(fetch_older, Lists, self.lists)
+    def request_lists(self, view, fetch_older=True):
+        response, collection = self._request_core(view, fetch_older, Lists, self.lists)
         if collection:
             self.lists = collection
         return response
 
-    def request_listed_in(self, fetch_older=True):
-        response, collection = self._request_core(fetch_older, ListedIn, self.listed_in)
+    def request_listed_in(self, view, fetch_older=True):
+        response, collection = self._request_core(view, fetch_older, ListedIn, self.listed_in)
         if collection:
             self.listed_in = collection
         return response
@@ -86,7 +87,7 @@ class Account(object):
             self.favorites = Favorites(self.get_screen_name())
             self.favorites.add_observer(view)
 
-        response, collection = self._request_core(fetch_older, Favorites, self.favorites)
+        response, collection = self._request_core(view, fetch_older, Favorites, self.favorites)
         if collection:
             self.favorites = collection
         return response
