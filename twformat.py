@@ -202,6 +202,8 @@ def format_media(status_item):
         return text
 
     media = entities['media']
+    if len(media) == 0:
+        return text
 
     # e.g. "http://p.twimg.com/AQ9JtQsCEAA7dEN.jpg"
     media_url = media[0]['media_url']
