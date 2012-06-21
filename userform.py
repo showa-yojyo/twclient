@@ -4,6 +4,8 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from ui_userform import Ui_Dialog
 from twmodel.account import Account
+import time
+import traceback
 
 USER_PROPERTY_HTML = u'''
 <table width="100%">
@@ -45,7 +47,9 @@ class UserForm(QDialog):
 
         self.setupStatusBrowser(self.ui.textBrowserUser)
         self.setupStatusBrowser(self.ui.textBrowserStatusUpdates)
+        self.ui.textBrowserStatusUpdates.verticalScrollBar().valueChanged.connect(self.onScrollBarValueChangedStatusUpdates)
         self.setupStatusBrowser(self.ui.textBrowserFav)
+        self.ui.textBrowserFav.verticalScrollBar().valueChanged.connect(self.onScrollBarValueChangedFavorites)
 
         self.ui.stackedWidgetFollower.currentChanged.connect(self.onStackChangedFollower)
         self.ui.stackedWidgetList.currentChanged.connect(self.onStackChangedList)
@@ -105,6 +109,30 @@ class UserForm(QDialog):
 
         listWidget = self.ui.listWidgetListedBy
         listWidget.setupGui(self.account.request_listed_in)
+
+    def onScrollBarValueChangedStatusUpdates(self, value):
+        self._onScrollBarValueChanged(value, self.ui.textBrowserStatusUpdates, self.account.request_user_timeline)
+
+    def onScrollBarValueChangedFavorites(self, value):
+        self._onScrollBarValueChanged(value, self.ui.textBrowserFav, self.account.request_favorites)
+
+    def _onScrollBarValueChanged(self, value, view, request_handler):
+        slider = view.verticalScrollBar()
+        if value > 0 and value == slider.maximum():
+            start_time = time.time()
+            try:
+                # TODO: command invoker, echo status, etc.
+                print u"Now loading..."
+                QApplication.setOverrideCursor(QCursor(3))
+                request_handler(view, True)
+
+            except Exception as e:
+                traceback.print_exc()
+
+            finally:
+                elapsed_time = time.time() - start_time
+                print u"Done ({0:.3f} sec)".format(elapsed_time)
+                QApplication.restoreOverrideCursor()
 
     def onStackChangedList(self, index):
         if index == 0:
