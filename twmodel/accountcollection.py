@@ -21,7 +21,7 @@ class AccountCollection(Collection):
         api = Twitter(auth=auth)
         if self.user_ids_rest:
             # api.users.lookup のみで事足りる。
-            return self._request_users_lookup(api, self.user_ids)
+            return self._request_users_lookup(api, self.user_ids_rest)
         else:
             kwargs = dict(screen_name=self.screen_name)
             if next_cursor > 0:

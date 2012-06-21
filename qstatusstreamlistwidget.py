@@ -2,10 +2,13 @@
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
+import time
+import traceback
 
 class QStatusStreamListWidget(QListWidget):
 
-    def setupGui(self):
+    def setupGui(self, request_handler):
+        self.request_handler = request_handler
         self.setIconSize(QSize(48, 48))
         self.setSortingEnabled(False)
         #listWidget.setWordWrap(True)
@@ -14,7 +17,19 @@ class QStatusStreamListWidget(QListWidget):
         self.icon = QIcon()
         self.icon.addPixmap(QPixmap(u":/resource/illvelo-32x32.png"))
 
+        # signal-slot
+        slider = self.verticalScrollBar()
+        slider.valueChanged.connect(self.onScrollBarValueChanged)
+
+        self.request_handler(self, False)
+
     def on_load_latest_page(self, response):
+        self._on_load_page(response, False)
+
+    def on_load_next_page(self, response):
+        self._on_load_page(response, True)
+
+    def _on_load_page(self, response, push_back):
         is_list = False
         if len(response) > 0 and u'lists' in response:
             is_list = True
@@ -24,25 +39,49 @@ class QStatusStreamListWidget(QListWidget):
         else:
             stream = response
 
-        for element in stream:
-            item = QListWidgetItem(self)
-            item.setIcon(self.icon) # TODO: obtain icon from each element
-
+        for i, element in enumerate(stream):
             if is_list:
-                item.setText(u'{full_name}\n{description}'.format(**element))
+                label = u'{full_name}\n{description}'.format(**element)
             else:
                 if u'status' in element:
-                    item.setText(u'{screen_name} | {name}\n{status[text]}'.format(**element))
+                    label = u'{screen_name} | {name}\n{status[text]}'.format(**element)
                 else:
-                    item.setText(u'{screen_name} | {name}'.format(**element))
+                    label = u'{screen_name} | {name}'.format(**element)
 
-            if self.count() % 2 == 0:
+            if push_back:
+                self.insertItem(i, label)
+                item = self.item(i)
+            else:
+                item = QListWidgetItem(self)
+                item.setText(label)
+
+            # TODO: obtain icon from each element
+            item.setIcon(self.icon)
+
+        # alternate row colors
+        numitem = self.count()
+        for i in xrange(numitem):
+            item = self.item(i)
+            if not i & 1:
                 color = QColor(u'whitesmoke')
             else:
                 color = QColor(u'white')
             item.setBackgroundColor(color)
 
+    def onScrollBarValueChanged(self, value):
+        slider = self.verticalScrollBar()
+        if value > 0 and value == slider.maximum():
+            start_time = time.time()
+            try:
+                # TODO: command invoker, echo status, etc.
+                print u"Now loading..."
+                QApplication.setOverrideCursor(QCursor(3))
+                self.request_handler(self, True)
 
-    def on_load_next_page(self, response):
-        # TODO
-        print 'on_load_next_page'
+            except Exception as e:
+                traceback.print_exc()
+
+            finally:
+                elapsed_time = time.time() - start_time
+                print u"Done ({0:.3f} sec)".format(elapsed_time)
+                QApplication.restoreOverrideCursor()

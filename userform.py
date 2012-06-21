@@ -83,32 +83,28 @@ class UserForm(QDialog):
             return
 
         listWidget = self.ui.listWidgetFollows
-        listWidget.setupGui()
-        self.account.request_follows(listWidget, False)
+        listWidget.setupGui(self.account.request_follows)
 
     def setupFollowedByView(self):
         if self.account.followed_by:
             return
 
         listWidget = self.ui.listWidgetFollowedBy
-        listWidget.setupGui()
-        self.account.request_followed_by(listWidget, False)
+        listWidget.setupGui(self.account.request_followed_by)
 
     def setupListsView(self):
         if self.account.lists:
             return
 
         listWidget = self.ui.listWidgetLists
-        listWidget.setupGui()
-        self.account.request_lists(listWidget, False)
+        listWidget.setupGui(self.account.request_lists)
 
     def setupListedInView(self):
         if self.account.listed_in:
             return
 
         listWidget = self.ui.listWidgetListedBy
-        listWidget.setupGui()
-        self.account.request_listed_in(listWidget, False)
+        listWidget.setupGui(self.account.request_listed_in)
 
     def onStackChangedList(self, index):
         if index == 0:
