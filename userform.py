@@ -57,10 +57,6 @@ class UserForm(QDialog):
         self.ui.tabWidget.currentChanged.connect(self.onTabChanged)
         self.onTabChanged(0)
 
-    def onAnchorClicked(self, uri):
-        mainform = self.parentWidget()
-        mainform.onAnchorClicked(uri)
-
     def onLinkActivated(self, href):
         # changePage
         href = unicode(href)
@@ -161,7 +157,8 @@ class UserForm(QDialog):
             acc.request_favorites(self.ui.textBrowserFav, False)
 
     def setupStatusBrowser(self, tb):
-        tb.anchorClicked.connect(self.onAnchorClicked)
+        mainform = self.parentWidget()
+        tb.anchorClicked.connect(mainform.onAnchorClicked)
 
     def setupUserProperty(self):
         tb = self.ui.textBrowserUser
