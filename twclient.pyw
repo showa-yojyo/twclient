@@ -119,26 +119,40 @@ class Form(QMainWindow):
 
         else:
             # general URL
-            def copyToClipboard():
-                QApplication.clipboard().setText(path)
-
-            def invokeBrowser():
-                QDesktopServices.openUrl(uri)
-
-            def searchUrl():
-                model = self.model
-                item = model.assureSearchUrl(path)
-                self.ui.comboBox.setCurrentIndex(item.index().row())
-
-            menu = QMenu(self.ui.textBrowser)
-            menu.addAction(u"URL をコピー (&C)", copyToClipboard)
-            menu.addAction(u"URL をブラウザーで開く (&O)", invokeBrowser)
-            menu.addAction(u"URL をサーチ (&S)", searchUrl)
+            menu = self.makeMenuUrl(uri, path)
             menu.popup(QCursor.pos())
             menu.exec_()
             del menu
 
+    def makeMenuList(self, list_entity):
+        def invokeViewListStatusStream():
+            if u'slug' in list_entity:
+                owner_screen_name = list_entity['user'][u'screen_name']
+                slug = list_entity[u'slug']
+            elif QString(u'slug') in list_entity:
+                owner_screen_name = list_entity[QString('user')][QString(u'screen_name')]
+                slug = list_entity[QString(u'slug')]
+            else:
+                return
+
+            model = self.model
+            item = model.assureList(owner_screen_name, slug)
+            self.ui.comboBox.setCurrentIndex(item.index().row())
+
+        def invokeViewListProperty():
+            # TODO
+            pass
+
+        menu = QMenu()
+        menu.addAction(u"リストのタイムラインを見る(&V)", invokeViewListStatusStream)
+        menu.addAction(u"リストのプロパティ(&R)", invokeViewListProperty) # tooltip?
+        return menu
+
     def makeMenuUser(self, screen_name):
+
+        if isinstance(screen_name, QString):
+            screen_name = unicode(screen_name)
+
         def invokeShowUser():
             cmd = ShowUser(self, screen_name)
             cmd.execute()
@@ -157,6 +171,25 @@ class Form(QMainWindow):
         menu.addAction(u"ユーザー詳細画面を表示(&P)", invokeShowUser)
         menu.addAction(u"ユーザータイムラインを表示(&U)", invokeUserTimeLine)
         menu.addAction(u"言及ツイートをサーチ(&M)", invokeSearchScreenName)
+
+        return menu
+
+    def makeMenuUrl(self, uri, path):
+        def copyToClipboard():
+            QApplication.clipboard().setText(path)
+
+        def invokeBrowser():
+            QDesktopServices.openUrl(uri)
+
+        def searchUrl():
+            model = self.model
+            item = model.assureSearchUrl(path)
+            self.ui.comboBox.setCurrentIndex(item.index().row())
+
+        menu = QMenu()
+        menu.addAction(u"URL をコピー(&C)", copyToClipboard)
+        menu.addAction(u"URL をブラウザーで開く(&O)", invokeBrowser)
+        menu.addAction(u"URL をサーチ(&S)", searchUrl)
 
         return menu
 

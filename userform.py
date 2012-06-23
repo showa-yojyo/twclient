@@ -63,8 +63,7 @@ class UserForm(QDialog):
         menu = QMenu()
         if QString(u'slug') in data:
             # lists, lists/memberships
-            menu.addAction(u"リストのタイムラインを見る(&V)")
-            menu.addAction(u"リストのプロパティ(&R)") # tooltip?
+            menu = mainform.makeMenuList(data)
         elif QString(u'statuses_count') in data:
             # users/lookup
             screen_name = data[QString(u'screen_name')]

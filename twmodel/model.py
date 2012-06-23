@@ -34,6 +34,10 @@ class TimeLineItemModel(QStandardItemModel):
             self.appendRow(item)
             return item
 
+    def assureList(self, owner_screen_name, slug):
+        cmdline = u'list {0}/{1}'.format(owner_screen_name, slug)
+        return self._assureItem(cmdline)
+
     def assureSearchScreenName(self, screen_name):
         cmdline = u'search @{0}'.format(screen_name)
         return self._assureItem(cmdline)
