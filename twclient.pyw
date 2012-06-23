@@ -112,25 +112,7 @@ class Form(QMainWindow):
         elif path.startswith(u'chrome://user_mention/'):
             # screen_name
             screen_name = path[len(u'chrome://user_mention/'):]
-
-            def invokeShowUser():
-                cmd = ShowUser(self, screen_name)
-                cmd.execute()
-
-            def invokeUserTimeLine():
-                model = self.model
-                item = model.assureUserTimeLine(screen_name)
-                self.ui.comboBox.setCurrentIndex(item.index().row())
-
-            def invokeSearchScreenName():
-                model = self.model
-                item = model.assureSearchScreenName(screen_name)
-                self.ui.comboBox.setCurrentIndex(item.index().row())
-
-            menu = QMenu(self.ui.textBrowser)
-            menu.addAction(u"ユーザー詳細画面を表示 (&P)", invokeShowUser)
-            menu.addAction(u"ユーザータイムラインを表示 (&U)", invokeUserTimeLine)
-            menu.addAction(u"言及ツイートをサーチ (&M)", invokeSearchScreenName)
+            menu = self.makeMenuUser(screen_name)
             menu.popup(QCursor.pos())
             menu.exec_()
             del menu
@@ -155,6 +137,28 @@ class Form(QMainWindow):
             menu.popup(QCursor.pos())
             menu.exec_()
             del menu
+
+    def makeMenuUser(self, screen_name):
+        def invokeShowUser():
+            cmd = ShowUser(self, screen_name)
+            cmd.execute()
+
+        def invokeUserTimeLine():
+            model = self.model
+            item = model.assureUserTimeLine(screen_name)
+            self.ui.comboBox.setCurrentIndex(item.index().row())
+
+        def invokeSearchScreenName():
+            model = self.model
+            item = model.assureSearchScreenName(screen_name)
+            self.ui.comboBox.setCurrentIndex(item.index().row())
+
+        menu = QMenu()
+        menu.addAction(u"ユーザー詳細画面を表示(&P)", invokeShowUser)
+        menu.addAction(u"ユーザータイムラインを表示(&U)", invokeUserTimeLine)
+        menu.addAction(u"言及ツイートをサーチ(&M)", invokeSearchScreenName)
+
+        return menu
 
     def onAppAbout(self):
         cmd = About(self)

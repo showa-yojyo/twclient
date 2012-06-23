@@ -7,7 +7,7 @@ import traceback
 
 class QStatusStreamListWidget(QListWidget):
 
-    def setupGui(self, request_handler):
+    def setupGui(self, request_handler, makeMenu=None):
         self.request_handler = request_handler
         self.setIconSize(QSize(48, 48))
         self.setSortingEnabled(False)
@@ -20,8 +20,12 @@ class QStatusStreamListWidget(QListWidget):
         # signal-slot
         slider = self.verticalScrollBar()
         slider.valueChanged.connect(self.onScrollBarValueChanged)
-
         self.request_handler(self, False)
+
+        self.makeMenu = makeMenu
+        if makeMenu:
+            self.setContextMenuPolicy(Qt.CustomContextMenu)
+            self.customContextMenuRequested.connect(self.onContextMenu)
 
     def on_load_latest_page(self, response):
         self._on_load_page(response, False)
@@ -55,6 +59,8 @@ class QStatusStreamListWidget(QListWidget):
                 item = QListWidgetItem(self)
                 item.setText(label)
 
+            # store JSON data
+            item.setData(Qt.UserRole, QVariant(element))
             # TODO: obtain icon from each element
             item.setIcon(self.icon)
 
@@ -67,6 +73,21 @@ class QStatusStreamListWidget(QListWidget):
             else:
                 color = QColor(u'white')
             item.setBackgroundColor(color)
+
+    def onContextMenu(self, pt):
+        index = self.indexAt(pt)
+        if index < 0:
+            return
+
+        row = index.row()
+        item = self.item(row)
+        item.setSelected(True)
+        data = item.data(Qt.UserRole).toPyObject()
+
+        menu = self.makeMenu(data)
+        menu.popup(QCursor.pos())
+        menu.exec_()
+        del menu
 
     def onScrollBarValueChanged(self, value):
         slider = self.verticalScrollBar()

@@ -57,6 +57,21 @@ class UserForm(QDialog):
         self.ui.tabWidget.currentChanged.connect(self.onTabChanged)
         self.onTabChanged(0)
 
+    def makeMenu(self, data):
+        mainform = self.parentWidget()
+
+        menu = QMenu()
+        if QString(u'slug') in data:
+            # lists, lists/memberships
+            menu.addAction(u"リストのタイムラインを見る(&V)")
+            menu.addAction(u"リストのプロパティ(&R)") # tooltip?
+        elif QString(u'statuses_count') in data:
+            # users/lookup
+            screen_name = data[QString(u'screen_name')]
+            menu = mainform.makeMenuUser(screen_name)
+
+        return menu
+
     def onLinkActivated(self, href):
         # changePage
         href = unicode(href)
@@ -83,28 +98,28 @@ class UserForm(QDialog):
             return
 
         listWidget = self.ui.listWidgetFollows
-        listWidget.setupGui(self.account.request_follows)
+        listWidget.setupGui(self.account.request_follows, self.makeMenu)
 
     def setupFollowedByView(self):
         if self.account.followed_by:
             return
 
         listWidget = self.ui.listWidgetFollowedBy
-        listWidget.setupGui(self.account.request_followed_by)
+        listWidget.setupGui(self.account.request_followed_by, self.makeMenu)
 
     def setupListsView(self):
         if self.account.lists:
             return
 
         listWidget = self.ui.listWidgetLists
-        listWidget.setupGui(self.account.request_lists)
+        listWidget.setupGui(self.account.request_lists, self.makeMenu)
 
     def setupListedInView(self):
         if self.account.listed_in:
             return
 
         listWidget = self.ui.listWidgetListedBy
-        listWidget.setupGui(self.account.request_listed_in)
+        listWidget.setupGui(self.account.request_listed_in, self.makeMenu)
 
     def onScrollBarValueChangedStatusUpdates(self, value):
         self._onScrollBarValueChanged(value, self.ui.textBrowserStatusUpdates, self.account.request_user_timeline)
