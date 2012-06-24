@@ -13,6 +13,9 @@ class StatusStream(object):
             self.observers.remove(observer)
 
     def notify_observers(self, response, fetch_older):
+        if not response:
+            return
+
         if fetch_older:
             for observer in self.observers:
                 observer.on_load_next_page(response)
