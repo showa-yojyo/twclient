@@ -10,6 +10,7 @@ from cStringIO import StringIO
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from ui_twclient import Ui_MainWindow
+from propertydialog import PropertyDialog
 
 from twcommand.request import Request
 from twcommand.about import About
@@ -125,7 +126,9 @@ class Form(QMainWindow):
             del menu
 
     def makeMenuList(self, list_entity):
+        assert list_entity
         def invokeViewListStatusStream():
+            assert list_entity
             if u'slug' in list_entity:
                 owner_screen_name = list_entity['user'][u'screen_name']
                 slug = list_entity[u'slug']
@@ -140,8 +143,21 @@ class Form(QMainWindow):
             self.ui.comboBox.setCurrentIndex(item.index().row())
 
         def invokeViewListProperty():
-            # TODO
-            pass
+            assert list_entity
+            target = None
+            if u'slug' in list_entity:
+                target = list_entity
+            elif QString(u'slug') in list_entity:
+                # QString => unicode
+                target = dict()
+                for k, v in list_entity.iteritems():
+                    target[unicode(k)] = v
+            else:
+                return
+
+            dlg = PropertyDialog()
+            dlg.setup(target)
+            dlg.exec_()
 
         menu = QMenu()
         menu.addAction(u"リストのタイムラインを見る(&V)", invokeViewListStatusStream)

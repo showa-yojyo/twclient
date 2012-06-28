@@ -60,7 +60,7 @@ class UserForm(QDialog):
     def makeMenu(self, data):
         mainform = self.parentWidget()
 
-        menu = QMenu()
+        menu = None
         if QString(u'slug') in data:
             # lists, lists/memberships
             menu = mainform.makeMenuList(data)
