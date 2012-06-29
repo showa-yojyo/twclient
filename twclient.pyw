@@ -37,6 +37,7 @@ class Form(QMainWindow):
 
     def setupComboBox(self):
         cb = self.ui.comboBox
+        cb.view().setAlternatingRowColors(True)
         cb.setModel(self.model)
 
     def setupBrowser(self):
@@ -234,6 +235,13 @@ class Form(QMainWindow):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+    try:
+        with open('client.css', 'r') as fin:
+            css = fin.read()
+            app.setStyleSheet(css)
+    except:
+        print >>sys.stderr, "WARNING client.css not read"
+
     window = Form()
     window.show()
     sys.exit(app.exec_())

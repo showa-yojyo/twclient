@@ -1,4 +1,4 @@
-include *.ini.sample *.py *.pyw *.qrc *.ui
+include *.css *.ini.sample *.py *.pyw *.qrc *.ui
 graft resource
 exclude deploy.py
 prune tmp

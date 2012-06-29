@@ -16,7 +16,13 @@ class QStatusBrowser(QTextBrowser):
     def __init__(self, parent):
         super(QStatusBrowser, self).__init__(parent)
         self.cache_path = CACHE_PATH # TODO: 設定可能にする
-        self.document().setDefaultStyleSheet(twformat.CSS)
+
+        try:
+            with open('statuses.css', 'r') as fin:
+                css = fin.read()
+                self.document().setDefaultStyleSheet(css)
+        except:
+            print >>sys.stderr, "WARNING client.css not read"
 
     def loadResource(self, type, name):
         url = unicode(name.toString())

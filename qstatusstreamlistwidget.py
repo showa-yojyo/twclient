@@ -9,6 +9,7 @@ class QStatusStreamListWidget(QListWidget):
 
     def setupGui(self, request_handler, makeMenu=None):
         self.request_handler = request_handler
+        self.setAlternatingRowColors(True)
         self.setIconSize(QSize(48, 48))
         self.setSortingEnabled(False)
         #listWidget.setWordWrap(True)
@@ -63,16 +64,6 @@ class QStatusStreamListWidget(QListWidget):
             item.setData(Qt.UserRole, QVariant(element))
             # TODO: obtain icon from each element
             item.setIcon(self.icon)
-
-        # alternate row colors
-        numitem = self.count()
-        for i in xrange(numitem):
-            item = self.item(i)
-            if not i & 1:
-                color = QColor(u'whitesmoke')
-            else:
-                color = QColor(u'white')
-            item.setBackgroundColor(color)
 
     def onContextMenu(self, pt):
         index = self.indexAt(pt)

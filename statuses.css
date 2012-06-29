@@ -1,0 +1,13 @@
+a
+{
+    color: royalblue;
+    text-decoration: none;
+}
+a.user_mention
+{
+    font-weight: bold;
+}
+p.f
+{
+    color:lightslategrey;
+}

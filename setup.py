@@ -12,7 +12,7 @@ import twversion
 
 def make_data_files(use_py2exe):
     files = []
-    files.append((".", ["README.txt", "timelines.ini.sample",]))
+    files.append((".", ["README.txt", "timelines.ini.sample",] + glob(r'*.css')))
     if use_py2exe:
         files.append(("Microsoft.VC90.CRT", 
                       ["Microsoft.VC90.CRT.manifest"] + glob(r'msvc*90.dll')))
@@ -33,7 +33,7 @@ def main():
     use_py2exe = sys.platform == 'win32' and 'py2exe' in sys.argv
 
     options = make_options(use_py2exe)
-    
+
     setup(
         name='twclient',
         version=twversion.VERSION,

@@ -18,13 +18,6 @@ DEMODATA = {u'created_at': u'Tue Apr 17 15:55:49 +0000 2012',
             u'subscriber_count': 0,
             u'uri': u'/showa_yojyo/followed-by',}
 
-CSS = u'''
-QTableView {
-background-color: white;
-alternate-background-color: whitesmoke;
-}
-'''
-
 class PropertyDialog(QDialog):
     def __init__(self):
         super(PropertyDialog, self).__init__()
@@ -84,10 +77,16 @@ class PropertyDialog(QDialog):
             width = self.width() / 3
             tableWidget.setColumnWidth(0, width)
 
-        tableWidget.setStyleSheet(CSS)
-
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+    try:
+        with open('client.css', 'r') as fin:
+            css = fin.read()
+            app.setStyleSheet(css)
+    except:
+        print >>sys.stderr, "WARNING client.css not read"
+
     window = PropertyDialog()
+    window.setup(DEMODATA)
     window.show()
     sys.exit(app.exec_())

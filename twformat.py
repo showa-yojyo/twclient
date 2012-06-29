@@ -24,10 +24,6 @@ class JST(datetime.tzinfo):
     def tzname(self,dt):
         return "JST"
 
-CSS = u'''
-p.f{ color:lightslategrey; }
-'''
-
 HTML_PART = u'''
 <table width="100%">
   <tr>
@@ -35,14 +31,14 @@ HTML_PART = u'''
       <img src="{profile_image_url}" width="32" height="32" title="{tooltip_html_text}"/>
     </td>
     <td>
-      <b><a href="chrome://user_mention/{screen_name}" title="クリックでポップアップメニュー表示">{screen_name}</a></b> 
+      <a href="chrome://user_mention/{screen_name}" title="クリックでポップアップメニュー表示" class="user_mention">{screen_name}</a> 
       {text}
       <p class="f">{created_at} {source} で {in_reply}</p>
     </td>
     {media}
   </tr>
 </table>
-<hr />
+<hr width="100%" />
 '''
 
 TOOLTIP_FORMAT = u'''

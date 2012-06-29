@@ -1,0 +1,17 @@
+QAbstractItemView
+{
+    background-color: white;
+    alternate-background-color: lightgrey;
+}
+QComboBox
+{
+    /* font-size: 10pt; */
+}
+QFrame, QLabel, QToolTip
+{
+    border-width: 1px;
+}
+QStatusBrowser
+{
+    background-color: white;
+}
