@@ -8,6 +8,7 @@ from twmodel.favorites import Favorites
 #from twmodel.followed_by import FollowedBy
 #from twmodel.lists import Lists
 #from twmodel.listed_in import ListedIn
+from twmodel.dummy import DummyTimeLine
 
 # かなりの可能性でクラスにしないほうがよさそうだ
 class ItemFactory(object):
@@ -44,5 +45,8 @@ class ItemFactory(object):
         #elif(command_name in u"followed-by"):
         #    screen_name = words[1]
         #    item = FollowedBy(screen_name)
+
+        elif(command_name == u"dummy_timeline"):
+            item = DummyTimeLine()
 
         return item
