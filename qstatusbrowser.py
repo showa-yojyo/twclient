@@ -24,6 +24,9 @@ class QStatusBrowser(QTextBrowser):
         except:
             print >>sys.stderr, "WARNING client.css not read"
 
+        self.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.customContextMenuRequested.connect(self.onContextMenu)
+
     def loadResource(self, type, name):
         url = unicode(name.toString())
         if url.startswith('http://') or url.startswith('https://'):
@@ -56,3 +59,13 @@ class QStatusBrowser(QTextBrowser):
         for status in response:
             text += twformat.format_status(status)
         self.insertHtml(text)
+
+    def onContextMenu(self, pt):
+        menu = QMenu()
+        for item in (u"ツイートをコピー(&C)", 
+                     u"ツイートのプロパティー(&R)"):
+            action = QAction(item, self)
+            action.setEnabled(False)
+            menu.addAction(action)
+        menu.popup(QCursor.pos())
+        menu.exec_()
