@@ -11,6 +11,11 @@ import twformat
 
 CACHE_PATH = './cache'
 
+class StatusMetaData(QTextBlockUserData):
+    def __init__(self, metadata):
+        super(StatusMetaData, self).__init__()
+        self.metadata = metadata
+
 class QStatusBrowser(QTextBrowser):
 
     def __init__(self, parent):
@@ -47,10 +52,19 @@ class QStatusBrowser(QTextBrowser):
 
     def on_load_latest_page(self, response):
         self.moveCursor(QTextCursor.Start)
-        text = u''
+        caret = QTextCursor(self.textCursor())
+
+        #text = u''
         for status in response:
-            text += twformat.format_status(status)
-        self.insertHtml(text)
+            #text += twformat.format_status(status)
+
+            # metadata
+            caret.block().setUserData(StatusMetaData(status))
+
+            # <table>...</table><hr/>
+            text = twformat.format_status(status)
+            self.insertHtml(text)
+
         self.moveCursor(QTextCursor.Start)
 
     def on_load_next_page(self, response):
@@ -61,11 +75,40 @@ class QStatusBrowser(QTextBrowser):
         self.insertHtml(text)
 
     def onContextMenu(self, pt):
+        metadata = self.findStatus(pt)
+
+        def invokeCopyToClipboard():
+            txt = metadata['text']
+            QApplication.clipboard().setText(txt)
+
         menu = QMenu()
-        for item in (u"ツイートをコピー(&C)", 
-                     u"ツイートのプロパティー(&R)"):
-            action = QAction(item, self)
+
+        action = QAction(u"ツイートをコピー(&C)", self)
+        action.triggered.connect(invokeCopyToClipboard)
+        if not metadata:
             action.setEnabled(False)
-            menu.addAction(action)
+        menu.addAction(action)
+
+        action = QAction(u"ツイートのプロパティー(&R)", self)
+        action.setEnabled(False)
+        menu.addAction(action)
+
         menu.popup(QCursor.pos())
         menu.exec_()
+
+    def findStatus(self, pt):
+        #print 'onContextMenu'
+        caret = self.cursorForPosition(pt)
+        #print "caret:", caret.position()
+        block = caret.block()
+        while block.isValid():
+            userdata = block.userData()
+            if userdata:
+                #print "found:", userdata.metadata
+                #print "found:", userdata.metadata['id']
+                #print "found:", userdata.metadata['text']
+                return userdata.metadata
+            else:
+                block = block.previous()
+
+        return None
