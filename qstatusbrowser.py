@@ -18,6 +18,8 @@ class StatusMetaData(QTextBlockUserData):
 
 class QStatusBrowser(QTextBrowser):
 
+    imagecache = dict()
+
     def __init__(self, parent):
         super(QStatusBrowser, self).__init__(parent)
         self.cache_path = CACHE_PATH # TODO: 設定可能にする
@@ -48,8 +50,13 @@ class QStatusBrowser(QTextBrowser):
 
             # Note: super() seems not to work since PyQt 4.9.1.
             #return super(QStatusBrowser, self).loadResource(type, QtCore.QUrl(fn))
-            img = QImage(fn)
-            return QVariant(img)
+
+            if fn in self.imagecache:
+                return QVariant(self.imagecache[fn])
+            else:
+                img = QImage(fn)
+                self.imagecache[fn] = img
+                return QVariant(img)
         else:
             return super(QStatusBrowser, self).loadResource(type, name)
 
