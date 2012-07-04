@@ -172,6 +172,7 @@ class UserForm(QDialog):
 
     def setupStatusBrowser(self, tb):
         mainform = self.parentWidget()
+        tb.setupGui(mainform.makeMenuStatus)
         tb.anchorClicked.connect(mainform.onAnchorClicked)
 
     def setupUserProperty(self):

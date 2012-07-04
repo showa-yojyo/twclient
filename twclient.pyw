@@ -43,6 +43,7 @@ class Form(QMainWindow):
     def setupBrowser(self):
         tb = self.ui.textBrowser
         tb.moveCursor(QTextCursor.End)
+        tb.setupGui(self.makeMenuStatus)
         slider = tb.verticalScrollBar()
         slider.valueChanged.connect(self.onScrollBarValueChanged)
         tb.anchorClicked.connect(self.onAnchorClicked)
@@ -163,6 +164,31 @@ class Form(QMainWindow):
         menu = QMenu()
         menu.addAction(u"リストのタイムラインを見る(&V)", invokeViewListStatusStream)
         menu.addAction(u"リストのプロパティ(&R)", invokeViewListProperty) # tooltip?
+        return menu
+
+    def makeMenuStatus(self, metadata):
+        def invokeCopyToClipboard():
+            txt = metadata['text']
+            QApplication.clipboard().setText(txt)
+
+        def invokeViewStatusProperty():
+            dlg = PropertyDialog()
+            dlg.setup(metadata)
+            dlg.exec_()
+
+        menu = QMenu()
+
+        action = QAction(u"ツイートをコピー(&C)", self)
+        action.triggered.connect(invokeCopyToClipboard)
+        if not metadata:
+            action.setEnabled(False)
+        menu.addAction(action)
+
+        action = QAction(u"ツイートのプロパティー(&R)", self)
+        action.triggered.connect(invokeViewStatusProperty)
+        if not metadata:
+            action.setEnabled(False)
+        menu.addAction(action)
         return menu
 
     def makeMenuUser(self, screen_name):

@@ -22,6 +22,7 @@ class QStatusBrowser(QTextBrowser):
         super(QStatusBrowser, self).__init__(parent)
         self.cache_path = CACHE_PATH # TODO: 設定可能にする
 
+    def setupGui(self, makeMenu=None):
         try:
             with open('statuses.css', 'r') as fin:
                 css = fin.read()
@@ -29,8 +30,10 @@ class QStatusBrowser(QTextBrowser):
         except:
             print >>sys.stderr, "WARNING client.css not read"
 
-        self.setContextMenuPolicy(Qt.CustomContextMenu)
-        self.customContextMenuRequested.connect(self.onContextMenu)
+        self.makeMenu = makeMenu
+        if makeMenu:
+            self.setContextMenuPolicy(Qt.CustomContextMenu)
+            self.customContextMenuRequested.connect(self.onContextMenu)
 
     def loadResource(self, type, name):
         url = unicode(name.toString())
@@ -54,10 +57,7 @@ class QStatusBrowser(QTextBrowser):
         self.moveCursor(QTextCursor.Start)
         caret = QTextCursor(self.textCursor())
 
-        #text = u''
         for status in response:
-            #text += twformat.format_status(status)
-
             # metadata
             caret.block().setUserData(StatusMetaData(status))
 
@@ -69,44 +69,32 @@ class QStatusBrowser(QTextBrowser):
 
     def on_load_next_page(self, response):
         self.moveCursor(QTextCursor.End)
-        text = u''
+        caret = QTextCursor(self.textCursor())
+
         for status in response:
-            text += twformat.format_status(status)
-        self.insertHtml(text)
+            # metadata
+            caret.block().setUserData(StatusMetaData(status))
+
+            # <table>...</table><hr/>
+            text = twformat.format_status(status)
+            self.insertHtml(text)
 
     def onContextMenu(self, pt):
+        if not self.makeMenu:
+            return
+
         metadata = self.findStatus(pt)
-
-        def invokeCopyToClipboard():
-            txt = metadata['text']
-            QApplication.clipboard().setText(txt)
-
-        menu = QMenu()
-
-        action = QAction(u"ツイートをコピー(&C)", self)
-        action.triggered.connect(invokeCopyToClipboard)
-        if not metadata:
-            action.setEnabled(False)
-        menu.addAction(action)
-
-        action = QAction(u"ツイートのプロパティー(&R)", self)
-        action.setEnabled(False)
-        menu.addAction(action)
-
+        menu = self.makeMenu(metadata)
         menu.popup(QCursor.pos())
         menu.exec_()
+        del menu
 
     def findStatus(self, pt):
-        #print 'onContextMenu'
         caret = self.cursorForPosition(pt)
-        #print "caret:", caret.position()
         block = caret.block()
         while block.isValid():
             userdata = block.userData()
             if userdata:
-                #print "found:", userdata.metadata
-                #print "found:", userdata.metadata['id']
-                #print "found:", userdata.metadata['text']
                 return userdata.metadata
             else:
                 block = block.previous()

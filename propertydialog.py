@@ -21,14 +21,21 @@ DEMODATA = {u'created_at': u'Tue Apr 17 15:55:49 +0000 2012',
 class PropertyDialog(QDialog):
     def __init__(self):
         super(PropertyDialog, self).__init__()
-        self.list_entity = None
+        self.twitter_entity = None
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
 
-    def setup(self, list_entity):
-        self.list_entity = list_entity
+    def setup(self, twitter_entity):
+        self.twitter_entity = twitter_entity
         self.setupTableContents(self.ui.tableWidget)
-        self.setWindowTitle(u"{full_name} プロパティー".format(**list_entity))
+        if u'full_name' in twitter_entity:
+            # List
+            title = u"{full_name} プロパティー".format(**twitter_entity)
+        elif u'source' in twitter_entity:
+            # Status (a.k.a. tweet)
+            title = u"ツイート {id_str} プロパティー".format(**twitter_entity)
+
+        self.setWindowTitle(title)
 
     def setupTableContents(self, tableWidget):
         tableWidget.clearContents()
@@ -36,8 +43,8 @@ class PropertyDialog(QDialog):
         tableWidget.horizontalHeader().hide()
         tableWidget.verticalHeader().hide()
 
-        list_entity = self.list_entity
-        numrow = len(list_entity)
+        twitter_entity = self.twitter_entity
+        numrow = len(twitter_entity)
 
         tableWidget.setRowCount(numrow)
         tableWidget.setColumnCount(2)
@@ -47,7 +54,7 @@ class PropertyDialog(QDialog):
 
         row = 0
         height = -1
-        for k, v in sorted(list_entity.iteritems()):
+        for k, v in sorted(twitter_entity.iteritems()):
             tooltiptext = u"<b>{key}</b> {value}".format(key=k, value=v)
 
             item = QTableWidgetItem(k)
