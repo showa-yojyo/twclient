@@ -18,12 +18,14 @@ from twcommand.preference import Preference
 from twcommand.showuser import ShowUser
 from twmodel.model import TimeLineItemModel
 
+from twversion import VERSION
+
 class Form(QMainWindow):
     def __init__(self):
         super(Form, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-
+        self.readSettings()
         self.setupModel()
         self.setupComboBox()
         self.setupBrowser()
@@ -54,7 +56,20 @@ class Form(QMainWindow):
 
     def closeEvent(self, event):
         #shutil.rmtree(CACHE_PATH, True)
+        self.writeSettings()
         return super(Form, self).closeEvent(event)
+
+    def readSettings(self):
+        settings = QSettings("prefab", "twclient")
+        pos = settings.value("mainwindow/pos", QPoint(200, 200)).toPoint()
+        size = settings.value("mainwindow/size", QSize(450, 600)).toSize()
+        self.resize(size)
+        self.move(pos)
+
+    def writeSettings(self):
+        settings = QSettings("prefab", "twclient")
+        settings.setValue("mainwindow/pos", self.pos());
+        settings.setValue("mainwindow/size", self.size());
 
     def currentTimeLineItem(self):
         cb = self.ui.comboBox

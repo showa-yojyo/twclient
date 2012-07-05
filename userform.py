@@ -4,6 +4,7 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from ui_userform import Ui_Dialog
 from twmodel.account import Account
+from twversion import VERSION
 import time
 import traceback
 
@@ -29,7 +30,7 @@ class UserForm(QDialog):
         self.account = Account(users_show)
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
-
+        self.readSettings()
         users_show = self.account.users_show
         title = unicode(self.windowTitle())
         title = title.format(screen_name=users_show['screen_name'])
@@ -56,6 +57,22 @@ class UserForm(QDialog):
 
         self.ui.tabWidget.currentChanged.connect(self.onTabChanged)
         self.onTabChanged(0)
+
+    def closeEvent(self, event):
+        self.writeSettings()
+        return super(UserForm, self).closeEvent(event)
+
+    def readSettings(self):
+        settings = QSettings("prefab", "twclient")
+        pos = settings.value("userform/pos", QPoint(200, 200)).toPoint()
+        size = settings.value("userform/size", QSize(500, 640)).toSize()
+        self.resize(size)
+        self.move(pos)
+
+    def writeSettings(self):
+        settings = QSettings("prefab", "twclient")
+        settings.setValue("userform/pos", self.pos());
+        settings.setValue("userform/size", self.size());
 
     def makeMenu(self, data):
         mainform = self.parentWidget()
