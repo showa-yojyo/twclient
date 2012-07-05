@@ -4,7 +4,7 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from ui_userform import Ui_Dialog
 from twmodel.account import Account
-from twversion import VERSION
+from twsettings import *
 import time
 import traceback
 
@@ -63,16 +63,10 @@ class UserForm(QDialog):
         return super(UserForm, self).closeEvent(event)
 
     def readSettings(self):
-        settings = QSettings("prefab", "twclient")
-        pos = settings.value("userform/pos", QPoint(200, 200)).toPoint()
-        size = settings.value("userform/size", QSize(500, 640)).toSize()
-        self.resize(size)
-        self.move(pos)
+        restorePlacement(self, "userform", size=QSize(500, 640))
 
     def writeSettings(self):
-        settings = QSettings("prefab", "twclient")
-        settings.setValue("userform/pos", self.pos());
-        settings.setValue("userform/size", self.size());
+        savePlacement(self, "userform")
 
     def makeMenu(self, data):
         mainform = self.parentWidget()
