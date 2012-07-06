@@ -21,6 +21,7 @@ class TimeLineItemModel(QStandardItemModel):
 
         for title in titlelist:
             item = QStandardItem(title)
+            item.setToolTip(title)
             item.setData(None)
             self.appendRow(item)
 
@@ -30,6 +31,7 @@ class TimeLineItemModel(QStandardItemModel):
             return result[0]
         else:
             item = QStandardItem(cmdline)
+            item.setToolTip(cmdline)
             item.setData(None)
             self.appendRow(item)
             return item

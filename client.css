@@ -7,6 +7,12 @@ QComboBox
 {
     /* font-size: 10pt; */
 }
+QComboBox QAbstractItemView
+{
+    border: 1px solid black;
+    background-color: white;
+    alternate-background-color: whitesmoke;
+}
 QFrame, QLabel, QToolTip
 {
     border-width: 1px;

@@ -55,7 +55,7 @@ class Form(QMainWindow):
 
     def setupStatusBar(self):
         sb = self.ui.statusbar
-        sb.showMessage(u'Ready')
+        sb.showMessage(u'準備完了')
 
     def closeEvent(self, event):
         #shutil.rmtree(CACHE_PATH, True)
@@ -86,7 +86,7 @@ class Form(QMainWindow):
         view = self.ui.textBrowser
         start_time = time.time()
         try:
-            sb.showMessage(u"Now loading...")
+            sb.showMessage(u"ロード中...")
             QApplication.setOverrideCursor(QCursor(3))
             cmd.execute()
 
@@ -98,7 +98,7 @@ class Form(QMainWindow):
 
         finally:
             elapsed_time = time.time() - start_time
-            sb.showMessage(u"Done ({0:.3f} sec)".format(elapsed_time))
+            sb.showMessage(u"完了 ({0:.3f} sec)".format(elapsed_time))
             QApplication.restoreOverrideCursor()
 
     def loadTimelineList(self):
