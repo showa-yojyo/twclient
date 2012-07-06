@@ -16,8 +16,8 @@ from twcommand.request import Request
 from twcommand.about import About
 from twcommand.preference import Preference
 from twcommand.showuser import ShowUser
+from twdelegate import ComboBoxItemDelegate
 from twmodel.model import TimeLineItemModel
-
 from twsettings import *
 
 class Form(QMainWindow):
@@ -40,7 +40,10 @@ class Form(QMainWindow):
     def setupComboBox(self):
         cb = self.ui.comboBox
         cb.view().setAlternatingRowColors(True)
+        cb.view().setTextElideMode(Qt.ElideRight)
         cb.setModel(self.model)
+        cb.setItemDelegate(ComboBoxItemDelegate())
+        cb.setMinimumWidth(80) # TODO
 
     def setupBrowser(self):
         tb = self.ui.textBrowser
@@ -60,10 +63,18 @@ class Form(QMainWindow):
         return super(Form, self).closeEvent(event)
 
     def readSettings(self):
-        restorePlacement(self, "mainwindow", size=QSize(450, 600))
+        #restorePlacement(self, "mainwindow", size=QSize(450, 600))
+        # MainWindow の場合はツールバー等も考慮するので別ロジック。
+        settings = createSettings()
+        self.restoreGeometry(settings.value("mainwindow/geometry").toByteArray())
+        self.restoreState(settings.value("mainwindow/state").toByteArray())
 
     def writeSettings(self):
-        savePlacement(self, "mainwindow")
+        #savePlacement(self, "mainwindow")
+        # MainWindow の場合はツールバー等も考慮するので別ロジック。
+        settings = createSettings()
+        settings.setValue("mainwindow/geometry", self.saveGeometry())
+        settings.setValue("mainwindow/state", self.saveState())
 
     def currentTimeLineItem(self):
         cb = self.ui.comboBox
