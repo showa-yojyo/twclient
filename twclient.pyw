@@ -48,7 +48,7 @@ class Form(QMainWindow):
     def setupBrowser(self):
         tb = self.ui.textBrowser
         tb.moveCursor(QTextCursor.End)
-        tb.setupGui(self.makeMenuStatus)
+        tb.setupGui(None, self.makeMenuStatus)
         slider = tb.verticalScrollBar()
         slider.valueChanged.connect(self.onScrollBarValueChanged)
         tb.anchorClicked.connect(self.onAnchorClicked)

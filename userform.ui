@@ -36,7 +36,7 @@
    <item row="1" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <property name="iconSize">
       <size>
@@ -53,6 +53,15 @@
        <string>フォロー</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_2">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
@@ -81,7 +90,7 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidgetFollower">
          <property name="currentIndex">
-          <number>2</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="pageStatusUpdates">
           <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -103,7 +112,11 @@
             <number>0</number>
            </property>
            <item>
-            <widget class="QStatusStreamListWidget" name="listWidgetFollows"/>
+            <widget class="UserItemBrowser" name="textBrowserFollows">
+             <property name="openLinks">
+              <bool>false</bool>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -113,7 +126,11 @@
             <number>0</number>
            </property>
            <item>
-            <widget class="QStatusStreamListWidget" name="listWidgetFollowedBy"/>
+            <widget class="UserItemBrowser" name="textBrowserFollowedBy">
+             <property name="openLinks">
+              <bool>false</bool>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -130,6 +147,15 @@
        <string>リスト</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_5">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
@@ -151,7 +177,7 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidgetList">
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="pageLists">
           <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -159,7 +185,11 @@
             <number>0</number>
            </property>
            <item>
-            <widget class="QStatusStreamListWidget" name="listWidgetLists"/>
+            <widget class="ListItemBrowser" name="textBrowserLists">
+             <property name="openLinks">
+              <bool>false</bool>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -169,7 +199,11 @@
             <number>0</number>
            </property>
            <item>
-            <widget class="QStatusStreamListWidget" name="listWidgetListedBy"/>
+            <widget class="ListItemBrowser" name="textBrowserListedBy">
+             <property name="openLinks">
+              <bool>false</bool>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -209,18 +243,19 @@
    <header>qstatusbrowser.h</header>
   </customwidget>
   <customwidget>
-   <class>QStatusStreamListWidget</class>
-   <extends>QListWidget</extends>
-   <header>qstatusstreamlistwidget.h</header>
+   <class>UserItemBrowser</class>
+   <extends>QTextBrowser</extends>
+   <header>useritembrowser.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ListItemBrowser</class>
+   <extends>QTextBrowser</extends>
+   <header>listitembrowser.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>textBrowserUser</tabstop>
   <tabstop>tabWidget</tabstop>
-  <tabstop>listWidgetFollows</tabstop>
-  <tabstop>listWidgetFollowedBy</tabstop>
-  <tabstop>listWidgetLists</tabstop>
-  <tabstop>listWidgetListedBy</tabstop>
   <tabstop>textBrowserFav</tabstop>
  </tabstops>
  <resources>

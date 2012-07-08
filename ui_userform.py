@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'userform.ui'
 #
-# Created: Wed Jun 20 00:35:58 2012
+# Created: Sun Jul 08 23:59:49 2012
 #      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -34,6 +34,7 @@ class Ui_Dialog(object):
         self.tabFollow = QtGui.QWidget()
         self.tabFollow.setObjectName(_fromUtf8("tabFollow"))
         self.verticalLayout_2 = QtGui.QVBoxLayout(self.tabFollow)
+        self.verticalLayout_2.setContentsMargins(0, -1, 0, 0)
         self.verticalLayout_2.setObjectName(_fromUtf8("verticalLayout_2"))
         self.horizontalLayout = QtGui.QHBoxLayout()
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
@@ -64,18 +65,20 @@ class Ui_Dialog(object):
         self.verticalLayout_3 = QtGui.QVBoxLayout(self.pageFollows)
         self.verticalLayout_3.setMargin(0)
         self.verticalLayout_3.setObjectName(_fromUtf8("verticalLayout_3"))
-        self.listWidgetFollows = QStatusStreamListWidget(self.pageFollows)
-        self.listWidgetFollows.setObjectName(_fromUtf8("listWidgetFollows"))
-        self.verticalLayout_3.addWidget(self.listWidgetFollows)
+        self.textBrowserFollows = UserItemBrowser(self.pageFollows)
+        self.textBrowserFollows.setOpenLinks(False)
+        self.textBrowserFollows.setObjectName(_fromUtf8("textBrowserFollows"))
+        self.verticalLayout_3.addWidget(self.textBrowserFollows)
         self.stackedWidgetFollower.addWidget(self.pageFollows)
         self.pageFollowedBy = QtGui.QWidget()
         self.pageFollowedBy.setObjectName(_fromUtf8("pageFollowedBy"))
         self.verticalLayout_6 = QtGui.QVBoxLayout(self.pageFollowedBy)
         self.verticalLayout_6.setMargin(0)
         self.verticalLayout_6.setObjectName(_fromUtf8("verticalLayout_6"))
-        self.listWidgetFollowedBy = QStatusStreamListWidget(self.pageFollowedBy)
-        self.listWidgetFollowedBy.setObjectName(_fromUtf8("listWidgetFollowedBy"))
-        self.verticalLayout_6.addWidget(self.listWidgetFollowedBy)
+        self.textBrowserFollowedBy = UserItemBrowser(self.pageFollowedBy)
+        self.textBrowserFollowedBy.setOpenLinks(False)
+        self.textBrowserFollowedBy.setObjectName(_fromUtf8("textBrowserFollowedBy"))
+        self.verticalLayout_6.addWidget(self.textBrowserFollowedBy)
         self.stackedWidgetFollower.addWidget(self.pageFollowedBy)
         self.verticalLayout_2.addWidget(self.stackedWidgetFollower)
         icon = QtGui.QIcon()
@@ -84,6 +87,7 @@ class Ui_Dialog(object):
         self.tabList = QtGui.QWidget()
         self.tabList.setObjectName(_fromUtf8("tabList"))
         self.verticalLayout_5 = QtGui.QVBoxLayout(self.tabList)
+        self.verticalLayout_5.setContentsMargins(0, -1, 0, 0)
         self.verticalLayout_5.setObjectName(_fromUtf8("verticalLayout_5"))
         self.horizontalLayout_2 = QtGui.QHBoxLayout()
         self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
@@ -101,18 +105,20 @@ class Ui_Dialog(object):
         self.verticalLayout_4 = QtGui.QVBoxLayout(self.pageLists)
         self.verticalLayout_4.setMargin(0)
         self.verticalLayout_4.setObjectName(_fromUtf8("verticalLayout_4"))
-        self.listWidgetLists = QStatusStreamListWidget(self.pageLists)
-        self.listWidgetLists.setObjectName(_fromUtf8("listWidgetLists"))
-        self.verticalLayout_4.addWidget(self.listWidgetLists)
+        self.textBrowserLists = ListItemBrowser(self.pageLists)
+        self.textBrowserLists.setOpenLinks(False)
+        self.textBrowserLists.setObjectName(_fromUtf8("textBrowserLists"))
+        self.verticalLayout_4.addWidget(self.textBrowserLists)
         self.stackedWidgetList.addWidget(self.pageLists)
         self.pageListedBy = QtGui.QWidget()
         self.pageListedBy.setObjectName(_fromUtf8("pageListedBy"))
         self.verticalLayout_7 = QtGui.QVBoxLayout(self.pageListedBy)
         self.verticalLayout_7.setMargin(0)
         self.verticalLayout_7.setObjectName(_fromUtf8("verticalLayout_7"))
-        self.listWidgetListedBy = QStatusStreamListWidget(self.pageListedBy)
-        self.listWidgetListedBy.setObjectName(_fromUtf8("listWidgetListedBy"))
-        self.verticalLayout_7.addWidget(self.listWidgetListedBy)
+        self.textBrowserListedBy = ListItemBrowser(self.pageListedBy)
+        self.textBrowserListedBy.setOpenLinks(False)
+        self.textBrowserListedBy.setObjectName(_fromUtf8("textBrowserListedBy"))
+        self.verticalLayout_7.addWidget(self.textBrowserListedBy)
         self.stackedWidgetList.addWidget(self.pageListedBy)
         self.verticalLayout_5.addWidget(self.stackedWidgetList)
         self.tabWidget.addTab(self.tabList, icon, _fromUtf8(""))
@@ -140,11 +146,7 @@ class Ui_Dialog(object):
         QtCore.QObject.connect(self.labelUpdates, QtCore.SIGNAL(_fromUtf8("linkActivated(QString)")), Dialog.onLinkActivated)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
         Dialog.setTabOrder(self.textBrowserUser, self.tabWidget)
-        Dialog.setTabOrder(self.tabWidget, self.listWidgetFollows)
-        Dialog.setTabOrder(self.listWidgetFollows, self.listWidgetFollowedBy)
-        Dialog.setTabOrder(self.listWidgetFollowedBy, self.listWidgetLists)
-        Dialog.setTabOrder(self.listWidgetLists, self.listWidgetListedBy)
-        Dialog.setTabOrder(self.listWidgetListedBy, self.textBrowserFav)
+        Dialog.setTabOrder(self.tabWidget, self.textBrowserFav)
 
     def retranslateUi(self, Dialog):
         Dialog.setWindowTitle(QtGui.QApplication.translate("Dialog", "@{screen_name} - とにかくシンプルな Twitter クライアント", None, QtGui.QApplication.UnicodeUTF8))
@@ -157,6 +159,7 @@ class Ui_Dialog(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabList), QtGui.QApplication.translate("Dialog", "リスト", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabFav), QtGui.QApplication.translate("Dialog", "お気に入り", None, QtGui.QApplication.UnicodeUTF8))
 
+from listitembrowser import ListItemBrowser
 from qstatusbrowser import QStatusBrowser
-from qstatusstreamlistwidget import QStatusStreamListWidget
+from useritembrowser import UserItemBrowser
 import twclient_rc

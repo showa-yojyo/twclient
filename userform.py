@@ -49,6 +49,7 @@ class UserForm(QDialog):
         self.setupStatusBrowser(self.ui.textBrowserUser)
         self.setupStatusBrowser(self.ui.textBrowserStatusUpdates)
         self.ui.textBrowserStatusUpdates.verticalScrollBar().valueChanged.connect(self.onScrollBarValueChangedStatusUpdates)
+
         self.setupStatusBrowser(self.ui.textBrowserFav)
         self.ui.textBrowserFav.verticalScrollBar().valueChanged.connect(self.onScrollBarValueChangedFavorites)
 
@@ -107,29 +108,29 @@ class UserForm(QDialog):
         if self.account.follows:
             return
 
-        listWidget = self.ui.listWidgetFollows
-        listWidget.setupGui(self.account.request_follows, self.makeMenu)
+        textBrowser = self.ui.textBrowserFollows
+        textBrowser.setupGui(self.account.request_follows, self.parentWidget().makeMenuUser)
 
     def setupFollowedByView(self):
         if self.account.followed_by:
             return
 
-        listWidget = self.ui.listWidgetFollowedBy
-        listWidget.setupGui(self.account.request_followed_by, self.makeMenu)
+        textBrowser = self.ui.textBrowserFollowedBy
+        textBrowser.setupGui(self.account.request_followed_by, self.parentWidget().makeMenuUser)
 
     def setupListsView(self):
         if self.account.lists:
             return
 
-        listWidget = self.ui.listWidgetLists
-        listWidget.setupGui(self.account.request_lists, self.makeMenu)
+        textBrowser = self.ui.textBrowserLists
+        textBrowser.setupGui(self.account.request_lists, self.parentWidget().makeMenuList)
 
     def setupListedInView(self):
         if self.account.listed_in:
             return
 
-        listWidget = self.ui.listWidgetListedBy
-        listWidget.setupGui(self.account.request_listed_in, self.makeMenu)
+        textBrowser = self.ui.textBrowserListedBy
+        textBrowser.setupGui(self.account.request_listed_in, self.parentWidget().makeMenuList)
 
     def onScrollBarValueChangedStatusUpdates(self, value):
         self._onScrollBarValueChanged(value, self.ui.textBrowserStatusUpdates, self.account.request_user_timeline)
@@ -183,7 +184,7 @@ class UserForm(QDialog):
 
     def setupStatusBrowser(self, tb):
         mainform = self.parentWidget()
-        tb.setupGui(mainform.makeMenuStatus)
+        tb.setupGui(None, mainform.makeMenuStatus)
         tb.anchorClicked.connect(mainform.onAnchorClicked)
 
     def setupUserProperty(self):

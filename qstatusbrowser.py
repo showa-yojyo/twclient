@@ -7,6 +7,9 @@
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 import urllib, os, hashlib
+import time
+import traceback
+from cStringIO import StringIO
 import twformat
 
 CACHE_PATH = './cache'
@@ -24,13 +27,19 @@ class QStatusBrowser(QTextBrowser):
         super(QStatusBrowser, self).__init__(parent)
         self.cache_path = CACHE_PATH # TODO: 設定可能にする
 
-    def setupGui(self, makeMenu=None):
+    def setupGui(self, request_handler=None, makeMenu=None):
         try:
             with open('statuses.css', 'r') as fin:
                 css = fin.read()
                 self.document().setDefaultStyleSheet(css)
         except:
             print >>sys.stderr, "WARNING client.css not read"
+
+        self.request_handler = request_handler
+        if request_handler:
+            slider = self.verticalScrollBar()
+            slider.valueChanged.connect(self.onScrollBarValueChanged)
+            self.request_handler(self, False)
 
         self.makeMenu = makeMenu
         if makeMenu:
@@ -107,3 +116,21 @@ class QStatusBrowser(QTextBrowser):
                 block = block.previous()
 
         return None
+
+    def onScrollBarValueChanged(self, value):
+        slider = self.verticalScrollBar()
+        if value > 0 and value == slider.maximum():
+            start_time = time.time()
+            try:
+                # TODO: command invoker, echo status, etc.
+                print u"Now loading..."
+                QApplication.setOverrideCursor(QCursor(3))
+                self.request_handler(self, True)
+
+            except Exception as e:
+                traceback.print_exc()
+
+            finally:
+                elapsed_time = time.time() - start_time
+                print u"Done ({0:.3f} sec)".format(elapsed_time)
+                QApplication.restoreOverrideCursor()
