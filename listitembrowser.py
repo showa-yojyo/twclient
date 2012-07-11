@@ -3,15 +3,17 @@
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from qstatusbrowser import QStatusBrowser, StatusMetaData
+from twformat import get_user_tooltip
 
 HTML_CODE = u'''
 <table width="100%">
   <tr>
     <td valign="top" width="50">
-      <img src="{user[profile_image_url_https]}" width="48" height="48" title="TODO"/>
+      <img src="{user[profile_image_url_https]}" width="48" height="48" title="{tooltip_html_text}"/>
     </td>
     <td>
-      <b>{full_name}</b><br/>{description}
+      <span class="full_name">{full_name}</span>
+      <p class="list_description">{description}</p>
     </td>
   </tr>
 </table>
@@ -28,7 +30,9 @@ class ListItemBrowser(QStatusBrowser):
             caret.block().setUserData(StatusMetaData(listitem))
 
             # HTML table
-            text = HTML_CODE.format(**listitem)
+            text = HTML_CODE.format(
+                tooltip_html_text=get_user_tooltip(listitem),
+                **listitem)
             self.insertHtml(text)
 
         self.moveCursor(QTextCursor.Start)
@@ -42,5 +46,7 @@ class ListItemBrowser(QStatusBrowser):
             caret.block().setUserData(StatusMetaData(listitem))
 
             # HTML table
-            text = HTML_CODE.format(**listitem)
+            text = HTML_CODE.format(
+                tooltip_html_text=get_user_tooltip(listitem),
+                **listitem)
             self.insertHtml(text)

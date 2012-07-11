@@ -27,8 +27,8 @@ class JST(datetime.tzinfo):
 HTML_PART = u'''
 <table width="100%">
   <tr>
-    <td valign="top" width="34">
-      <img src="{profile_image_url}" width="32" height="32" title="{tooltip_html_text}"/>
+    <td valign="top" width="50">
+      <img src="{profile_image_url}" width="48" height="48" title="{tooltip_html_text}"/>
     </td>
     <td>
       <a href="chrome://user_mention/{screen_name}" title="クリックでポップアップメニュー表示" class="user_mention">{screen_name}</a> 
@@ -64,7 +64,11 @@ def get_user_tooltip(item):
         else:
             return TOOLTIP_WITHOUT_URL_FORMAT.format(**user)
     elif 'from_user' in item:
-        return '<b>{from_user}</b>'.format(**item)
+        return u'<b>{from_user}</b>'.format(**item)
+    elif 'listed_count' in item:
+        return TOOLTIP_FORMAT.format(**item)
+    else:
+        return u""
 
 def get_user(item):
     if 'user' in item:
