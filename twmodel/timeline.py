@@ -9,14 +9,6 @@ class TimeLine(StatusStream):
         self.min_id = None
         self.response_chunks = []
 
-    def add_observer(self, observer):
-        if not observer in self.observers:
-            self.observers.append(observer)
-
-    def remove_observer(self, observer):
-        if observer in self.observers:
-            self.observers.remove(observer)
-
     def update_page_info(self, response):
         if len(response) == 0:
             return

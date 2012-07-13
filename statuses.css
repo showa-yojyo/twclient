@@ -19,5 +19,5 @@ span.screen_name, span.name, span.full_name
 }
 p.useritem_text, p.list_description
 {
-    
+    color: lightslategrey;
 }
