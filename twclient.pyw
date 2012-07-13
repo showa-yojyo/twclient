@@ -112,6 +112,7 @@ class Form(QMainWindow):
 
         return ls
 
+    @pyqtSlot()
     def onComboChanged(self):
         self.ui.textBrowser.clear()
         self.requestTwitter()
@@ -122,6 +123,7 @@ class Form(QMainWindow):
             return
         self.invokeRequestCommand(Request(item, False))
 
+    @pyqtSlot(QUrl)
     def onAnchorClicked(self, uri):
         path = unicode(uri.toString())
 
@@ -256,14 +258,17 @@ class Form(QMainWindow):
 
         return menu
 
+    @pyqtSlot()
     def onAppAbout(self):
         cmd = About(self)
         cmd.execute()
 
+    @pyqtSlot()
     def onAppSettings(self):
         cmd = Preference(self)
         cmd.execute()
 
+    @pyqtSlot(int)
     def onScrollBarValueChanged(self, value):
         slider = self.ui.textBrowser.verticalScrollBar()
         if value > 0 and value == slider.maximum():
@@ -272,9 +277,11 @@ class Form(QMainWindow):
                 return
             self.invokeRequestCommand(Request(item, True))
 
+    @pyqtSlot()
     def onTimelineRefresh(self):
         self.requestTwitter()
 
+    @pyqtSlot()
     def onUserShow(self):
         cmd = ShowUser(self)
         cmd.execute()

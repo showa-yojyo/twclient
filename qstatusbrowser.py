@@ -69,6 +69,7 @@ class QStatusBrowser(QTextBrowser):
         else:
             return super(QStatusBrowser, self).loadResource(type, name)
 
+    @pyqtSlot(list)
     def on_load_latest_page(self, response):
         self.moveCursor(QTextCursor.Start)
         caret = QTextCursor(self.textCursor())
@@ -83,6 +84,7 @@ class QStatusBrowser(QTextBrowser):
 
         self.moveCursor(QTextCursor.Start)
 
+    @pyqtSlot(list)
     def on_load_next_page(self, response):
         self.moveCursor(QTextCursor.End)
         caret = QTextCursor(self.textCursor())
@@ -117,6 +119,7 @@ class QStatusBrowser(QTextBrowser):
 
         return None
 
+    @pyqtSlot(int)
     def onScrollBarValueChanged(self, value):
         slider = self.verticalScrollBar()
         if value > 0 and value == slider.maximum():

@@ -83,6 +83,7 @@ class UserForm(QDialog):
 
         return menu
 
+    @pyqtSlot(QString)
     def onLinkActivated(self, href):
         # changePage
         href = unicode(href)
@@ -90,6 +91,7 @@ class UserForm(QDialog):
             page, index = self.pagetable[href]
             page.setCurrentIndex(index)
 
+    @pyqtSlot(int)
     def onStackChangedFollower(self, index):
         if index == 0:
             self.setupUserTimeLineView()
@@ -132,9 +134,11 @@ class UserForm(QDialog):
         textBrowser = self.ui.textBrowserListedBy
         textBrowser.setupGui(self.account.request_listed_in, self.parentWidget().makeMenuList)
 
+    @pyqtSlot(int)
     def onScrollBarValueChangedStatusUpdates(self, value):
         self._onScrollBarValueChanged(value, self.ui.textBrowserStatusUpdates, self.account.request_user_timeline)
 
+    @pyqtSlot(int)
     def onScrollBarValueChangedFavorites(self, value):
         self._onScrollBarValueChanged(value, self.ui.textBrowserFav, self.account.request_favorites)
 
@@ -156,12 +160,14 @@ class UserForm(QDialog):
                 print u"Done ({0:.3f} sec)".format(elapsed_time)
                 QApplication.restoreOverrideCursor()
 
+    @pyqtSlot(int)
     def onStackChangedList(self, index):
         if index == 0:
             self.setupListsView()
         elif index == 1:
             self.setupListedInView()
 
+    @pyqtSlot(int)
     def onTabChanged(self, index):
         acc = self.account
         if index == 0:

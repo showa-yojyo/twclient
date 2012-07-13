@@ -21,6 +21,8 @@ HTML_CODE = u'''
 '''
 
 class UserItemBrowser(QStatusBrowser):
+
+    @pyqtSlot(list)
     def on_load_latest_page(self, response):
         self.moveCursor(QTextCursor.Start)
         caret = QTextCursor(self.textCursor())
@@ -44,6 +46,7 @@ class UserItemBrowser(QStatusBrowser):
 
         self.moveCursor(QTextCursor.Start)
 
+    @pyqtSlot(list)
     def on_load_next_page(self, response):
         self.moveCursor(QTextCursor.End)
         caret = QTextCursor(self.textCursor())
