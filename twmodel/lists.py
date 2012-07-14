@@ -4,8 +4,8 @@ from twmodel.collection import Collection
 from twitter import Twitter, NoAuth
 
 class Lists(Collection):
-    def __init__(self, screen_name):
-        super(Lists, self).__init__()
+    def __init__(self, screen_name, parent=None):
+        super(Lists, self).__init__(parent)
         self.screen_name = screen_name
 
     def do_request(self, next_cursor):

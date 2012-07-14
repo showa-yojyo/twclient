@@ -9,7 +9,7 @@ class TimeLineItemModel(QStandardItemModel):
 
     def __init__(self, view):
         super(TimeLineItemModel, self).__init__(0, 0)
-        self.item_factory = ItemFactory()
+        self.item_factory = ItemFactory(self)
         self.view = view
 
     def setTitles(self, titlelist, dummyline):
@@ -70,4 +70,5 @@ class TimeLineItemModel(QStandardItemModel):
             curdata.add_observer(self.view)
             curitem.setData(curdata)
 
+        assert curdata and curdata.parent()
         return curdata

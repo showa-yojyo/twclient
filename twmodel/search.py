@@ -4,8 +4,8 @@ from twmodel.timeline import TimeLine
 from twitter import Twitter, NoAuth
 
 class Search(TimeLine):
-    def __init__(self, query):
-        super(Search, self).__init__()
+    def __init__(self, query, parent=None):
+        super(Search, self).__init__(parent)
         self.query = query
 
     def do_request(self, max_id, min_id):

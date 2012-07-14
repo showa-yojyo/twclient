@@ -10,43 +10,47 @@ from twmodel.favorites import Favorites
 #from twmodel.listed_in import ListedIn
 from twmodel.dummy import DummyTimeLine
 
-# かなりの可能性でクラスにしないほうがよさそうだ
 class ItemFactory(object):
+
+    def __init__(self, parent):
+        # self.parent should be used for new QObject instances
+        self.parent = parent
+
     def create(self, cmdline):
         item = None
         words = cmdline.split(" ")
         command_name = words[0]
         if(command_name == u"list"):
             owner_slug = words[1].split(u"/")
-            item = List(owner_slug[0], owner_slug[1])
+            item = List(owner_slug[0], owner_slug[1], self.parent)
 
         elif(command_name == u"user_timeline"):
             screen_name = words[1]
-            item = UserTimeLine(screen_name)
+            item = UserTimeLine(screen_name, self.parent)
 
         elif(command_name == u"search"):
             query = cmdline[len(u'search'):].strip()
-            item = Search(query)
+            item = Search(query, self.parent)
 
         elif(command_name == u"favorites"):
             # favorites screen_name
             screen_name = words[1]
-            item = Favorites(screen_name)
+            item = Favorites(screen_name, self.parent)
 
         #elif(command_name == u"lists"):
         #    screen_name = words[1]
-        #    item = Lists(screen_name)
+        #    item = Lists(screen_name, self.parent)
         #elif(command_name in u"listed-in"):
         #    screen_name = words[1]
-        #    item = ListedIn(screen_name)
+        #    item = ListedIn(screen_name, self.parent)
         #elif(command_name in u"follows"):
         #    screen_name = words[1]
-        #    item = Follows(screen_name)
+        #    item = Follows(screen_name, self.parent)
         #elif(command_name in u"followed-by"):
         #    screen_name = words[1]
-        #    item = FollowedBy(screen_name)
+        #    item = FollowedBy(screen_name, self.parent)
 
         elif(command_name == u"dummy_timeline"):
-            item = DummyTimeLine()
+            item = DummyTimeLine(self.parent)
 
         return item

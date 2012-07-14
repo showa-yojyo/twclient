@@ -4,8 +4,8 @@ from twmodel.timeline import TimeLine
 from twitter import Twitter, NoAuth
 
 class UserTimeLine(TimeLine):
-    def __init__(self, screen_name):
-        super(UserTimeLine, self).__init__()
+    def __init__(self, screen_name, parent=None):
+        super(UserTimeLine, self).__init__(parent)
         self.screen_name = screen_name
 
     def do_request(self, max_id, min_id):

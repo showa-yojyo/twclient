@@ -3,8 +3,8 @@
 from twmodel.statusstream import StatusStream
 
 class Collection(StatusStream):
-    def __init__(self):
-        super(Collection, self).__init__()
+    def __init__(self, parent=None):
+        super(Collection, self).__init__(parent)
         self.next_cursor = -1
         self.response_chunks = []
 

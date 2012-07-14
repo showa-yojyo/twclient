@@ -3,8 +3,8 @@
 from twmodel.statusstream import StatusStream
 
 class TimeLine(StatusStream):
-    def __init__(self):
-        super(TimeLine, self).__init__()
+    def __init__(self, parent=None):
+        super(TimeLine, self).__init__(parent)
         self.max_id = None
         self.min_id = None
         self.response_chunks = []

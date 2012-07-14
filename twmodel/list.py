@@ -4,8 +4,8 @@ from twmodel.timeline import TimeLine
 from twitter import Twitter, NoAuth
 
 class List(TimeLine):
-    def __init__(self, owner_screen_name, slug):
-        super(List, self).__init__()
+    def __init__(self, owner_screen_name, slug, parent=None):
+        super(List, self).__init__(parent)
         self.owner_screen_name = owner_screen_name
         self.slug = slug
 

@@ -3,8 +3,8 @@
 from twmodel.timeline import TimeLine
 
 class DummyTimeLine(TimeLine):
-    def __init__(self, *args, **kwargs):
-        super(DummyTimeLine, self).__init__()
+    def __init__(self, parent=None, *args, **kwargs):
+        super(DummyTimeLine, self).__init__(parent)
 
     def do_request(self, max_id, min_id):
         return [{u'user': {u'follow_request_sent': None, 

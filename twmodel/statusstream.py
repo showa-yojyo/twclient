@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 
-class StatusStream(object):
-    def __init__(self):
+from PyQt4.QtCore import *
+
+class StatusStream(QObject):
+    def __init__(self, parent=None):
+        super(StatusStream, self).__init__(parent)
         self.observers = []
 
     def add_observer(self, observer):

@@ -8,8 +8,8 @@ class AccountCollection(Collection):
     This is the superclass of class Follows and FollowedBy.
     """
 
-    def __init__(self, screen_name):
-        super(AccountCollection, self).__init__()
+    def __init__(self, screen_name, parent=None):
+        super(AccountCollection, self).__init__(parent)
         self.screen_name = screen_name
         self.user_ids_rest = None
 
