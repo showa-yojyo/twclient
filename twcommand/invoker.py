@@ -4,6 +4,8 @@ import sys
 import Queue
 import threading
 import logging
+import traceback
+from cStringIO import StringIO
 
 class CommandInvoker(object):
     def __init__(self):
@@ -34,17 +36,27 @@ class CommandInvoker(object):
                 cmd.execute()
 
             except Exception as e:
-                self.logger.error('{0}'.format(e))
                 buf = StringIO()
-                traceback.print_exc(file=sys.stderr)
+                traceback.print_exc(file=buf)
+                self.logger.error(buf.getvalue())
                 buf.close()
             finally:
                 queue.task_done()
                 self.logger.debug('command {0} finished'.format(cmd))
 
-    def store_command(self, cmd):
-        if True:
+    def store_command(self, cmd, enqueue=True):
+        if enqueue:
             self.logger.debug('store {0}'.format(cmd))
             self.queue.put(cmd)
         else:
-            cmd.execute()
+            try:
+                self.logger.debug('command {0} starts'.format(cmd))
+                cmd.execute()
+
+            except Exception as e:
+                buf = StringIO()
+                traceback.print_exc(file=buf)
+                self.logger.error(buf.getvalue())
+                buf.close()
+            finally:
+                self.logger.debug('command {0} finished'.format(cmd))

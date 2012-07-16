@@ -3,9 +3,6 @@
 import sys
 import codecs
 import shutil
-import time
-import traceback
-from cStringIO import StringIO
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
@@ -84,31 +81,16 @@ class Form(QMainWindow):
         return self.model.assureItemData(i)
 
     def invokeRequestCommand(self, cmd):
-        sb = self.ui.statusbar
-        view = self.ui.textBrowser
-        start_time = time.time()
-        try:
-            sb.showMessage(u"ロード中...")
-            QApplication.setOverrideCursor(QCursor(3))
+        if not self.command_invoker:
+            self.command_invoker = CommandInvoker()
+            self.command_invoker.start()
+        self.command_invoker.store_command(cmd)
 
-            if True:
-                if not self.command_invoker:
-                    self.command_invoker = CommandInvoker()
-                    self.command_invoker.start()
-                self.command_invoker.store_command(cmd)
-            else:
-                cmd.execute()
-
-        except Exception as e:
-            buf = StringIO()
-            traceback.print_exc(file=buf)
-            view.setText(u'%s' % buf.getvalue())
-            buf.close()
-
-        finally:
-            elapsed_time = time.time() - start_time
-            sb.showMessage(u"完了 ({0:.3f} sec)".format(elapsed_time))
-            QApplication.restoreOverrideCursor()
+    def invokeUiCommand(self, cmd):
+        if not self.command_invoker:
+            self.command_invoker = CommandInvoker()
+            self.command_invoker.start()
+        self.command_invoker.store_command(cmd, False)
 
     def loadTimelineList(self):
         ls = QStringList()
@@ -228,8 +210,7 @@ class Form(QMainWindow):
             screen_name = unicode(screen_name)
 
         def invokeShowUser():
-            cmd = ShowUser(self, screen_name)
-            cmd.execute()
+            self.invokeUiCommand(ShowUser(self, screen_name))
 
         def invokeUserTimeLine():
             model = self.model
@@ -269,13 +250,11 @@ class Form(QMainWindow):
 
     @pyqtSlot()
     def onAppAbout(self):
-        cmd = About(self)
-        cmd.execute()
+        self.invokeUiCommand(About(self))
 
     @pyqtSlot()
     def onAppSettings(self):
-        cmd = Preference(self)
-        cmd.execute()
+        self.invokeUiCommand(Preference(self))
 
     @pyqtSlot(int)
     def onScrollBarValueChanged(self, value):
@@ -292,8 +271,7 @@ class Form(QMainWindow):
 
     @pyqtSlot()
     def onUserShow(self):
-        cmd = ShowUser(self)
-        cmd.execute()
+        self.invokeUiCommand(ShowUser(self))
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
