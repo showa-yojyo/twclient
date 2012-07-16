@@ -12,6 +12,7 @@ from PyQt4.QtGui import *
 from ui_twclient import Ui_MainWindow
 from propertydialog import PropertyDialog
 
+from twcommand.invoker import CommandInvoker
 from twcommand.request import Request
 from twcommand.about import About
 from twcommand.preference import Preference
@@ -30,6 +31,7 @@ class Form(QMainWindow):
         self.setupComboBox()
         self.setupBrowser()
         self.setupStatusBar()
+        self.command_invoker = None
 
     def setupModel(self):
         msg = u"選択してください"
@@ -88,7 +90,14 @@ class Form(QMainWindow):
         try:
             sb.showMessage(u"ロード中...")
             QApplication.setOverrideCursor(QCursor(3))
-            cmd.execute()
+
+            if True:
+                if not self.command_invoker:
+                    self.command_invoker = CommandInvoker()
+                    self.command_invoker.start()
+                self.command_invoker.store_command(cmd)
+            else:
+                cmd.execute()
 
         except Exception as e:
             buf = StringIO()
