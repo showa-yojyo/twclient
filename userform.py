@@ -5,8 +5,6 @@ from PyQt4.QtGui import *
 from ui_userform import Ui_Dialog
 from twmodel.account import Account
 from twsettings import *
-import time
-import traceback
 
 USER_PROPERTY_HTML = u'''
 <table width="100%">
@@ -131,12 +129,20 @@ class UserForm(QDialog):
         textBrowser = self.ui.textBrowserFollows
         textBrowser.setupGui(self.account.request_follows, self.parentWidget().makeMenuUser)
 
+        mainform = self.parentWidget()
+        mainform.invokeRequestCommand(
+            self._createRequestCommand(self.account.request_follows, textBrowser, False))
+
     def setupFollowedByView(self):
         if self.account.followed_by:
             return
 
         textBrowser = self.ui.textBrowserFollowedBy
         textBrowser.setupGui(self.account.request_followed_by, self.parentWidget().makeMenuUser)
+
+        mainform = self.parentWidget()
+        mainform.invokeRequestCommand(
+            self._createRequestCommand(self.account.request_followed_by, textBrowser, False))
 
     def setupListsView(self):
         if self.account.lists:
@@ -145,12 +151,20 @@ class UserForm(QDialog):
         textBrowser = self.ui.textBrowserLists
         textBrowser.setupGui(self.account.request_lists, self.parentWidget().makeMenuList)
 
+        mainform = self.parentWidget()
+        mainform.invokeRequestCommand(
+            self._createRequestCommand(self.account.request_lists, textBrowser, False))
+
     def setupListedInView(self):
         if self.account.listed_in:
             return
 
         textBrowser = self.ui.textBrowserListedBy
         textBrowser.setupGui(self.account.request_listed_in, self.parentWidget().makeMenuList)
+
+        mainform = self.parentWidget()
+        mainform.invokeRequestCommand(
+            self._createRequestCommand(self.account.request_listed_in, textBrowser, False))
 
     @pyqtSlot(int)
     def onScrollBarValueChangedStatusUpdates(self, value):
@@ -163,20 +177,9 @@ class UserForm(QDialog):
     def _onScrollBarValueChanged(self, value, view, request_handler):
         slider = view.verticalScrollBar()
         if value > 0 and value == slider.maximum():
-            start_time = time.time()
-            try:
-                # TODO: command invoker, echo status, etc.
-                print u"Now loading..."
-                QApplication.setOverrideCursor(QCursor(3))
-                request_handler(view, True)
-
-            except Exception as e:
-                traceback.print_exc()
-
-            finally:
-                elapsed_time = time.time() - start_time
-                print u"Done ({0:.3f} sec)".format(elapsed_time)
-                QApplication.restoreOverrideCursor()
+            mainform = self.parentWidget()
+            mainform.invokeRequestCommand(
+                self._createRequestCommand(request_handler, view, True))
 
     @pyqtSlot(int)
     def onStackChangedList(self, index):
@@ -204,7 +207,10 @@ class UserForm(QDialog):
 
         elif index == 2 and not acc.favorites:
             # Favorites tab
-            acc.request_favorites(self.ui.textBrowserFav, False)
+            mainform = self.parentWidget()
+            mainform.invokeRequestCommand(
+                self._createRequestCommand(
+                    acc.request_favorites, self.ui.textBrowserFav, False))
 
     def setupStatusBrowser(self, tb):
         mainform = self.parentWidget()

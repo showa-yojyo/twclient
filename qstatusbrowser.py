@@ -40,7 +40,6 @@ class QStatusBrowser(QTextBrowser):
         if request_handler:
             slider = self.verticalScrollBar()
             slider.valueChanged.connect(self.onScrollBarValueChanged)
-            self.request_handler(self, False)
 
         self.makeMenu = makeMenu
         if makeMenu:
