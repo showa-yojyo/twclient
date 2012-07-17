@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from PyQt4.QtCore import *
+from twitter import TwitterResponse
 
 class StatusStream(QObject):
 
-    nextPageLoaded = pyqtSignal(list)
-    latestPageLoaded = pyqtSignal(list)
+    nextPageLoaded = pyqtSignal(object)
+    latestPageLoaded = pyqtSignal(object)
 
     def __init__(self, parent=None):
         super(StatusStream, self).__init__(parent)
