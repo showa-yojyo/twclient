@@ -7,6 +7,7 @@
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 import urllib, os, hashlib
+import logging
 import time
 import traceback
 from cStringIO import StringIO
@@ -33,7 +34,7 @@ class QStatusBrowser(QTextBrowser):
                 css = fin.read()
                 self.document().setDefaultStyleSheet(css)
         except:
-            print >>sys.stderr, "WARNING client.css not read"
+            logging.warn("File status.css not found.")
 
         self.request_handler = request_handler
         if request_handler:

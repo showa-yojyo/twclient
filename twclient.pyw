@@ -2,6 +2,7 @@
 
 import sys
 import codecs
+import logging
 import shutil
 
 from PyQt4.QtCore import *
@@ -273,14 +274,27 @@ class Form(QMainWindow):
     def onUserShow(self):
         self.invokeUiCommand(ShowUser(self))
 
+def setup_logger():
+    """Setup the root logger.
+
+    This function should be called from the main thread
+    before other threads are started.
+    """
+    logging.basicConfig(
+        datefmt="%Y/%m/%d %H:%M:%S",
+        format="%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s",
+        level=logging.DEBUG)
+
 if __name__ == '__main__':
+    setup_logger()
+
     app = QApplication(sys.argv)
     try:
         with open('client.css', 'r') as fin:
             css = fin.read()
             app.setStyleSheet(css)
     except:
-        print >>sys.stderr, "WARNING client.css not read"
+        logging.warn("File client.css not found.")
 
     window = Form()
     window.show()

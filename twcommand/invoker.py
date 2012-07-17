@@ -15,12 +15,6 @@ class CommandInvoker(object):
 
     def setup_logger(self):
         self.logger = logging.getLogger('CommandInvoker')
-        self.logger.setLevel(logging.DEBUG)
-
-        ch = logging.StreamHandler()
-        formatter = logging.Formatter("%(asctime)s %(name)s %(levelname)s %(message)s")
-        ch.setFormatter(formatter)
-        self.logger.addHandler(ch)
 
     def start(self):
         self.thread.setDaemon(True)
