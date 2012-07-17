@@ -59,6 +59,21 @@ class UserForm(QDialog):
         self.ui.tabWidget.currentChanged.connect(self.onTabChanged)
         self.onTabChanged(0)
 
+    def _createRequestCommand(self, account_method, view, fetch_older):
+        import twcommand
+
+        class _RequestAccountComponent(twcommand.CommandBase):
+            def __init__(self, account_method, view, fetch_older):
+                super(_RequestAccountComponent, self).__init__()
+                self.account_method = account_method
+                self.view = view
+                self.fetch_older = fetch_older
+
+            def execute(self):
+                self.account_method(self.view, self.fetch_older)
+
+        return _RequestAccountComponent(account_method, view, fetch_older)
+
     def closeEvent(self, event):
         self.writeSettings()
         return super(UserForm, self).closeEvent(event)
@@ -104,7 +119,10 @@ class UserForm(QDialog):
         if self.account.user_timeline:
             return
 
-        self.account.request_user_timeline(self.ui.textBrowserStatusUpdates, False)
+        mainform = self.parentWidget()
+        mainform.invokeRequestCommand(
+            self._createRequestCommand(
+                self.account.request_user_timeline, self.ui.textBrowserStatusUpdates, False))
 
     def setupFollowsView(self):
         if self.account.follows:
