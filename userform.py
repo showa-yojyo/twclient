@@ -128,6 +128,7 @@ class UserForm(QDialog):
 
         textBrowser = self.ui.textBrowserFollows
         textBrowser.setupGui(self.account.request_follows, self.parentWidget().makeMenuUser)
+        textBrowser.verticalScrollBar().valueChanged.connect(self.onScrollBarValueChangedFollows)
 
         mainform = self.parentWidget()
         mainform.invokeRequestCommand(
@@ -139,6 +140,7 @@ class UserForm(QDialog):
 
         textBrowser = self.ui.textBrowserFollowedBy
         textBrowser.setupGui(self.account.request_followed_by, self.parentWidget().makeMenuUser)
+        textBrowser.verticalScrollBar().valueChanged.connect(self.onScrollBarValueChangedFollowedBy)
 
         mainform = self.parentWidget()
         mainform.invokeRequestCommand(
@@ -150,6 +152,7 @@ class UserForm(QDialog):
 
         textBrowser = self.ui.textBrowserLists
         textBrowser.setupGui(self.account.request_lists, self.parentWidget().makeMenuList)
+        textBrowser.verticalScrollBar().valueChanged.connect(self.onScrollBarValueChangedLists)
 
         mainform = self.parentWidget()
         mainform.invokeRequestCommand(
@@ -161,6 +164,7 @@ class UserForm(QDialog):
 
         textBrowser = self.ui.textBrowserListedBy
         textBrowser.setupGui(self.account.request_listed_in, self.parentWidget().makeMenuList)
+        textBrowser.verticalScrollBar().valueChanged.connect(self.onScrollBarValueChangedListedBy)
 
         mainform = self.parentWidget()
         mainform.invokeRequestCommand(
@@ -169,6 +173,22 @@ class UserForm(QDialog):
     @pyqtSlot(int)
     def onScrollBarValueChangedStatusUpdates(self, value):
         self._onScrollBarValueChanged(value, self.ui.textBrowserStatusUpdates, self.account.request_user_timeline)
+
+    @pyqtSlot(int)
+    def onScrollBarValueChangedFollows(self, value):
+        self._onScrollBarValueChanged(value, self.ui.textBrowserFollows, self.account.request_follows)
+
+    @pyqtSlot(int)
+    def onScrollBarValueChangedFollowedBy(self, value):
+        self._onScrollBarValueChanged(value, self.ui.textBrowserFollowedBy, self.account.request_followed_by)
+
+    @pyqtSlot(int)
+    def onScrollBarValueChangedLists(self, value):
+        self._onScrollBarValueChanged(value, self.ui.textBrowserLists, self.account.request_lists)
+
+    @pyqtSlot(int)
+    def onScrollBarValueChangedListedBy(self, value):
+        self._onScrollBarValueChanged(value, self.ui.textBrowserListedBy, self.account.request_listed_in)
 
     @pyqtSlot(int)
     def onScrollBarValueChangedFavorites(self, value):

@@ -36,11 +36,6 @@ class QStatusBrowser(QTextBrowser):
         except:
             logging.warn("File status.css not found.")
 
-        self.request_handler = request_handler
-        if request_handler:
-            slider = self.verticalScrollBar()
-            slider.valueChanged.connect(self.onScrollBarValueChanged)
-
         self.makeMenu = makeMenu
         if makeMenu:
             self.setContextMenuPolicy(Qt.CustomContextMenu)
@@ -118,22 +113,3 @@ class QStatusBrowser(QTextBrowser):
                 block = block.previous()
 
         return None
-
-    @pyqtSlot(int)
-    def onScrollBarValueChanged(self, value):
-        slider = self.verticalScrollBar()
-        if value > 0 and value == slider.maximum():
-            start_time = time.time()
-            try:
-                # TODO: command invoker, echo status, etc.
-                print u"Now loading..."
-                QApplication.setOverrideCursor(QCursor(3))
-                self.request_handler(self, True)
-
-            except Exception as e:
-                traceback.print_exc()
-
-            finally:
-                elapsed_time = time.time() - start_time
-                print u"Done ({0:.3f} sec)".format(elapsed_time)
-                QApplication.restoreOverrideCursor()
