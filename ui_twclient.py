@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'twclient.ui'
 #
-# Created: Thu Jul 05 00:13:34 2012
+# Created: Wed Jul 18 23:02:40 2012
 #      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -55,15 +55,21 @@ class Ui_MainWindow(object):
         self.actionExit = QtGui.QAction(MainWindow)
         self.actionExit.setObjectName(_fromUtf8("actionExit"))
         self.actionSettings = QtGui.QAction(MainWindow)
-        self.actionSettings.setIcon(icon)
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap(_fromUtf8(":/resource/preference.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionSettings.setIcon(icon1)
         self.actionSettings.setObjectName(_fromUtf8("actionSettings"))
         self.actionAppAbout = QtGui.QAction(MainWindow)
         self.actionAppAbout.setObjectName(_fromUtf8("actionAppAbout"))
         self.actionRefresh = QtGui.QAction(MainWindow)
-        self.actionRefresh.setIcon(icon)
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap(_fromUtf8(":/resource/refresh.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionRefresh.setIcon(icon2)
         self.actionRefresh.setObjectName(_fromUtf8("actionRefresh"))
         self.actionUserShow = QtGui.QAction(MainWindow)
-        self.actionUserShow.setIcon(icon)
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap(QtGui.QPixmap(_fromUtf8(":/resource/showuser.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionUserShow.setIcon(icon3)
         self.actionUserShow.setObjectName(_fromUtf8("actionUserShow"))
         self.menu_D.addAction(self.actionRefresh)
         self.menu_U.addAction(self.actionUserShow)
@@ -95,16 +101,21 @@ class Ui_MainWindow(object):
         self.menu_U.setTitle(QtGui.QApplication.translate("MainWindow", "ユーザー(&U)", None, QtGui.QApplication.UnicodeUTF8))
         self.toolBar.setWindowTitle(QtGui.QApplication.translate("MainWindow", "toolBar", None, QtGui.QApplication.UnicodeUTF8))
         self.actionExit.setText(QtGui.QApplication.translate("MainWindow", "終了(&X)", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionExit.setToolTip(QtGui.QApplication.translate("MainWindow", "終了 (Ctrl+Q)", None, QtGui.QApplication.UnicodeUTF8))
         self.actionExit.setStatusTip(QtGui.QApplication.translate("MainWindow", "アプリケーションを終了する", None, QtGui.QApplication.UnicodeUTF8))
         self.actionExit.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+Q", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSettings.setText(QtGui.QApplication.translate("MainWindow", "設定(&S)...", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionSettings.setToolTip(QtGui.QApplication.translate("MainWindow", "設定", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSettings.setStatusTip(QtGui.QApplication.translate("MainWindow", "アプリケーションの各種設定を行う", None, QtGui.QApplication.UnicodeUTF8))
         self.actionAppAbout.setText(QtGui.QApplication.translate("MainWindow", "このアプリについて(&A)...", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionAppAbout.setToolTip(QtGui.QApplication.translate("MainWindow", "このアプリについて", None, QtGui.QApplication.UnicodeUTF8))
         self.actionAppAbout.setStatusTip(QtGui.QApplication.translate("MainWindow", "バージョン情報等を確認する", None, QtGui.QApplication.UnicodeUTF8))
         self.actionRefresh.setText(QtGui.QApplication.translate("MainWindow", "タイムラインを更新(&R)", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionRefresh.setToolTip(QtGui.QApplication.translate("MainWindow", "タイムラインを更新 (Ctrl+R)", None, QtGui.QApplication.UnicodeUTF8))
         self.actionRefresh.setStatusTip(QtGui.QApplication.translate("MainWindow", "現在表示中のタイムラインを最新のものに更新する", None, QtGui.QApplication.UnicodeUTF8))
         self.actionRefresh.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+R", None, QtGui.QApplication.UnicodeUTF8))
         self.actionUserShow.setText(QtGui.QApplication.translate("MainWindow", "ユーザーを表示(&U)...", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionUserShow.setToolTip(QtGui.QApplication.translate("MainWindow", "ユーザーを表示 (Ctrl+U)", None, QtGui.QApplication.UnicodeUTF8))
         self.actionUserShow.setStatusTip(QtGui.QApplication.translate("MainWindow", "ユーザー名を指定して各種情報を確認する", None, QtGui.QApplication.UnicodeUTF8))
         self.actionUserShow.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+U", None, QtGui.QApplication.UnicodeUTF8))
 

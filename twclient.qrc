@@ -1,5 +1,8 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource prefix="/">
   <file>resource/illvelo-32x32.png</file>
+  <file>resource/preference.png</file>
+  <file>resource/refresh.png</file>
+  <file>resource/showuser.png</file>
 </qresource>
 </RCC>

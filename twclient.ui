@@ -97,6 +97,9 @@
    <property name="text">
     <string>終了(&amp;X)</string>
    </property>
+   <property name="toolTip">
+    <string>終了 (Ctrl+Q)</string>
+   </property>
    <property name="statusTip">
     <string>アプリケーションを終了する</string>
    </property>
@@ -107,10 +110,13 @@
   <action name="actionSettings">
    <property name="icon">
     <iconset resource="twclient.qrc">
-     <normaloff>:/resource/illvelo-32x32.png</normaloff>:/resource/illvelo-32x32.png</iconset>
+     <normaloff>:/resource/preference.png</normaloff>:/resource/preference.png</iconset>
    </property>
    <property name="text">
     <string>設定(&amp;S)...</string>
+   </property>
+   <property name="toolTip">
+    <string>設定</string>
    </property>
    <property name="statusTip">
     <string>アプリケーションの各種設定を行う</string>
@@ -120,6 +126,9 @@
    <property name="text">
     <string>このアプリについて(&amp;A)...</string>
    </property>
+   <property name="toolTip">
+    <string>このアプリについて</string>
+   </property>
    <property name="statusTip">
     <string>バージョン情報等を確認する</string>
    </property>
@@ -127,10 +136,13 @@
   <action name="actionRefresh">
    <property name="icon">
     <iconset resource="twclient.qrc">
-     <normaloff>:/resource/illvelo-32x32.png</normaloff>:/resource/illvelo-32x32.png</iconset>
+     <normaloff>:/resource/refresh.png</normaloff>:/resource/refresh.png</iconset>
    </property>
    <property name="text">
     <string>タイムラインを更新(&amp;R)</string>
+   </property>
+   <property name="toolTip">
+    <string>タイムラインを更新 (Ctrl+R)</string>
    </property>
    <property name="statusTip">
     <string>現在表示中のタイムラインを最新のものに更新する</string>
@@ -142,10 +154,13 @@
   <action name="actionUserShow">
    <property name="icon">
     <iconset resource="twclient.qrc">
-     <normaloff>:/resource/illvelo-32x32.png</normaloff>:/resource/illvelo-32x32.png</iconset>
+     <normaloff>:/resource/showuser.png</normaloff>:/resource/showuser.png</iconset>
    </property>
    <property name="text">
     <string>ユーザーを表示(&amp;U)...</string>
+   </property>
+   <property name="toolTip">
+    <string>ユーザーを表示 (Ctrl+U)</string>
    </property>
    <property name="statusTip">
     <string>ユーザー名を指定して各種情報を確認する</string>
