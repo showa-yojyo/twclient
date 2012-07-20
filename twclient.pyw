@@ -106,8 +106,15 @@ class Form(QMainWindow):
 
     @pyqtSlot()
     def onComboChanged(self):
-        self.ui.textBrowser.clear()
-        self.requestTwitter()
+        item = self.currentTimeLineItem()
+        if not item:
+            self.ui.textBrowser.clear()
+            return
+
+        if item.response_chunks:
+            self.ui.textBrowser.renderStream(item)
+        else:
+            self.invokeRequestCommand(Request(item, False))
 
     def requestTwitter(self):
         item = self.currentTimeLineItem()

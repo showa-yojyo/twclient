@@ -92,6 +92,21 @@ class QStatusBrowser(QTextBrowser):
             text = twformat.format_status(status)
             self.insertHtml(text)
 
+    def renderStream(self, stream):
+        self.clear()
+
+        self.moveCursor(QTextCursor.Start)
+        caret = QTextCursor(self.textCursor())
+
+        for response in stream.response_chunks:
+            for status in response:
+                # metadata
+                caret.block().setUserData(StatusMetaData(status))
+
+                # <table>...</table><hr/>
+                text = twformat.format_status(status)
+                self.insertHtml(text)
+
     def onContextMenu(self, pt):
         if not self.makeMenu:
             return
