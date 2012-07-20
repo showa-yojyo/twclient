@@ -86,12 +86,12 @@ class UserForm(QDialog):
         mainform = self.parentWidget()
 
         menu = None
-        if QString(u'slug') in data:
+        if u'slug' in data:
             # lists, lists/memberships
             menu = mainform.makeMenuList(data)
-        elif QString(u'statuses_count') in data:
+        elif u'statuses_count' in data:
             # users/lookup
-            screen_name = data[QString(u'screen_name')]
+            screen_name = data[u'screen_name']
             menu = mainform.makeMenuUser(screen_name)
 
         return menu
@@ -127,7 +127,7 @@ class UserForm(QDialog):
             return
 
         textBrowser = self.ui.textBrowserFollows
-        textBrowser.setupGui(self.account.request_follows, self.parentWidget().makeMenuUser)
+        textBrowser.setupGui(self.account.request_follows, self.makeMenu)
         textBrowser.verticalScrollBar().valueChanged.connect(self.onScrollBarValueChangedFollows)
 
         mainform = self.parentWidget()
@@ -139,7 +139,7 @@ class UserForm(QDialog):
             return
 
         textBrowser = self.ui.textBrowserFollowedBy
-        textBrowser.setupGui(self.account.request_followed_by, self.parentWidget().makeMenuUser)
+        textBrowser.setupGui(self.account.request_followed_by, self.makeMenu)
         textBrowser.verticalScrollBar().valueChanged.connect(self.onScrollBarValueChangedFollowedBy)
 
         mainform = self.parentWidget()
