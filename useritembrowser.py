@@ -39,7 +39,7 @@ class UserItemBrowser(QStatusBrowser):
             else:
                 text = HTML_CODE.format(
                     text=u'',
-                    
+                    tooltip_html_text=get_user_tooltip(useritem),
                     **useritem)
 
             self.insertHtml(text)
