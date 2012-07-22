@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'userform.ui'
 #
-# Created: Sun Jul 08 23:59:49 2012
+# Created: Sun Jul 22 22:25:14 2012
 #      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -82,7 +82,7 @@ class Ui_Dialog(object):
         self.stackedWidgetFollower.addWidget(self.pageFollowedBy)
         self.verticalLayout_2.addWidget(self.stackedWidgetFollower)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/resource/illvelo-32x32.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/resource/followers.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.tabWidget.addTab(self.tabFollow, icon, _fromUtf8(""))
         self.tabList = QtGui.QWidget()
         self.tabList.setObjectName(_fromUtf8("tabList"))
@@ -121,7 +121,9 @@ class Ui_Dialog(object):
         self.verticalLayout_7.addWidget(self.textBrowserListedBy)
         self.stackedWidgetList.addWidget(self.pageListedBy)
         self.verticalLayout_5.addWidget(self.stackedWidgetList)
-        self.tabWidget.addTab(self.tabList, icon, _fromUtf8(""))
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap(_fromUtf8(":/resource/lists.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.tabWidget.addTab(self.tabList, icon1, _fromUtf8(""))
         self.tabFav = QtGui.QWidget()
         self.tabFav.setObjectName(_fromUtf8("tabFav"))
         self.verticalLayout = QtGui.QVBoxLayout(self.tabFav)
@@ -131,7 +133,9 @@ class Ui_Dialog(object):
         self.textBrowserFav.setOpenLinks(False)
         self.textBrowserFav.setObjectName(_fromUtf8("textBrowserFav"))
         self.verticalLayout.addWidget(self.textBrowserFav)
-        self.tabWidget.addTab(self.tabFav, icon, _fromUtf8(""))
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap(_fromUtf8(":/resource/favorites.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.tabWidget.addTab(self.tabFav, icon2, _fromUtf8(""))
         self.gridLayout.addWidget(self.tabWidget, 1, 0, 1, 1)
         self.gridLayout.setRowStretch(1, 1)
 
@@ -153,11 +157,11 @@ class Ui_Dialog(object):
         self.labelUpdates.setText(QtGui.QApplication.translate("Dialog", "<a href=\"updates\">{updates} ツイート</a>", None, QtGui.QApplication.UnicodeUTF8))
         self.labelFollows.setText(QtGui.QApplication.translate("Dialog", "<a href=\"follows\">{follows} 人をフォロー</a>", None, QtGui.QApplication.UnicodeUTF8))
         self.labelFollowedBy.setText(QtGui.QApplication.translate("Dialog", "<a href=\"followed_by\">{followed_by} 人がフォロー</a>", None, QtGui.QApplication.UnicodeUTF8))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabFollow), QtGui.QApplication.translate("Dialog", "フォロー", None, QtGui.QApplication.UnicodeUTF8))
+        self.tabWidget.setTabToolTip(self.tabWidget.indexOf(self.tabFollow), QtGui.QApplication.translate("Dialog", "最新のツイートとフォロワーを表示", None, QtGui.QApplication.UnicodeUTF8))
         self.labelLists.setText(QtGui.QApplication.translate("Dialog", "<a href=\"lists\">公開リスト</a>", None, QtGui.QApplication.UnicodeUTF8))
         self.labelListedBy.setText(QtGui.QApplication.translate("Dialog", "<a href=\"listed_by\">{listed_by} 個のリストにいる</a>", None, QtGui.QApplication.UnicodeUTF8))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabList), QtGui.QApplication.translate("Dialog", "リスト", None, QtGui.QApplication.UnicodeUTF8))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabFav), QtGui.QApplication.translate("Dialog", "お気に入り", None, QtGui.QApplication.UnicodeUTF8))
+        self.tabWidget.setTabToolTip(self.tabWidget.indexOf(self.tabList), QtGui.QApplication.translate("Dialog", "このユーザーに関係するリストを表示", None, QtGui.QApplication.UnicodeUTF8))
+        self.tabWidget.setTabToolTip(self.tabWidget.indexOf(self.tabFav), QtGui.QApplication.translate("Dialog", "このユーザーのお気に入りツイートを表示", None, QtGui.QApplication.UnicodeUTF8))
 
 from listitembrowser import ListItemBrowser
 from qstatusbrowser import QStatusBrowser

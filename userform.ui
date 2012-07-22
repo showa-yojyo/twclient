@@ -47,10 +47,13 @@
      <widget class="QWidget" name="tabFollow">
       <attribute name="icon">
        <iconset resource="twclient.qrc">
-        <normaloff>:/resource/illvelo-32x32.png</normaloff>:/resource/illvelo-32x32.png</iconset>
+        <normaloff>:/resource/followers.png</normaloff>:/resource/followers.png</iconset>
       </attribute>
       <attribute name="title">
-       <string>フォロー</string>
+       <string/>
+      </attribute>
+      <attribute name="toolTip">
+       <string>最新のツイートとフォロワーを表示</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <property name="leftMargin">
@@ -141,10 +144,13 @@
      <widget class="QWidget" name="tabList">
       <attribute name="icon">
        <iconset resource="twclient.qrc">
-        <normaloff>:/resource/illvelo-32x32.png</normaloff>:/resource/illvelo-32x32.png</iconset>
+        <normaloff>:/resource/lists.png</normaloff>:/resource/lists.png</iconset>
       </attribute>
       <attribute name="title">
-       <string>リスト</string>
+       <string/>
+      </attribute>
+      <attribute name="toolTip">
+       <string>このユーザーに関係するリストを表示</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_5">
        <property name="leftMargin">
@@ -214,10 +220,13 @@
      <widget class="QWidget" name="tabFav">
       <attribute name="icon">
        <iconset resource="twclient.qrc">
-        <normaloff>:/resource/illvelo-32x32.png</normaloff>:/resource/illvelo-32x32.png</iconset>
+        <normaloff>:/resource/favorites.png</normaloff>:/resource/favorites.png</iconset>
       </attribute>
       <attribute name="title">
-       <string>お気に入り</string>
+       <string/>
+      </attribute>
+      <attribute name="toolTip">
+       <string>このユーザーのお気に入りツイートを表示</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout">
        <property name="margin">
