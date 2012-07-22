@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="twclient.qrc">
-    <normaloff>:/resource/illvelo-32x32.png</normaloff>:/resource/illvelo-32x32.png</iconset>
+    <normaloff>:/resource/app-64x64.png</normaloff>:/resource/app-64x64.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
