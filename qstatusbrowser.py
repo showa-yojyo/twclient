@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
+u"""
+Copyright (c) 2012 プレハブ小屋管理人 <yojyo@hotmail.com>
+All Rights Reserved.  NO WARRANTY.
 
-# Borrowed from:
-# http://lateral.netmanagers.com.ar/weblog/posts/BB568.html
-# http://www.qtcentre.org/archive/index.php/t-5155.html
+Inspired by the following documents:
+ * http://lateral.netmanagers.com.ar/weblog/posts/BB568.html
+ * http://www.qtcentre.org/archive/index.php/t-5155.html
+"""
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *

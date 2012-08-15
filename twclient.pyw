@@ -1,4 +1,10 @@
 # -*- coding: utf-8 -*-
+u"""
+Copyright (c) 2012 プレハブ小屋管理人 <yojyo@hotmail.com>
+All Rights Reserved.  NO WARRANTY.
+
+A very simple Twitter desktop client.
+"""
 
 import sys
 import codecs
@@ -106,9 +112,9 @@ class Form(QMainWindow):
 
     @pyqtSlot()
     def onComboChanged(self):
+        self.ui.textBrowser.clear()
         item = self.currentTimeLineItem()
         if not item:
-            self.ui.textBrowser.clear()
             return
 
         if item.response_chunks:
