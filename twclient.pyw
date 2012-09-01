@@ -1,10 +1,9 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-u"""
-Copyright (c) 2012 プレハブ小屋管理人 <yojyo@hotmail.com>
-All Rights Reserved.  NO WARRANTY.
+# Copyright (c) 2012 プレハブ小屋 <yojyo@hotmail.com>
+# All Rights Reserved.  NO WARRANTY.
 
-A very simple Twitter desktop client.
-"""
+"""A very simple Twitter desktop client."""
 
 import sys
 import codecs

@@ -1,11 +1,10 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-u"""
-Copyright (c) 2012 プレハブ小屋管理人 <yojyo@hotmail.com>
-All Rights Reserved.  NO WARRANTY.
-
-Some codes borrowed from:
-http://all.marlix.com/openerp/client/openerp-client-6.0.3/setup.py
-"""
+# Copyright (c) 2012 プレハブ小屋 <yojyo@hotmail.com>
+# All Rights Reserved.  NO WARRANTY.
+# 
+# Some codes borrowed from:
+# http://all.marlix.com/openerp/client/openerp-client-6.0.3/setup.py
 
 import sys
 import os
@@ -58,22 +57,19 @@ def main():
         assert (dateutil.__file__.endswith('__init__.pyc') or
                 dateutil.__file__.endswith('__init__.py')), dateutil.__file__
 
-        # D:\Python26\lib\site-packages\dateutil\zoneinfo
+        # D:\Python27\lib\site-packages\dateutil\zoneinfo
         zoneinfo_dir = os.path.join(os.path.dirname(dateutil.__file__), 'zoneinfo')
 
-        # D:\Python26\lib\site-packages
+        # D:\Python27\lib\site-packages
         disk_basedir = os.path.dirname(os.path.dirname(dateutil.__file__))
         zipfile_path = os.path.join(options['py2exe']['dist_dir'], 'library.zip')
-        z = zipfile.ZipFile(zipfile_path, 'a')
-
-        for absdir, directories, filenames in os.walk(zoneinfo_dir):
-            assert absdir.startswith(disk_basedir), (absdir, disk_basedir)
-            zip_dir = absdir[len(disk_basedir):]
-            for f in filenames:
-                if f.endswith('.tar.gz'):
-                    z.write(os.path.join(absdir, f), os.path.join(zip_dir, f))
-
-        z.close()
+        with zipfile.ZipFile(zipfile_path, 'a') as z:
+            for absdir, directories, filenames in os.walk(zoneinfo_dir):
+                assert absdir.startswith(disk_basedir), (absdir, disk_basedir)
+                zip_dir = absdir[len(disk_basedir):]
+                for f in filenames:
+                    if f.endswith('.tar.gz'):
+                        z.write(os.path.join(absdir, f), os.path.join(zip_dir, f))
 
 if __name__ == '__main__':
     main()
