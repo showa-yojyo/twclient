@@ -17,8 +17,8 @@ __version__ = twversion.VERSION
 
 DEST = r'D:\Dropbox\Public'
 
-SDIST_OUTPUT = 'dist/twclient-0.0.0.zip'
-PY2EXE_OUTPUT = 'twclient-0.0.0.win32'
+SDIST_OUTPUT = 'dist/twclient-{0}.zip'.format(__version__)
+PY2EXE_OUTPUT = 'twclient-{0}.win32'.format(__version__)
 PY2EXE_OUTPUT_ZIP = PY2EXE_OUTPUT + '.zip'
 
 def main(args):
@@ -26,14 +26,7 @@ def main(args):
     shutil.copy2(SDIST_OUTPUT, DEST)
 
     # win32
-    with zipfile.ZipFile(PY2EXE_OUTPUT_ZIP, 'w', zipfile.ZIP_DEFLATED) as fout:
-        for root, dirs, files in os.walk(PY2EXE_OUTPUT):
-            for file in files:
-                p = os.path.join(root, file)
-                fout.write(p, p)
-
-    shutil.copy2(PY2EXE_OUTPUT_ZIP, DEST)
-    os.remove(PY2EXE_OUTPUT_ZIP)
+    shutil.make_archive(os.path.join(DEST, PY2EXE_OUTPUT), 'zip', PY2EXE_OUTPUT)
 
 if __name__ == '__main__':
     parser = ArgumentParser(description=__doc__, version=__version__)
