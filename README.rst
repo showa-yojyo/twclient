@@ -2,6 +2,19 @@
 とにかくシンプルな Twitter クライアント
 ======================================================================
 
+.. image:: ./documentation/statuses.png
+   :scale: 50%
+   :alt: タイムライン画面
+
+.. image:: ./documentation/userform-lists.png
+   :scale: 50%
+   :alt: ユーザー詳細画面/リスト
+
+.. image:: ./documentation/property-list.png
+   :scale: 50%
+   :alt: ユーザー詳細画面/リスト/プロパティー
+
+
 Python を利用した習作。他の人は利用できないかもしれない。
 
 Requirements
