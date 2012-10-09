@@ -2,16 +2,16 @@
 とにかくシンプルな Twitter クライアント
 ======================================================================
 
-.. image:: ./documentation/statuses.png
-   :scale: 50%
+.. image:: https://raw.github.com/showa-yojyo/twclient/master/documentation/statuses.png
+   :width: 225px
    :alt: タイムライン画面
 
-.. image:: ./documentation/userform-lists.png
-   :scale: 50%
+.. image:: https://raw.github.com/showa-yojyo/twclient/master/documentation/userform-lists.png
+   :width: 225px
    :alt: ユーザー詳細画面/リスト
 
-.. image:: ./documentation/property-list.png
-   :scale: 50%
+.. image:: https://raw.github.com/showa-yojyo/twclient/master/documentation/property-list.png
+   :width: 225px
    :alt: ユーザー詳細画面/リスト/プロパティー
 
 
