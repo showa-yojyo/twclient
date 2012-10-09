@@ -3,15 +3,15 @@
 ======================================================================
 
 .. image:: https://raw.github.com/showa-yojyo/twclient/master/documentation/statuses.png
-   :width: 225px
+   :scale: 50%
    :alt: タイムライン画面
 
 .. image:: https://raw.github.com/showa-yojyo/twclient/master/documentation/userform-lists.png
-   :width: 225px
+   :scale: 50%
    :alt: ユーザー詳細画面/リスト
 
 .. image:: https://raw.github.com/showa-yojyo/twclient/master/documentation/property-list.png
-   :width: 225px
+   :scale: 50%
    :alt: ユーザー詳細画面/リスト/プロパティー
 
 
