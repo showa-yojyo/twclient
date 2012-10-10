@@ -1,5 +1,5 @@
 ======================================================================
-とにかくシンプルな Twitter クライアント
+とにかくシンプルな Twitter クライアント Version 0.0.0
 ======================================================================
 
 .. image:: https://raw.github.com/showa-yojyo/twclient/master/documentation/statuses.png
@@ -27,10 +27,9 @@ Getting Start
 
 2. 好みに応じて ``timelines.ini`` の内容を変更保存する。
    書式は既存の記述を参考にする。
-
    なお、文字コードが UTF-8 となっていることを確認すること。
 
-2. ``twclient.pyw`` を実行する。
+3. ``twclient.pyw`` を実行する。
 
 .. code:: bash
 
@@ -86,6 +85,14 @@ Motivation, Intention, and Specification
 * 画像ファイル関連全般。インターネットからの取得、アイコン画像キャッシュ、表示を固めない、等々
 
   →ビューウィンドウをすべて ``QTextBrowser`` にしたので、アイコン画像周りはもう心配ないだろう。
+
+Author(s)
+======================================================================
+* プレハブ小屋
+
+  * Web site: https://github.com/showa-yojyo/twclient (GitHub)
+  * E-mail: yojyo@hotmail.com
+  * Twitter: @showa_yojyo
 
 License
 ======================================================================
