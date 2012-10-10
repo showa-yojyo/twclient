@@ -4,15 +4,12 @@
 
 .. image:: https://raw.github.com/showa-yojyo/twclient/master/documentation/statuses.png
    :alt: タイムライン画面
+   :align: center
 
-.. image:: https://raw.github.com/showa-yojyo/twclient/master/documentation/userform-lists.png
-   :alt: ユーザー詳細画面/リスト
+これは Python で書いた Twitter クライアントの習作なので、
+もしかしたら他の人は利用できないかもしれない。
 
-.. image:: https://raw.github.com/showa-yojyo/twclient/master/documentation/property-list.png
-   :alt: ユーザー詳細画面/リスト/プロパティー
-
-
-Python を利用した習作。他の人は利用できないかもしれない。
+.. contents:: Table of Contents
 
 Requirements
 ======================================================================
@@ -21,7 +18,7 @@ Requirements
 * `Python Twitter Tools`_: 1.7.2+ (``pip install twitter``)
 * Dateutil: 2.1 (``pip install python-dateutil``)
 
-How to Use
+Getting Start
 ======================================================================
 アプリの起動は次のように行う。
 
@@ -34,6 +31,14 @@ How to Use
    なお、文字コードが UTF-8 となっていることを確認すること。
 
 2. ``twclient.pyw`` を実行する。
+
+.. code:: bash
+
+   $ git clone git://github.com/showa-yojyo/twclient.git
+   $ cd twclient
+   $ cp timelines.ini.sample timelines.ini
+   $ edit timelines.ini  # 適宜編集する。
+   $ python twclient.pyw  # python 2.7
 
 Motivation, Intention, and Specification
 ======================================================================
@@ -65,7 +70,7 @@ Motivation, Intention, and Specification
   →ツイート発生時刻で表記したい。
 
 これらを解消するべく、Twitter クライアントを自作してみようと思い立った次第だ。
-ちなみに、現在実装済みの機能は次の通り。
+現在実装済みの機能は次の通り。
 
 * アプリユーザーに Twitter アカウント情報を一切要求しない
 * 検索リストを設定ファイルで指定
